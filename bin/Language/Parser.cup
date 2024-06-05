@@ -1,0 +1,225 @@
+// ------------  Paquete e importaciones ------------
+package Language;
+
+import java_cup.runtime.*;
+
+
+//------> Codigo para el parser
+//------> Declaracion de variables, funciones y funciones de error
+
+parser code 
+{:
+    public String resultado = ""; 
+
+    public void syntax_error(Symbol s)
+    {
+            System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {
+            System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion." );
+    }
+
+:}
+
+
+//------> Codigo para las acciones gramaticales (no tocar)
+action code
+{:  :}
+
+
+
+//------> Declaración de terminales
+terminal String INT, DOUBLE, BOOL, CHAR, STRING;
+terminal String MAS, MENOS, POR, DIVISION, POTENCIA, MODULO;
+terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
+terminal String NOT, AND, OR, XOR, NUNITARIA;
+terminal String ENTERO, DECIMAL, BOOLEAN, CAR, CAD, VAR, CONST, IDENTIFICADOR;
+terminal String Dos_Puntos, P_Coma, IGUAL, P_ABRE, P_CIERRA, PRINT, LLAVE_A, LLAVE_C, IF, ELSE;
+terminal String MATCH, DEFAULT, WHILE, FOR, DO, BREAK, CONTINUE, RETURN;
+
+//------> Declaración de no terminales
+non terminal inicio, instrucciones, instruccion, Tipos_Dato, Variables, EXPRESION, Mutabilidad, Dec_Variables;
+non terminal  Asignar_Valor, Func_Print, Incremento_Decremento, Sen_Control, Sen_IF, If_Simple ;
+non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Sen_Match, Strcuct_Match, Entry_Cases, Cases;
+non terminal Sen_Ciclicas, Sen_While, Signos_For, Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Return;
+
+//
+precedence left OR;
+precedence left AND;
+precedence left XOR;
+precedence right NOT;
+precedence left COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
+precedence left MAS, MENOS;
+precedence left DIVISION, POR, MODULO;
+precedence nonassoc POTENCIA;
+precedence right NUNITARIA;
+
+//------> Definir Simbolo Inicial
+start with inicio; 
+
+
+// ------------>  Producciones  <------------
+
+inicio ::= instrucciones
+;
+
+instrucciones ::= instruccion
+                | instrucciones instruccion
+;
+
+instruccion ::= Variables P_Coma
+              | Func_Print P_Coma
+              | Incremento_Decremento P_Coma
+              | Sen_Control 
+              | Sen_Ciclicas
+              | Sen_Transferencia P_Coma 
+;
+
+Sen_Return ::= RETURN
+             | RETURN EXPRESION
+;
+
+Sen_Transferencia ::= BREAK // Usado en ciclos
+                    | CONTINUE // Usado en ciclos
+                    | Sen_Return // Usado en ciclos y metodos y para la fase 2
+;
+
+// Expresiones
+/*
+--Casteos--
+int a double
+double a int
+int a char
+char a int
+char a double
+*/
+EXPRESION ::= MENOS EXPRESION %prec NUNITARIA
+            | EXPRESION MAS EXPRESION
+            | EXPRESION MENOS EXPRESION
+            | EXPRESION POR EXPRESION
+            | EXPRESION DIVISION EXPRESION
+            | EXPRESION POTENCIA EXPRESION
+            | EXPRESION MODULO EXPRESION
+            | P_ABRE EXPRESION P_CIERRA
+            | ENTERO
+            | DECIMAL
+            | BOOLEAN
+            | CAR
+            | CAD
+            | P_ABRE Tipos_Dato P_CIERRA EXPRESION // Casteos
+            | IDENTIFICADOR
+            | NOT EXPRESION                      
+            | EXPRESION COMPARACION EXPRESION    
+            | EXPRESION DIFERENCIA EXPRESION     
+            | EXPRESION MENOR_IGUAL EXPRESION    
+            | EXPRESION MAYOR_IGUAL EXPRESION    
+            | EXPRESION MENOR EXPRESION          
+            | EXPRESION MAYOR EXPRESION          
+            | EXPRESION AND EXPRESION            
+            | EXPRESION OR EXPRESION             
+            | EXPRESION XOR EXPRESION  
+;
+
+// Variables
+
+Tipos_Dato ::= INT
+             | DOUBLE
+             | BOOL
+             | CHAR     
+             | STRING
+;
+
+Mutabilidad ::= VAR
+              | CONST 
+;
+
+Variables ::= Dec_Variables
+            | Asignar_Valor
+;
+
+Dec_Variables ::= Mutabilidad IDENTIFICADOR Dos_Puntos Tipos_Dato
+                | Mutabilidad IDENTIFICADOR Dos_Puntos Tipos_Dato IGUAL EXPRESION
+;
+
+Asignar_Valor ::= IDENTIFICADOR IGUAL EXPRESION
+;
+
+// Función print
+Func_Print ::= PRINT P_ABRE EXPRESION P_CIERRA
+;
+
+// Incremento y decremento (Solo para decimales y enteros)
+Incremento_Decremento ::= IDENTIFICADOR MAS MAS
+                        | IDENTIFICADOR MENOS MENOS
+;
+
+// Sentencias de control
+Sen_Control ::= Sen_IF
+              | Sen_Match 
+;
+
+// Sentencia if
+
+Sen_Else ::= ELSE LLAVE_A instrucciones LLAVE_C
+;
+
+Sen_Else_If ::= ELSE IF P_ABRE EXPRESION P_CIERRA LLAVE_A instrucciones LLAVE_C
+;
+
+Bloque_Else_If ::= Sen_Else_If
+    | Bloque_Else_If Sen_Else_If
+;
+
+If_Simple ::= IF P_ABRE EXPRESION P_CIERRA LLAVE_A instrucciones LLAVE_C  
+;
+
+Sen_IF ::= If_Simple
+	 | If_Simple Sen_Else
+	 | If_Simple Bloque_Else_If
+	 | If_Simple Bloque_Else_If Sen_Else
+;
+
+// Sentencia Match
+
+Entry_Cases ::= EXPRESION
+		      | DEFAULT // Este solo irá al final y solo uno
+;
+
+Cases ::= Entry_Cases IGUAL MAYOR LLAVE_A instrucciones LLAVE_C // uso de break
+;
+
+Strcuct_Match ::= Cases
+			    | Strcuct_Match Cases
+;
+
+
+Sen_Match ::= MATCH EXPRESION LLAVE_A Strcuct_Match  LLAVE_C
+;
+
+
+// Sentencias Cíclicas
+
+// todas pueden llevar Break, continue y return
+Sen_Ciclicas ::= Sen_While
+		       | Sen_For
+		       | Sen_Do_While P_Coma
+;
+
+
+Sen_While ::= WHILE P_ABRE EXPRESION P_CIERRA LLAVE_A instrucciones LLAVE_C
+;
+
+Signos_For ::= MAYOR
+	      	 | MENOR
+		     | MAYOR_IGUAL
+		     | MENOR_IGUAL
+		     | IGUAL
+;
+
+Sen_For ::= FOR P_ABRE IDENTIFICADOR Signos_For EXPRESION P_Coma IDENTIFICADOR Signos_For EXPRESION P_Coma Incremento_Decremento P_CIERRA LLAVE_A instrucciones LLAVE_C
+;
+
+Sen_Do_While ::= DO LLAVE_A instrucciones LLAVE_C WHILE P_ABRE EXPRESION P_CIERRA
+;
