@@ -1,11 +1,13 @@
 package Interpreter;
 
-class Instruccion {
+import Interpreter.Entornos.Entorno;
+
+public class Instruccion {
 
     private String tipo;
     private int fila;
     private int columna;
-    public static String[] nombres = {"PRINT"};
+    public static String[] nombres = {"PRINT","ERROR"};
 
     public Instruccion(String tipo, int fila, int columna) {
         this.tipo = tipo; // Tipo de instruccion
@@ -13,7 +15,9 @@ class Instruccion {
         this.columna = columna;
     }
 
-    public void interpretar() {}
+    public Instruccion interpretar(Entorno entorno) {
+        return this;
+    }
 
     public String getTipo() {
         return tipo;

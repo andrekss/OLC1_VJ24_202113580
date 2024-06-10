@@ -1,30 +1,32 @@
 package Interpreter;
 
+import Interpreter.Entornos.Entorno;
+
 public class Expresion {
     // Atributos de la clase
-    private Object valor;
+    private String valor;
     private String tipo;
     private int fila;
     private int columna;
 
-    public static String[] TiposDatos = {"INT","DOUBLE","BOOL","CHAR","STRING"};
+    public static String[] TiposDatos = {"INT","DOUBLE","BOOL","CHAR","STRING", "ERROR"};
 
-    public Expresion(Object valor, String tipo, int fila, int columna) {
+    public Expresion(String valor, String tipo, int fila, int columna) {
         this.valor = valor;
         this.tipo = tipo;
         this.fila = fila;
         this.columna = columna;
     }
 
-    public Expresion interpretar(Object entorno) {
+    public Expresion interpretar(Entorno entorno) {
         return this;
     }
 
-    public Object getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(Object valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 

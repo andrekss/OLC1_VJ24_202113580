@@ -67,7 +67,6 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 // Operadores
 "+"        { return new Symbol(sym.MAS, yycolumn, yyline, yytext()); }
 "-"        { return new Symbol(sym.MENOS, yycolumn, yyline, yytext()); }
-"-"        { return new Symbol(sym.NUNITARIA, yycolumn, yyline, yytext()); }
 "*"        { return new Symbol(sym.POR, yycolumn, yyline, yytext()); }
 "/"        { return new Symbol(sym.DIVISION, yycolumn, yyline, yytext()); }
 "**"       { return new Symbol(sym.POTENCIA, yycolumn, yyline, yytext()); }

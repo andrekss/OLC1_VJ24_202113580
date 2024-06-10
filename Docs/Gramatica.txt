@@ -1,78 +1,5 @@
-// ------------  Paquete e importaciones ------------
-package Language;
-// Importaciones
-import java.util.LinkedList;
-import Interpreter.Expresiones.*;
-import Interpreter.Instrucciones.Print;
-import Interpreter.Instruccion;
-import Interpreter.Expresion;
 
-import java_cup.runtime.*;
-
-
-//------> Codigo para el parser
-//------> Declaracion de variables, funciones y funciones de error
-
-parser code 
-{:
-    public LinkedList<Instruccion> Ejecutar;
-    public String resultado = ""; 
-
-    public void syntax_error(Symbol s)
-    {
-            System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
-    }
-
-    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
-    {
-            System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion." );
-    }
-
-:}
-
-
-//------> Codigo para las acciones gramaticales (no tocar)
-action code
-{:  :}
-
-
-
-//------> Declaración de terminales
-terminal String INT, DOUBLE, BOOL, CHAR, STRING;
-terminal String MAS, MENOS, POR, DIVISION, POTENCIA, MODULO;
-terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
-terminal String NOT, AND, OR, XOR;
-terminal String ENTERO, DECIMAL, BOOLEAN, CAR, CAD, VAR, CONST, IDENTIFICADOR;
-terminal String Dos_Puntos, P_Coma, IGUAL, P_ABRE, P_CIERRA, PRINT, LLAVE_A, LLAVE_C, IF, ELSE;
-terminal String MATCH, DEFAULT, WHILE, FOR, DO, BREAK, CONTINUE, RETURN, UMENOS;
-
-//------> Declaración de no terminales
-non terminal LinkedList<Instruccion> inicio, instrucciones;
-non terminal Tipos_Dato, Variables,  Mutabilidad, Dec_Variables;
-non terminal  Asignar_Valor,  Incremento_Decremento, Sen_Control, Sen_IF, If_Simple ;
-non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Sen_Match, Strcuct_Match, Entry_Cases, Cases;
-non terminal Sen_Ciclicas, Sen_While, Signos_For, Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Return;
-non terminal Expresion EXPRESION;
-non terminal Instruccion instruccion, Func_Print;
-
-//
-precedence left OR;
-precedence left AND;
-precedence left XOR;
-precedence right NOT;
-precedence left COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
-precedence left MAS, MENOS;
-precedence left DIVISION, POR, MODULO;
-precedence nonassoc POTENCIA;
-precedence right UMENOS;
-
-//------> Definir Simbolo Inicial
-start with inicio; 
-
-
-// ------------>  Producciones  <------------
-
-inicio ::= instrucciones:a {: Ejecutar = a;  :}
+inicio ::= instrucciones:a {: RESULT = a; :}
 ;
 
 instrucciones ::= instruccion:a                   {: RESULT = new LinkedList<>(); RESULT.add(a); :}
@@ -80,7 +7,7 @@ instrucciones ::= instruccion:a                   {: RESULT = new LinkedList<>()
 ;
 
 instruccion ::= Variables P_Coma
-              | Func_Print:p P_Coma {: RESULT = p;:}
+              | Func_Print:a P_Coma {: RESULT = a;:}
               | Incremento_Decremento P_Coma
               | Sen_Control 
               | Sen_Ciclicas
@@ -106,20 +33,20 @@ char a int
 char a double
 */
 
-EXPRESION ::= MENOS EXPRESION:e                             {: RESULT = new Negacion(e.getValor(),e.getTipo(),eright, eleft); :} %prec UMENOS              
+EXPRESION ::= MENOS EXPRESION:e %prec UMENOS
             | EXPRESION:a MAS EXPRESION:b                   {: RESULT = new Aritmeticas(a,"+",b,aright, aleft); :}
             | EXPRESION:a MENOS EXPRESION:b                 {: RESULT = new Aritmeticas(a,"-",b,aright, aleft); :}
             | EXPRESION:a POR EXPRESION:b                   {: RESULT = new Aritmeticas(a,"*",b,aright, aleft); :}
             | EXPRESION:a DIVISION EXPRESION:b              {: RESULT = new Aritmeticas(a,"/",b,aright, aleft); :}
             | EXPRESION:a POTENCIA EXPRESION:b              {: RESULT = new Aritmeticas(a,"**",b,aright, aleft); :}
             | EXPRESION:a MODULO EXPRESION:b                {: RESULT = new Aritmeticas(a,"%",b,aright, aleft); :}
-            | P_ABRE EXPRESION:e P_CIERRA                   {: e.interpretar(null); RESULT=new Dato(e.getValor(),e.getTipo(), eright, eleft); :}
+            | P_ABRE EXPRESION P_CIERRA                     {:/* RESULT=new Dato(a,"INT", eright, eleft);*/ :}
             | ENTERO:e                                      {: RESULT=new Dato(e,"INT", eright, eleft); :}
             | DECIMAL:e                                     {: RESULT=new Dato(e,"DOUBLE", eright, eleft); :}
             | BOOLEAN:e                                     {: RESULT=new Dato(e,"BOOL", eright, eleft); :}
             | CAR:e                                         {: RESULT=new Dato(e,"CHAR", eright, eleft); :}
             | CAD:e                                         {: RESULT=new Dato(e,"STRING", eright, eleft); :}
-            | P_ABRE Tipos_Dato:t P_CIERRA EXPRESION:e      {: e.interpretar(null); RESULT = new Dato(e.getValor(),t, eright, eleft); :} // Casteos
+            | P_ABRE Tipos_Dato:t P_CIERRA EXPRESION:e  // Casteos
             | IDENTIFICADOR
             | NOT EXPRESION                      
             | EXPRESION COMPARACION EXPRESION    
@@ -154,7 +81,7 @@ Dec_Variables ::= Mutabilidad IDENTIFICADOR Dos_Puntos Tipos_Dato
                 | Mutabilidad IDENTIFICADOR Dos_Puntos Tipos_Dato IGUAL EXPRESION
 ;
 
-Asignar_Valor ::= IDENTIFICADOR IGUAL EXPRESION
+Asignar_Valor ::= IDENTIFICADOR IGUAL EXPRESION 
 ;
 
 // Función print

@@ -1,5 +1,11 @@
 // ------------  Paquete e importaciones ------------
 package Language;
+// Importaciones
+import java.util.LinkedList;
+import Interpreter.Expresiones.*;
+import Interpreter.Instrucciones.Print;
+import Interpreter.Instruccion;
+import Interpreter.Expresion;
 
 import java_cup.runtime.*;
 
@@ -9,6 +15,7 @@ import java_cup.runtime.*;
 
 parser code 
 {:
+    public LinkedList<Instruccion> Ejecutar;
     public String resultado = ""; 
 
     public void syntax_error(Symbol s)
@@ -34,16 +41,19 @@ action code
 terminal String INT, DOUBLE, BOOL, CHAR, STRING;
 terminal String MAS, MENOS, POR, DIVISION, POTENCIA, MODULO;
 terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
-terminal String NOT, AND, OR, XOR, NUNITARIA;
+terminal String NOT, AND, OR, XOR;
 terminal String ENTERO, DECIMAL, BOOLEAN, CAR, CAD, VAR, CONST, IDENTIFICADOR;
 terminal String Dos_Puntos, P_Coma, IGUAL, P_ABRE, P_CIERRA, PRINT, LLAVE_A, LLAVE_C, IF, ELSE;
-terminal String MATCH, DEFAULT, WHILE, FOR, DO, BREAK, CONTINUE, RETURN;
+terminal String MATCH, DEFAULT, WHILE, FOR, DO, BREAK, CONTINUE, RETURN, UMENOS;
 
 //------> Declaración de no terminales
-non terminal inicio, instrucciones, instruccion, Tipos_Dato, Variables, EXPRESION, Mutabilidad, Dec_Variables;
-non terminal  Asignar_Valor, Func_Print, Incremento_Decremento, Sen_Control, Sen_IF, If_Simple ;
+non terminal LinkedList<Instruccion> inicio, instrucciones;
+non terminal Tipos_Dato, Variables,  Mutabilidad, Dec_Variables;
+non terminal  Asignar_Valor,  Incremento_Decremento, Sen_Control, Sen_IF, If_Simple ;
 non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Sen_Match, Strcuct_Match, Entry_Cases, Cases;
 non terminal Sen_Ciclicas, Sen_While, Signos_For, Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Return;
+non terminal Expresion EXPRESION;
+non terminal Instruccion instruccion, Func_Print;
 
 //
 precedence left OR;
@@ -54,7 +64,7 @@ precedence left COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
 precedence left MAS, MENOS;
 precedence left DIVISION, POR, MODULO;
 precedence nonassoc POTENCIA;
-precedence right NUNITARIA;
+precedence right UMENOS;
 
 //------> Definir Simbolo Inicial
 start with inicio; 
@@ -62,15 +72,15 @@ start with inicio;
 
 // ------------>  Producciones  <------------
 
-inicio ::= instrucciones
+inicio ::= instrucciones:a {: Ejecutar = a;  :}
 ;
 
-instrucciones ::= instruccion
-                | instrucciones instruccion
+instrucciones ::= instruccion:a                   {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+                | instrucciones:a instruccion:b   {: RESULT = a; RESULT.add(b); :}
 ;
 
 instruccion ::= Variables P_Coma
-              | Func_Print P_Coma
+              | Func_Print:p P_Coma {: RESULT = p;:}
               | Incremento_Decremento P_Coma
               | Sen_Control 
               | Sen_Ciclicas
@@ -95,20 +105,21 @@ int a char
 char a int
 char a double
 */
-EXPRESION ::= MENOS EXPRESION %prec NUNITARIA
-            | EXPRESION MAS EXPRESION
-            | EXPRESION MENOS EXPRESION
-            | EXPRESION POR EXPRESION
-            | EXPRESION DIVISION EXPRESION
-            | EXPRESION POTENCIA EXPRESION
-            | EXPRESION MODULO EXPRESION
-            | P_ABRE EXPRESION P_CIERRA
-            | ENTERO
-            | DECIMAL
-            | BOOLEAN
-            | CAR
-            | CAD
-            | P_ABRE Tipos_Dato P_CIERRA EXPRESION // Casteos
+
+EXPRESION ::= MENOS EXPRESION:e                             {: RESULT = new Negacion(e.getValor(),e.getTipo(),eright, eleft); :} %prec UMENOS              
+            | EXPRESION:a MAS EXPRESION:b                   {: RESULT = new Aritmeticas(a,"+",b,aright, aleft); :}
+            | EXPRESION:a MENOS EXPRESION:b                 {: RESULT = new Aritmeticas(a,"-",b,aright, aleft); :}
+            | EXPRESION:a POR EXPRESION:b                   {: RESULT = new Aritmeticas(a,"*",b,aright, aleft); :}
+            | EXPRESION:a DIVISION EXPRESION:b              {: RESULT = new Aritmeticas(a,"/",b,aright, aleft); :}
+            | EXPRESION:a POTENCIA EXPRESION:b              {: RESULT = new Aritmeticas(a,"**",b,aright, aleft); :}
+            | EXPRESION:a MODULO EXPRESION:b                {: RESULT = new Aritmeticas(a,"%",b,aright, aleft); :}
+            | P_ABRE EXPRESION:e P_CIERRA                   {: e.interpretar(null); RESULT=new Dato(e.getValor(),e.getTipo(), eright, eleft); :}
+            | ENTERO:e                                      {: RESULT=new Dato(e,"INT", eright, eleft); :}
+            | DECIMAL:e                                     {: RESULT=new Dato(e,"DOUBLE", eright, eleft); :}
+            | BOOLEAN:e                                     {: RESULT=new Dato(e,"BOOL", eright, eleft); :}
+            | CAR:e                                         {: RESULT=new Dato(e,"CHAR", eright, eleft); :}
+            | CAD:e                                         {: RESULT=new Dato(e,"STRING", eright, eleft); :}
+            | P_ABRE Tipos_Dato:t P_CIERRA EXPRESION:e      {: e.interpretar(null); RESULT = new Dato(e.getValor(),t, eright, eleft); :} // Casteos
             | IDENTIFICADOR
             | NOT EXPRESION                      
             | EXPRESION COMPARACION EXPRESION    
@@ -124,11 +135,11 @@ EXPRESION ::= MENOS EXPRESION %prec NUNITARIA
 
 // Variables
 
-Tipos_Dato ::= INT
-             | DOUBLE
-             | BOOL
-             | CHAR     
-             | STRING
+Tipos_Dato ::= INT    {: RESULT="INT"; :}
+             | DOUBLE {: RESULT="DOUBLE"; :}
+             | BOOL   {: RESULT="BOOL"; :}
+             | CHAR   {: RESULT="CHAR"; :} 
+             | STRING {: RESULT="STRING"; :}
 ;
 
 Mutabilidad ::= VAR
@@ -147,7 +158,7 @@ Asignar_Valor ::= IDENTIFICADOR IGUAL EXPRESION
 ;
 
 // Función print
-Func_Print ::= PRINT P_ABRE EXPRESION P_CIERRA
+Func_Print ::= PRINT P_ABRE EXPRESION:a P_CIERRA {: RESULT =new Print(a,aright, aleft); :}
 ;
 
 // Incremento y decremento (Solo para decimales y enteros)

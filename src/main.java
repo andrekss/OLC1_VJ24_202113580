@@ -1,4 +1,6 @@
 import java.io.StringReader;
+import Interpreter.Entornos.*;
+import Interpreter.*;
 
 public class main {
 
@@ -7,10 +9,15 @@ public class main {
     public static int Tipo_Grafica =0;
 
     public static void main(String[] args) {
-    CrearVentana();
+    //CrearVentana();
         
     //analizadores("src/Language/", "Lexer.flex", "Parser.cup");
 
+    String Entrada2="""
+            println(2**2);
+            """;
+
+    analizar(Entrada2);
     String Entrada = """
         // variables
         var num : int;
@@ -92,8 +99,10 @@ public class main {
             return a;
         } 
 
+        println(-1+2-2*10);
+
             """;
-     //analizar(Entrada);
+     
 
     }
 
@@ -125,10 +134,35 @@ public class main {
             Language.Lexer lexer = new Language.Lexer(new StringReader(entrada)); // Creación de lexer base en base a la entrada
             Language.Parser parser = new Language.Parser(lexer); // Creación del parser en base al lexer
             parser.parse();// Ejecutamos el parser
+            Entorno Global = new Entorno("Global", null);
+
+            for ( Instruccion instruccion : parser.Ejecutar) {
+                instruccion.interpretar(Global);
+            }
+
+
+            //System.out.println(parser.parse());
         } catch (Exception e) {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println(e);
         }
     }
+
+    /*public static void Interpretar(String entrada){
+        try {
+            Language.Lexer lexer = new Language.Lexer(new StringReader(entrada)); // Creación de lexer base en base a la entrada
+            Language.Parser parser = new Language.Parser(lexer); // Creación del parser en base al lexer
+            var Resultado= parser.parse();// Ejecutamos el parser
+            
+            for (String nombre : Resultado) {
+                System.out.println(nombre);
+            }
+    
+        } catch (Exception e) {
+            System.out.println("Error fatal en compilación de entrada.");
+            System.out.println(e);
+        }
+    }*/
+
 
 }
