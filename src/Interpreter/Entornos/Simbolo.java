@@ -5,15 +5,15 @@ public class Simbolo {
     private String nombre;
     private Object valor;
     private String tipo;
-    private String tipoVar;
+    private String tipoSym;
     private int fila;
     private int columna;
 
-    public Simbolo(String nombre, Object valor, String tipo, String tipoVar, int fila, int columna) {
+    public Simbolo(String nombre, Object valor, String tipo, String tipoSym, int fila, int columna) {
         this.nombre = nombre;
         this.valor = valor;
         this.tipo = tipo;
-        this.tipoVar = tipoVar;
+        this.tipoSym = tipoSym;
         this.fila = fila;
         this.columna = columna;
     }
@@ -31,8 +31,8 @@ public class Simbolo {
         return tipo;
     }
 
-    public String getTipoVar() {
-        return tipoVar;
+    public String getTipoSym() {
+        return tipoSym;
     }
 
     public int getFila() {
@@ -56,8 +56,8 @@ public class Simbolo {
         this.tipo = tipo;
     }
 
-    public void setTipoVar(String tipoVar) {
-        this.tipoVar = tipoVar;
+    public void setTipoSym(String tipoSym) {
+        this.tipoSym = tipoSym;
     }
 
     public void setFila(int fila) {

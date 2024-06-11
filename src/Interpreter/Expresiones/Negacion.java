@@ -1,7 +1,8 @@
 package Interpreter.Expresiones;
 import Interpreter.Entornos.Entorno;
+import Interpreter.Expresion;
 
-public class Negacion extends Interpreter.Expresion {
+public class Negacion extends Expresion {
 
 
     public Negacion(String valor, String tipo, int fila, int columna){
@@ -9,7 +10,7 @@ public class Negacion extends Interpreter.Expresion {
     }
 
     @Override
-    public Interpreter.Expresion interpretar(Entorno entorno) {
+    public Expresion interpretar(Entorno entorno) {
         if (this.getTipo()=="INT") {
             this.setValor(String.valueOf(-1 * Integer.parseInt(this.getValor())));
             return this;

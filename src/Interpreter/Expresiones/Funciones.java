@@ -5,6 +5,7 @@ import Interpreter.Expresion;
 public class Funciones {
     public static Aritmeticas Suma(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
         
+        
         if(izq.getTipo() == "INT" && der.getTipo() == "INT" || izq.getTipo() == "INT" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "INT"){
             object.setTipo("INT"); 
             object.setValor(String.valueOf(Integer.parseInt(izq.getValor())+Integer.parseInt(der.getValor())));  
@@ -110,10 +111,89 @@ public class Funciones {
         }
     }
     
+    public static Relacionales Relacionar(Expresion izq,String Operacion,Expresion der,Relacionales object, boolean Condicion, boolean CondicionAscii, Boolean CondicionAscii2){
+        
+        if (izq.getTipo() == "CHAR" && der.getTipo() == "CHAR" ||izq.getTipo() == "INT" && der.getTipo() == "INT" || izq.getTipo() == "DOUBLE" && der.getTipo() == "DOUBLE" || izq.getTipo() == "BOOL" && der.getTipo() == "BOOL"  || izq.getTipo() == "DOUBLE" && der.getTipo() == "INT" || izq.getTipo() == "CHAR" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "CHAR"){
+            
+            object.setTipo("BOOL");
+            if(Condicion){
+                object.setTipo("BOOL");
+                object.setValor("true");
+               return object;
+            }else{
+                object.setTipo("BOOL");
+                object.setValor("false");
+               return object;
+            }
+        }else if ( izq.getTipo() == "CHAR" && der.getTipo() == "INT"){  // Código Ascii
+            object.setTipo("BOOL");
+            if(CondicionAscii){
+                object.setValor("true");
+               return object;
+            }else{
+                object.setValor("false");
+               return object;
+            }
+        
+        }else if ( izq.getTipo() == "INT" && der.getTipo() == "CHAR" ){ // Código Ascii
+            
+            object.setTipo("BOOL");
+            if(CondicionAscii2){
+                object.setValor("true");
+               return object;
+            }else{
+                object.setValor("false");
+               return object;
+            }
+        }else{
+            object.setTipo("ERROR"); 
+            System.err.println("Error Semántico: Error de tipo de Expresion");
+            return object;
+        }
+
+    }
+
+    public static Relacionales RelacionarBoolean(Expresion izq,String Operacion,Expresion der,Relacionales object, boolean Condicion){
+        if (izq.getTipo() == "BOOL" && der.getTipo() == "BOOL" || izq.getTipo() == "STRING" && der.getTipo() == "STRING"){
+            if(Condicion){
+               object.setTipo("BOOL");
+               object.setValor("true");
+              return object;
+            }else{
+               object.setTipo("BOOL");
+               object.setValor("false");
+              return object;
+            }
+        }else {
+            object.setTipo("ERROR"); 
+            System.err.println("Error Semántico: Error de tipo de Expresion");
+            return object;
+        } 
+    }
+    
+    public static Logicas OperacionesLogicas(Expresion izq,String Operacion,Expresion der,Logicas object, boolean Condicion){
+        if (izq.getTipo() == "BOOL" && der.getTipo() == "BOOL"){
+            if(Condicion){
+               object.setTipo("BOOL");
+               object.setValor("true");
+              return object;
+            }else{
+               object.setTipo("BOOL");
+               object.setValor("false");
+              return object;
+            }
+        }else {
+            object.setTipo("ERROR"); 
+            System.err.println("Error Semántico: Error de tipo de Expresion");
+            return object;
+        } 
+    }
+
     public static String eliminarComillas(String input) {
         if (input == null) {
             return null;
         }
         return input.replaceAll("[\"']", "");
     }
+   
 }

@@ -14,7 +14,7 @@ public class main {
     //analizadores("src/Language/", "Lexer.flex", "Parser.cup");
 
     String Entrada2="""
-            println(2**2);
+            println(  !TRUE);
             """;
 
     analizar(Entrada2);

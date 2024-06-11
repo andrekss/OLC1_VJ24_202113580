@@ -17,6 +17,17 @@ public class Entorno {
         this.functions = new TreeMap<>();
     }
 
+    public void AgregarSimbolo(String nombre,String valor,String tipo,String tipoSym,int fila,int columna){
+        if(this.TablaSimbolos.containsKey(nombre)){
+            System.out.println("Semantico: Variable ya declarada");
+            return;
+        }
+        Simbolo Sym = new Simbolo(nombre, valor, tipo, tipoSym, fila, columna);
+
+        this.TablaSimbolos.put(nombre, Sym);
+
+    }
+
     public String getNombre() {
         return nombre;
     }

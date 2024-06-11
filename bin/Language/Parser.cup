@@ -48,12 +48,13 @@ terminal String MATCH, DEFAULT, WHILE, FOR, DO, BREAK, CONTINUE, RETURN, UMENOS;
 
 //------> Declaración de no terminales
 non terminal LinkedList<Instruccion> inicio, instrucciones;
-non terminal Tipos_Dato, Variables,  Mutabilidad, Dec_Variables;
+non terminal Variables,  Mutabilidad, Dec_Variables;
 non terminal  Asignar_Valor,  Incremento_Decremento, Sen_Control, Sen_IF, If_Simple ;
 non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Sen_Match, Strcuct_Match, Entry_Cases, Cases;
 non terminal Sen_Ciclicas, Sen_While, Signos_For, Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Return;
 non terminal Expresion EXPRESION;
 non terminal Instruccion instruccion, Func_Print;
+non terminal String Tipos_Dato;
 
 //
 precedence left OR;
@@ -119,18 +120,18 @@ EXPRESION ::= MENOS EXPRESION:e                             {: RESULT = new Nega
             | BOOLEAN:e                                     {: RESULT=new Dato(e,"BOOL", eright, eleft); :}
             | CAR:e                                         {: RESULT=new Dato(e,"CHAR", eright, eleft); :}
             | CAD:e                                         {: RESULT=new Dato(e,"STRING", eright, eleft); :}
-            | P_ABRE Tipos_Dato:t P_CIERRA EXPRESION:e      {: e.interpretar(null); RESULT = new Dato(e.getValor(),t, eright, eleft); :} // Casteos
+            | P_ABRE Tipos_Dato:tipo P_CIERRA EXPRESION:e   {: e.interpretar(null); RESULT = new Dato(e.getValor(),tipo, eright, eleft); :} // Casteos
             | IDENTIFICADOR
-            | NOT EXPRESION                      
-            | EXPRESION COMPARACION EXPRESION    
-            | EXPRESION DIFERENCIA EXPRESION     
-            | EXPRESION MENOR_IGUAL EXPRESION    
-            | EXPRESION MAYOR_IGUAL EXPRESION    
-            | EXPRESION MENOR EXPRESION          
-            | EXPRESION MAYOR EXPRESION          
-            | EXPRESION AND EXPRESION            
-            | EXPRESION OR EXPRESION             
-            | EXPRESION XOR EXPRESION  
+            | EXPRESION:a COMPARACION EXPRESION:b           {: RESULT = new Relacionales(a,"==",b,aright, aleft); :}
+            | EXPRESION:a DIFERENCIA EXPRESION:b            {: RESULT = new Relacionales(a,"!=",b,aright, aleft); :}     
+            | EXPRESION:a MENOR_IGUAL EXPRESION:b           {: RESULT = new Relacionales(a,"<=",b,aright, aleft); :} 
+            | EXPRESION:a MAYOR_IGUAL EXPRESION:b           {: RESULT = new Relacionales(a,">=",b,aright, aleft); :} 
+            | EXPRESION:a MENOR EXPRESION:b                 {: RESULT = new Relacionales(a,"<",b,aright, aleft); :} 
+            | EXPRESION:a MAYOR EXPRESION:b                 {: RESULT = new Relacionales(a,">",b,aright, aleft); :} 
+            | NOT EXPRESION:e                               {: e.interpretar(null); RESULT = new Not(e.getValor(),e.getTipo(),eright, eleft); :}
+            | EXPRESION:a AND EXPRESION:b                   {: RESULT = new Logicas(a,"&&",b,aright, aleft); :}
+            | EXPRESION:a OR EXPRESION:b                    {: RESULT = new Logicas(a,"||",b,aright, aleft); :}
+            | EXPRESION:a XOR EXPRESION:b                   {: RESULT = new Logicas(a,"^",b,aright, aleft); :}
 ;
 
 // Variables
@@ -142,7 +143,7 @@ Tipos_Dato ::= INT    {: RESULT="INT"; :}
              | STRING {: RESULT="STRING"; :}
 ;
 
-Mutabilidad ::= VAR
+Mutabilidad ::= VAR     
               | CONST 
 ;
 

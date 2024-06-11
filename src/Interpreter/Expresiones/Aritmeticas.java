@@ -3,12 +3,10 @@ package Interpreter.Expresiones;
 import Interpreter.Expresion;
 import Interpreter.Entornos.Entorno;
 
-public class Aritmeticas extends Interpreter.Expresion {
+public class Aritmeticas extends Expresion {
     private Expresion izq;
     private String Operacion;
     private Expresion der;
-    private int fila;
-    private int columna;  
 
     public Aritmeticas(Expresion izq,String Operacion,Expresion der,int fila,int columna){
         super("ERROR", TiposDatos[5], fila, columna);
@@ -18,7 +16,7 @@ public class Aritmeticas extends Interpreter.Expresion {
     }
 
     @Override
-    public Interpreter.Expresion interpretar(Entorno entorno) {
+    public Expresion interpretar(Entorno entorno) {
         // Interpretamos los operadores
         this.izq.interpretar(entorno);
         this.der.interpretar(entorno);
