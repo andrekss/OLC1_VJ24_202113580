@@ -16,7 +16,7 @@ public class sym {
   public static final int XOR = 22;
   public static final int CAR = 26;
   public static final int DOUBLE = 3;
-  public static final int CONTINUE = 47;
+  public static final int CONTINUE = 46;
   public static final int INT = 2;
   public static final int Dos_Puntos = 31;
   public static final int LLAVE_C = 38;
@@ -31,18 +31,18 @@ public class sym {
   public static final int P_Coma = 32;
   public static final int OR = 21;
   public static final int BOOL = 4;
-  public static final int UMENOS = 49;
+  public static final int UMENOS = 48;
   public static final int IF = 39;
   public static final int P_CIERRA = 35;
   public static final int EOF = 0;
   public static final int BOOLEAN = 25;
   public static final int DECIMAL = 24;
-  public static final int RETURN = 48;
+  public static final int RETURN = 47;
   public static final int error = 1;
   public static final int MODULO = 12;
   public static final int MENOS = 8;
   public static final int MENOR = 15;
-  public static final int BREAK = 46;
+  public static final int BREAK = 49;
   public static final int MAYOR = 17;
   public static final int POTENCIA = 11;
   public static final int ELSE = 40;
@@ -105,10 +105,10 @@ public class sym {
   "WHILE",
   "FOR",
   "DO",
-  "BREAK",
   "CONTINUE",
   "RETURN",
-  "UMENOS"
+  "UMENOS",
+  "BREAK"
   };
 }
 

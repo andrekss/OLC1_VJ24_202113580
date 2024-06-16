@@ -3,7 +3,8 @@ package Language;
 // Importaciones
 import java.util.LinkedList;
 import Interpreter.Expresiones.*;
-import Interpreter.Instrucciones.Print;
+import Interpreter.Instrucciones.*;
+import Interpreter.Funciones.*;
 import Interpreter.Instruccion;
 import Interpreter.Expresion;
 
@@ -16,6 +17,9 @@ import java_cup.runtime.*;
 parser code 
 {:
     public LinkedList<Instruccion> Ejecutar;
+    public LinkedList<LinkedList<Instruccion>> Cases;
+    public LinkedList<Expresion> Caso;
+    
     public String resultado = ""; 
 
     public void syntax_error(Symbol s)
@@ -44,19 +48,19 @@ terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
 terminal String NOT, AND, OR, XOR;
 terminal String ENTERO, DECIMAL, BOOLEAN, CAR, CAD, VAR, CONST, IDENTIFICADOR;
 terminal String Dos_Puntos, P_Coma, IGUAL, P_ABRE, P_CIERRA, PRINT, LLAVE_A, LLAVE_C, IF, ELSE;
-terminal String MATCH, DEFAULT, WHILE, FOR, DO, BREAK, CONTINUE, RETURN, UMENOS;
+terminal String MATCH, DEFAULT, WHILE, FOR, DO, CONTINUE, RETURN, UMENOS, BREAK;
 
 //------> Declaración de no terminales
 non terminal LinkedList<Instruccion> inicio, instrucciones;
-non terminal Variables,  Mutabilidad, Dec_Variables;
-non terminal  Asignar_Valor,  Incremento_Decremento, Sen_Control, Sen_IF, If_Simple ;
-non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Sen_Match, Strcuct_Match, Entry_Cases, Cases;
-non terminal Sen_Ciclicas, Sen_While, Signos_For, Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Return;
-non terminal Expresion EXPRESION;
-non terminal Instruccion instruccion, Func_Print;
-non terminal String Tipos_Dato;
+non terminal String Mutabilidad;
+non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Strcuct_Match, Cases;
+non terminal Sen_Return;
+non terminal Expresion EXPRESION, Entry_Cases;
+non terminal Instruccion instruccion, Func_Print, Dec_Variables,Variables,Asignar_Valor,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
+non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match;
+non terminal String Tipos_Dato,Tipo_Incremento, Signos_For;
 
-//
+// Presedencia
 precedence left OR;
 precedence left AND;
 precedence left XOR;
@@ -80,21 +84,21 @@ instrucciones ::= instruccion:a                   {: RESULT = new LinkedList<>()
                 | instrucciones:a instruccion:b   {: RESULT = a; RESULT.add(b); :}
 ;
 
-instruccion ::= Variables P_Coma
-              | Func_Print:p P_Coma {: RESULT = p;:}
-              | Incremento_Decremento P_Coma
-              | Sen_Control 
-              | Sen_Ciclicas
-              | Sen_Transferencia P_Coma 
+instruccion ::= Variables:a P_Coma             {: RESULT = a; :}
+              | Func_Print:p P_Coma            {: RESULT = p; :}
+              | Incremento_Decremento:a P_Coma {: RESULT = a; :}
+              | Sen_Control:a                  {: RESULT = a; :}
+              | Sen_Ciclicas:a                 {: RESULT = a; :}
+              | Sen_Transferencia:a P_Coma     {: RESULT = a; :}
 ;
 
 Sen_Return ::= RETURN
              | RETURN EXPRESION
 ;
 
-Sen_Transferencia ::= BREAK // Usado en ciclos
-                    | CONTINUE // Usado en ciclos
-                    | Sen_Return // Usado en ciclos y metodos y para la fase 2
+Sen_Transferencia ::= BREAK:a        {: RESULT = new Break(aright, aleft); :}// Usado en ciclos
+                    | CONTINUE:a     {: RESULT = new Continue(aright, aleft); :}// Usado en ciclos
+                    | Sen_Return     // Usado en ciclos y metodos y para la fase 2
 ;
 
 // Expresiones
@@ -114,21 +118,21 @@ EXPRESION ::= MENOS EXPRESION:e                             {: RESULT = new Nega
             | EXPRESION:a DIVISION EXPRESION:b              {: RESULT = new Aritmeticas(a,"/",b,aright, aleft); :}
             | EXPRESION:a POTENCIA EXPRESION:b              {: RESULT = new Aritmeticas(a,"**",b,aright, aleft); :}
             | EXPRESION:a MODULO EXPRESION:b                {: RESULT = new Aritmeticas(a,"%",b,aright, aleft); :}
-            | P_ABRE EXPRESION:e P_CIERRA                   {: e.interpretar(null); RESULT=new Dato(e.getValor(),e.getTipo(), eright, eleft); :}
+            | P_ABRE EXPRESION:e P_CIERRA                   {: RESULT = e;/*e.interpretar(null); RESULT=new Dato(e.getValor(),e.getTipo(), eright, eleft);*/ :}
             | ENTERO:e                                      {: RESULT=new Dato(e,"INT", eright, eleft); :}
             | DECIMAL:e                                     {: RESULT=new Dato(e,"DOUBLE", eright, eleft); :}
             | BOOLEAN:e                                     {: RESULT=new Dato(e,"BOOL", eright, eleft); :}
             | CAR:e                                         {: RESULT=new Dato(e,"CHAR", eright, eleft); :}
             | CAD:e                                         {: RESULT=new Dato(e,"STRING", eright, eleft); :}
-            | P_ABRE Tipos_Dato:tipo P_CIERRA EXPRESION:e   {: e.interpretar(null); RESULT = new Dato(e.getValor(),tipo, eright, eleft); :} // Casteos
-            | IDENTIFICADOR
+            | P_ABRE Tipos_Dato:tipo P_CIERRA EXPRESION:e   {: RESULT = e; /*e.interpretar(null); RESULT = new Dato(e.getValor(),tipo, eright, eleft);*/ :} // Casteos
+            | IDENTIFICADOR:id                              {: RESULT = new AccederVariables(id,idright, idleft); :}
             | EXPRESION:a COMPARACION EXPRESION:b           {: RESULT = new Relacionales(a,"==",b,aright, aleft); :}
             | EXPRESION:a DIFERENCIA EXPRESION:b            {: RESULT = new Relacionales(a,"!=",b,aright, aleft); :}     
             | EXPRESION:a MENOR_IGUAL EXPRESION:b           {: RESULT = new Relacionales(a,"<=",b,aright, aleft); :} 
             | EXPRESION:a MAYOR_IGUAL EXPRESION:b           {: RESULT = new Relacionales(a,">=",b,aright, aleft); :} 
             | EXPRESION:a MENOR EXPRESION:b                 {: RESULT = new Relacionales(a,"<",b,aright, aleft); :} 
             | EXPRESION:a MAYOR EXPRESION:b                 {: RESULT = new Relacionales(a,">",b,aright, aleft); :} 
-            | NOT EXPRESION:e                               {: e.interpretar(null); RESULT = new Not(e.getValor(),e.getTipo(),eright, eleft); :}
+            | NOT EXPRESION:e                               {: RESULT = new Not("true","BOOL",e,eright, eleft); :}
             | EXPRESION:a AND EXPRESION:b                   {: RESULT = new Logicas(a,"&&",b,aright, aleft); :}
             | EXPRESION:a OR EXPRESION:b                    {: RESULT = new Logicas(a,"||",b,aright, aleft); :}
             | EXPRESION:a XOR EXPRESION:b                   {: RESULT = new Logicas(a,"^",b,aright, aleft); :}
@@ -143,19 +147,19 @@ Tipos_Dato ::= INT    {: RESULT="INT"; :}
              | STRING {: RESULT="STRING"; :}
 ;
 
-Mutabilidad ::= VAR     
-              | CONST 
+Mutabilidad ::= VAR     {: RESULT = "VAR"; :}
+              | CONST   {: RESULT = "CONST"; :}
 ;
 
-Variables ::= Dec_Variables
-            | Asignar_Valor
+Variables ::= Dec_Variables:a   {: RESULT = a; :}
+            | Asignar_Valor:a   {: RESULT = a; :}
 ;
 
-Dec_Variables ::= Mutabilidad IDENTIFICADOR Dos_Puntos Tipos_Dato
-                | Mutabilidad IDENTIFICADOR Dos_Puntos Tipos_Dato IGUAL EXPRESION
+Dec_Variables ::= Mutabilidad:m IDENTIFICADOR:id Dos_Puntos Tipos_Dato:ty                        {: RESULT= new Declarar(null,ty,id,m,tyright, tyleft); :}   
+                | Mutabilidad:m IDENTIFICADOR:id Dos_Puntos Tipos_Dato:ty IGUAL EXPRESION:e      {: RESULT= new Declarar(e,ty,id,m,tyright, tyleft); :}
 ;
 
-Asignar_Valor ::= IDENTIFICADOR IGUAL EXPRESION
+Asignar_Valor ::= IDENTIFICADOR:i IGUAL EXPRESION:e  {: RESULT = new Asignar(e,i,iright, ileft); :}
 ;
 
 // Función print
@@ -163,75 +167,65 @@ Func_Print ::= PRINT P_ABRE EXPRESION:a P_CIERRA {: RESULT =new Print(a,aright, 
 ;
 
 // Incremento y decremento (Solo para decimales y enteros)
-Incremento_Decremento ::= IDENTIFICADOR MAS MAS
-                        | IDENTIFICADOR MENOS MENOS
+Incremento_Decremento ::= IDENTIFICADOR:id MAS MAS         {: RESULT = new IncrementoDecremento(id,"++",idright, idleft); :}
+                        | IDENTIFICADOR:id MENOS MENOS     {: RESULT = new IncrementoDecremento(id,"--",idright, idleft); :}
 ;
 
 // Sentencias de control
-Sen_Control ::= Sen_IF
-              | Sen_Match 
+Sen_Control ::= Sen_IF:a     {: RESULT =a; :}
+              | Sen_Match:a  {: RESULT=a; :}
 ;
 
 // Sentencia if
 
-Sen_Else ::= ELSE LLAVE_A instrucciones LLAVE_C
-;
-
-Sen_Else_If ::= ELSE IF P_ABRE EXPRESION P_CIERRA LLAVE_A instrucciones LLAVE_C
-;
-
-Bloque_Else_If ::= Sen_Else_If
-    | Bloque_Else_If Sen_Else_If
-;
-
-If_Simple ::= IF P_ABRE EXPRESION P_CIERRA LLAVE_A instrucciones LLAVE_C  
-;
-
-Sen_IF ::= If_Simple
-	 | If_Simple Sen_Else
-	 | If_Simple Bloque_Else_If
-	 | If_Simple Bloque_Else_If Sen_Else
-;
+Sen_IF ::= IF P_ABRE EXPRESION:e P_CIERRA LLAVE_A instrucciones:i LLAVE_C ELSE LLAVE_A instrucciones:i2 LLAVE_C     {: RESULT= new IF(e,i,i2,null,eright,eleft); :}
+	 | IF P_ABRE EXPRESION:e P_CIERRA LLAVE_A instrucciones:i LLAVE_C ELSE Sen_IF:i2                            {: RESULT= new IF(e,i,null,i2,eright,eleft); :}
+         | IF P_ABRE EXPRESION:e P_CIERRA LLAVE_A instrucciones:i LLAVE_C                                           {: RESULT= new IF(e,i,null,null,eright,eleft); :}                      
+; 
 
 // Sentencia Match
 
-Entry_Cases ::= EXPRESION
-		      | DEFAULT // Este solo irá al final y solo uno
+Entry_Cases ::= EXPRESION:a   {: RESULT=a; :}
+	      | DEFAULT:a     {: RESULT=new Dato(a,"STRING", aright, aleft); :}// Este solo irá al final y solo uno
 ;
 
-Cases ::= Entry_Cases IGUAL MAYOR LLAVE_A instrucciones LLAVE_C // uso de break
+Cases ::= Entry_Cases:a IGUAL MAYOR LLAVE_A instrucciones:i LLAVE_C  {: Cases.add(i); Caso.add(a);  :}   // uso de break
 ;
 
 Strcuct_Match ::= Cases
-			    | Strcuct_Match Cases
+	      | Strcuct_Match Cases
 ;
 
 
-Sen_Match ::= MATCH EXPRESION LLAVE_A Strcuct_Match  LLAVE_C
+Sen_Match ::= MATCH EXPRESION:e LLAVE_A Strcuct_Match  LLAVE_C  {: RESULT = new Match(Cases, Caso, e, eright, eleft);  :}
 ;
 
 
 // Sentencias Cíclicas
 
 // todas pueden llevar Break, continue y return
-Sen_Ciclicas ::= Sen_While
-		       | Sen_For
-		       | Sen_Do_While P_Coma
+Sen_Ciclicas ::=  Sen_While:a           {: RESULT =a; :}
+		| Sen_For:a             {: RESULT = a; :}
+		| Sen_Do_While:a P_Coma {: RESULT =a; :}
 ;
 
 
-Sen_While ::= WHILE P_ABRE EXPRESION P_CIERRA LLAVE_A instrucciones LLAVE_C
+Sen_While ::= WHILE P_ABRE EXPRESION:c P_CIERRA LLAVE_A instrucciones:i LLAVE_C   {: RESULT = new While(c,i,"While",cright, cleft); :}
 ;
 
-Signos_For ::= MAYOR
-	      	 | MENOR
-		     | MAYOR_IGUAL
-		     | MENOR_IGUAL
-		     | IGUAL
+Signos_For ::= MAYOR:a        {: RESULT=a; :}
+	     | MENOR:a        {: RESULT=a; :}
+	     | MAYOR_IGUAL:a  {: RESULT=a; :}
+	     | MENOR_IGUAL:a  {: RESULT=a; :}
 ;
 
-Sen_For ::= FOR P_ABRE IDENTIFICADOR Signos_For EXPRESION P_Coma IDENTIFICADOR Signos_For EXPRESION P_Coma Incremento_Decremento P_CIERRA LLAVE_A instrucciones LLAVE_C
+Tipo_Incremento ::= MAS MAS     {: RESULT = "++"; :}
+                  | MENOS MENOS {: RESULT = "--"; :}
 ;
 
-Sen_Do_While ::= DO LLAVE_A instrucciones LLAVE_C WHILE P_ABRE EXPRESION P_CIERRA
+Sen_For ::= FOR P_ABRE IDENTIFICADOR:id IGUAL EXPRESION:a1 P_Coma IDENTIFICADOR Signos_For:sig EXPRESION:a2 P_Coma IDENTIFICADOR Tipo_Incremento:in  P_CIERRA LLAVE_A instrucciones:i LLAVE_C
+{: RESULT = new For(i,a1,a2,in,sig,id,idright, idleft); :}
+;
+
+Sen_Do_While ::= DO LLAVE_A instrucciones:i LLAVE_C WHILE P_ABRE EXPRESION:c P_CIERRA  {: RESULT = new While(c,i,"Do",cright, cleft); :}
 ;

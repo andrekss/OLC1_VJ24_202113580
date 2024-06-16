@@ -15,11 +15,13 @@ public class Print extends Instruccion {
     @Override
     public Instruccion interpretar(Entorno entorno) {
         this.expresion.interpretar(entorno); // Interpretamos la expresion
+        //this.expresion = this.expresion.interpretar(entorno);
 
-        if (this.expresion.getTipo() == Instruccion.nombres[0]){
+        if (this.expresion.getTipo().equals(Instruccion.nombres[0])){
             // System.out.println("Error Semántico: No se puede imprimir negativos.");
             System.out.println("Error Semántico: No se puede imprimir.");
             return this;
+
         }
 
         System.out.println(this.expresion.getValor());

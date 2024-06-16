@@ -13,11 +13,244 @@ public class main {
         
     //analizadores("src/Language/", "Lexer.flex", "Parser.cup");
 
-    String Entrada2="""
-            println(  !TRUE);
+    String Entrada3 = """
+    
+            const nota: int = 100;
+println("Operaciones aritmeticas");
+var cadena: string = "Vamos " + "por " + "ese " + nota;
+println(cadena);
+var operaciones: int = 1 + 9 - 8  + (5 * 2);
+println("El resultado de las operaciones es " + operaciones);
+println("");
+
+println("Operaciones Relacionales");
+var a: bool = 1 < 2;
+println("El valor de a es " + a);
+
+var b: bool = 1 == 2;
+println("El valor de b es " + b);
+
+println("");
+
+println("Operaciones Logicas");
+var c: bool = !!true;
+println("El valor de c es " + c);
+
+var d: bool = (true && false) || (false || false);
+println("El valor de d es " + d);
+
+println("");
+
+println("Operaciones combinadas");
+var e: bool = (1 == 2) || (10 < 5) || (!false);
+println("El valor de e es " + e);
+
+println("");
+println("Ciclos, condicionales y saltos de control");
+var i: int = 0;
+while (i < 11) {
+    if (i == 10) {
+        println("Terminamos con break");
+        break;
+    }
+    println("Iteracion " + i);
+    i = i + 1;
+}
+println("");
+for (i = 0; i <= 5; i++) {
+    println("" + 2 + " * " + i + " = " + 2 * i);
+    if (i >= 2) {
+        continue;
+    }
+    println("Solo se imprime 2 veces");
+}
+
+println("");
+
+var j: int = 0;
+var k: int = 10;
+    
+/*
+while (j <= k) {
+    match j {
+        1 => { println("j es 1"); }
+        2 => { println("j es 2"); }
+        3 => { println("j es 3"); }
+        4 => { println("j es 4"); }
+        5 => { println("j es 5"); }
+        6 => { println("j es 6"); }
+        7 => { println("j es 7"); }
+        8 => { println("j es 8"); }
+        9 => { println("j es 9"); }
+        10 => { println("j es 10"); }
+        _ => { println("j es otro valor"); }
+    }
+    j++;
+}
+*/
+
+
+
+// SALIDA ESPERADA
+/*
+Operaciones aritmeticas
+Vamos por ese 100
+El resultado de las operaciones es 35
+
+Operaciones Relacionales
+El valor de a es true
+El valor de b es false
+
+Operaciones Logicas
+El valor de c es true
+El valor de d es false
+
+Operaciones combinadas
+El valor de e es true
+
+Ciclos, condicionales y saltos de control
+Iteracion 0
+Iteracion 1
+Iteracion 2
+Iteracion 3
+Iteracion 4
+Iteracion 5
+Iteracion 6
+Iteracion 7
+Iteracion 8
+Iteracion 9
+Iteracion 10
+Terminamos con break
+
+2 * 0 = 0
+Solo se imprime 2 veces
+2 * 1 = 2
+Solo se imprime 2 veces
+2 * 2 = 4
+2 * 3 = 6
+2 * 4 = 8
+2 * 5 = 10
+
+j es otro valor
+j es 1
+j es 2
+j es 3
+j es 4
+j es 5
+j es 6
+j es 7
+j es 8
+j es 9
+j es 10
+*/
+
             """;
 
-    analizar(Entrada2);
+
+         analizar(Entrada3);
+    
+         String Entrada2="""
+            var num : int;
+            var num2 : int = 10;
+            var nota2 : double = 20.6;
+            num2 = 90;
+            nota2++;
+
+            var km : string="El sexo del grupo";
+
+            // Sentencia
+            if (false){
+              println(num2);
+              println(nota2);
+              println(num);
+              //println(sad);
+
+            }  else {
+             println("You are in else 2");
+             }
+            
+            var i: int = 13;
+
+            while (i<=12){
+            println(i);
+            i++;
+            }
+
+            var i2:int = 1;
+
+            do{
+
+            println(i2);
+            i2++;
+            break;
+            }while(i2<12);
+
+            println("-------------------");
+            for (as = 0; as < 15; as++){
+                println(as);
+                break;
+            }
+
+            println("--Probando continue--");
+
+            //var i: int=0;
+            for(i=0; i<=2; i++){
+                println(i);
+
+                if(true){
+                    while(true){
+                    println(i);
+                    break;
+                    }
+                }    
+                println(i*5);
+            }
+
+            println("Match");
+
+            
+        /*
+            Match true {
+            true =>{
+                println("Ahora");
+            }
+            17 >= 20 =>{
+                println("Aa");
+            }
+            _ =>{
+                println("asd");
+            }
+        }
+            */
+
+
+        // Sentencias Cíclicas
+        for(i = 0; i < 3; i++){
+            if (i==2){
+             println(i);
+            }
+        } 
+
+        println("variablessdsad---");
+
+        var uto: bool =!false;
+
+        println(uto);
+        println("--While--");
+        
+        var z : int = -5;
+        while (z < 5) {
+            println("Valor de z: " + z);
+            if (z % 2 == 0) {
+                println(z + " es par");
+            } else {
+                println(z + " es impar");
+            }
+            z = z + 1;
+        }    
+        """;
+
+           // analizar(Entrada2);
     String Entrada = """
         // variables
         var num : int;
@@ -107,7 +340,7 @@ public class main {
     }
 
     // Crear Analizadores
-    public static void analizadores(String ruta, String jflexFile, String cupFile) {
+    public static void analizadores(String ruta, String jflexFile, String cupFile) {  // Created by: KM MASLOWY (El sexo del grupo)
         try {
             String opcionesJflex[] = {ruta + jflexFile, "-d", ruta};
             jflex.Main.generate(opcionesJflex);
@@ -143,8 +376,18 @@ public class main {
 
             //System.out.println(parser.parse());
         } catch (Exception e) {
-            System.out.println("Error fatal en compilación de entrada.");
-            System.out.println(e);
+            e.printStackTrace();
+            // Imprimir información específica sobre la línea exacta del error
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            if (stackTrace.length > 0) {
+                StackTraceElement element = stackTrace[0];
+                System.out.println("Error en la clase: " + element.getClassName());
+                System.out.println("Error en el método: " + element.getMethodName());
+                System.out.println("Error en la línea: " + element.getLineNumber());
+                }
+
+            //System.out.println("Error fatal en compilación de entrada.");
+            //System.out.println(e);
         }
     }
 

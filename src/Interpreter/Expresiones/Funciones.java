@@ -6,15 +6,15 @@ public class Funciones {
     public static Aritmeticas Suma(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
         
         
-        if(izq.getTipo() == "INT" && der.getTipo() == "INT" || izq.getTipo() == "INT" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "INT"){
+        if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){
             object.setTipo("INT"); 
             object.setValor(String.valueOf(Integer.parseInt(izq.getValor())+Integer.parseInt(der.getValor())));  
             return object;
-        }else if(izq.getTipo() == "INT" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "INT" || izq.getTipo() == "DOUBLE" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "DOUBLE"){
+        }else if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE")){
             object.setTipo("DOUBLE"); 
             object.setValor(String.valueOf(Double.parseDouble(izq.getValor())+Double.parseDouble(der.getValor())));
             return object;
-        }else if(izq.getTipo() == "CHAR" && der.getTipo() == "CHAR" || izq.getTipo() == "STRING" && der.getTipo() == "STRING" || izq.getTipo() == "INT" && der.getTipo() == "STRING" || izq.getTipo() == "STRING" && der.getTipo() == "INT" || izq.getTipo() == "DOUBLE" && der.getTipo() == "STRING" || izq.getTipo() == "STRING" && der.getTipo() == "DOUBLE" || izq.getTipo() == "BOOL" && der.getTipo() == "STRING" || izq.getTipo() == "STRING" && der.getTipo() == "BOOL" || izq.getTipo() == "CHAR" && der.getTipo() == "STRING" || izq.getTipo() == "STRING" && der.getTipo() == "CHAR"){
+        }else if(izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "STRING") && der.getTipo() .equals( "STRING") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "STRING") || izq.getTipo() .equals( "STRING") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "STRING") || izq.getTipo() .equals( "STRING") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "BOOL") && der.getTipo() .equals( "STRING" )|| izq.getTipo() .equals( "STRING") && der.getTipo() .equals( "BOOL") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "STRING") || izq.getTipo() .equals( "STRING") && der.getTipo() .equals( "CHAR")){
             object.setTipo("STRING"); 
             object.setValor(izq.getValor()+der.getValor());
             return object;
@@ -27,12 +27,12 @@ public class Funciones {
     }
 
     public static Aritmeticas Resta(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
-        if(izq.getTipo() == "INT" && der.getTipo() == "INT" || izq.getTipo() == "INT" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "INT"){
+        if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){
             object.setTipo("INT"); 
           
             object.setValor(String.valueOf(Integer.parseInt(izq.getValor())-Integer.parseInt(der.getValor())));
             return object;
-        }else if(izq.getTipo() == "INT" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "INT" || izq.getTipo() == "DOUBLE" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "DOUBLE"){
+        }else if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE")){
             object.setTipo("DOUBLE"); 
             object.setValor(String.valueOf(Double.parseDouble(izq.getValor())-Double.parseDouble(der.getValor())));
             return object;
@@ -44,12 +44,12 @@ public class Funciones {
         
     }
     public static Aritmeticas Multiplicación(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
-        if(izq.getTipo() == "INT" && der.getTipo() == "INT" || izq.getTipo() == "INT" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "INT"){
+        if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT")|| izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){
             object.setTipo("INT"); 
           
             object.setValor(String.valueOf(Integer.parseInt(izq.getValor())*Integer.parseInt(der.getValor())));
             return object;
-        }else if(izq.getTipo() == "INT" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "INT" || izq.getTipo() == "DOUBLE" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "DOUBLE"){
+        }else if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE")){
             object.setTipo("DOUBLE"); 
             object.setValor(String.valueOf(Double.parseDouble(izq.getValor())*Double.parseDouble(der.getValor())));
             return object;
@@ -62,12 +62,12 @@ public class Funciones {
     }
 
     public static Aritmeticas Division(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
-        if(izq.getTipo() == "INT" && der.getTipo() == "INT" || izq.getTipo() == "INT" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "INT"){
+        if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){
             object.setTipo("INT"); 
           
             object.setValor(String.valueOf(Integer.parseInt(izq.getValor())/Integer.parseInt(der.getValor())));
             return object;
-        }else if(izq.getTipo() == "INT" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "INT" || izq.getTipo() == "DOUBLE" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "CHAR" || izq.getTipo() == "CHAR" && der.getTipo() == "DOUBLE"){
+        }else if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE")){
             object.setTipo("DOUBLE"); 
             object.setValor(String.valueOf(Double.parseDouble(izq.getValor())/Double.parseDouble(der.getValor())));
             return object;
@@ -80,11 +80,11 @@ public class Funciones {
     }
 
     public static Aritmeticas Potencia(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
-        if (izq.getTipo() == "INT" && der.getTipo() == "INT"){
+        if (izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT")){
             object.setTipo("INT");
             object.setValor(String.valueOf(Math.pow(Integer.parseInt(izq.getValor()),Integer.parseInt(der.getValor()))));
             return object;
-        }else if(izq.getTipo() == "DOUBLE" && der.getTipo() == "DOUBLE" || izq.getTipo() == "INT" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "INT" ){
+        }else if(izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT" )){
             object.setTipo("DOUBLE"); 
             object.setValor(String.valueOf(Math.pow(Integer.parseInt(izq.getValor()),Integer.parseInt(der.getValor())))); // POR COMODIDAD INT
             return object;
@@ -96,11 +96,11 @@ public class Funciones {
     }
 
     public static Aritmeticas Modulo(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
-        if (izq.getTipo() == "INT" && der.getTipo() == "INT"){
+        if (izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT")){
             object.setTipo("INT"); 
             object.setValor(String.valueOf(Integer.parseInt(izq.getValor())%Integer.parseInt(der.getValor())));
             return object;
-        }else if(izq.getTipo() == "DOUBLE" && der.getTipo() == "DOUBLE" || izq.getTipo() == "INT" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "INT" ){
+        }else if(izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") ){
             object.setTipo("DOUBLE"); 
             object.setValor(String.valueOf(Double.parseDouble(izq.getValor())%Double.parseDouble(der.getValor())));
             return object;
@@ -113,19 +113,18 @@ public class Funciones {
     
     public static Relacionales Relacionar(Expresion izq,String Operacion,Expresion der,Relacionales object, boolean Condicion, boolean CondicionAscii, Boolean CondicionAscii2){
         
-        if (izq.getTipo() == "CHAR" && der.getTipo() == "CHAR" ||izq.getTipo() == "INT" && der.getTipo() == "INT" || izq.getTipo() == "DOUBLE" && der.getTipo() == "DOUBLE" || izq.getTipo() == "BOOL" && der.getTipo() == "BOOL"  || izq.getTipo() == "DOUBLE" && der.getTipo() == "INT" || izq.getTipo() == "CHAR" && der.getTipo() == "DOUBLE" || izq.getTipo() == "DOUBLE" && der.getTipo() == "CHAR"){
+        if (izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "CHAR" )||izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR")){
             
             object.setTipo("BOOL");
+
             if(Condicion){
-                object.setTipo("BOOL");
                 object.setValor("true");
                return object;
             }else{
-                object.setTipo("BOOL");
                 object.setValor("false");
                return object;
             }
-        }else if ( izq.getTipo() == "CHAR" && der.getTipo() == "INT"){  // Código Ascii
+        }else if ( izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){  // Código Ascii
             object.setTipo("BOOL");
             if(CondicionAscii){
                 object.setValor("true");
@@ -135,7 +134,7 @@ public class Funciones {
                return object;
             }
         
-        }else if ( izq.getTipo() == "INT" && der.getTipo() == "CHAR" ){ // Código Ascii
+        }else if ( izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") ){ // Código Ascii
             
             object.setTipo("BOOL");
             if(CondicionAscii2){
@@ -153,14 +152,15 @@ public class Funciones {
 
     }
 
+    // Entra aqui cuando haya un error booleano de lenght y un error string en el parseo a int
     public static Relacionales RelacionarBoolean(Expresion izq,String Operacion,Expresion der,Relacionales object, boolean Condicion){
-        if (izq.getTipo() == "BOOL" && der.getTipo() == "BOOL" || izq.getTipo() == "STRING" && der.getTipo() == "STRING"){
+        if (izq.getTipo() .equals( "BOOL") && der.getTipo() .equals( "BOOL") || izq.getTipo() .equals( "STRING") && der.getTipo() .equals( "STRING")){
+            object.setTipo("BOOL");
+            System.out.println("I am here");
             if(Condicion){
-               object.setTipo("BOOL");
                object.setValor("true");
               return object;
             }else{
-               object.setTipo("BOOL");
                object.setValor("false");
               return object;
             }
@@ -172,7 +172,7 @@ public class Funciones {
     }
     
     public static Logicas OperacionesLogicas(Expresion izq,String Operacion,Expresion der,Logicas object, boolean Condicion){
-        if (izq.getTipo() == "BOOL" && der.getTipo() == "BOOL"){
+        if (izq.getTipo() .equals( "BOOL") && der.getTipo() .equals( "BOOL")){
             if(Condicion){
                object.setTipo("BOOL");
                object.setValor("true");
@@ -190,7 +190,7 @@ public class Funciones {
     }
 
     public static String eliminarComillas(String input) {
-        if (input == null) {
+        if (input .equals( null)) {
             return null;
         }
         return input.replaceAll("[\"']", "");
