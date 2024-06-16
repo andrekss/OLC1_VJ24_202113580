@@ -4,7 +4,8 @@
 
 // ------------  Paquete e importaciones ------------
 package Language; 
-
+import client.Errors;
+import client.TextEditor;
 import java_cup.runtime.*;
 
 
@@ -828,7 +829,9 @@ public class Lexer implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.out.println("Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn);
+            { Errors error = new Errors("Lexico","Caracter no reconocido"+yytext(),yyline,yycolumn);
+    TextEditor.Errores.add(error);
+    System.out.println("Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn);
             }
           // fall through
           case 51: break;

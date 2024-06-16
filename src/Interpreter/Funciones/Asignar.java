@@ -2,6 +2,8 @@ package Interpreter.Funciones;
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
 import Interpreter.Entornos.Entorno;
+import client.Errors;
+import client.TextEditor;
 
 public class Asignar extends Instruccion 
 {
@@ -25,10 +27,21 @@ public class Asignar extends Instruccion
             }
             else{
                 System.out.println("Error semántico: La Mutabilidad es Constante no se puede asignar un valor nuevo");
+                             // Interfaz
+            Errors error = new Errors("Semántico","La Mutabilidad es Constante no se puede asignar un valor nuevo", this.getFila(),this.getColumna());
+            TextEditor.Errores.add(error);
+            TextEditor.Consola.setText("Error Semántico: La Mutabilidad es Constante no se puede asignar un valor nuevo." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna());
+          
                 return this;
             } 
         }else if(entorno.getAnterior() == null){ // llega al final del entorno
             System.out.println("Error Samántico: Esta variable no existe");
+
+            // Interfaz
+            Errors error = new Errors("Semántico","Esta variable no existe", this.getFila(),this.getColumna());
+            TextEditor.Errores.add(error);
+            TextEditor.Consola.setText("Error Semántico: Esta variable no existe." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna());
+                             
             return this;
 
         }else if (entorno.getAnterior() != null){

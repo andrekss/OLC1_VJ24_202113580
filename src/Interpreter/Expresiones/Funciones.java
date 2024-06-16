@@ -1,14 +1,21 @@
 package Interpreter.Expresiones;
 
 import Interpreter.Expresion;
+import client.Errors;
+import client.TextEditor;
 
 public class Funciones {
     public static Aritmeticas Suma(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
         
         
         if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){
+            try{
             object.setTipo("INT"); 
             object.setValor(String.valueOf(Integer.parseInt(izq.getValor())+Integer.parseInt(der.getValor())));  
+            }catch(Exception e){
+                object.setTipo("INT"); 
+                object.setValor(String.valueOf(Double.parseDouble(izq.getValor())+Double.parseDouble(der.getValor())));        
+            }
             return object;
         }else if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE")){
             object.setTipo("DOUBLE"); 
@@ -21,6 +28,11 @@ public class Funciones {
         }else{
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                        // Interfaz
+            Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+            TextEditor.Errores.add(error);
+            TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+
             return object;
         }
         
@@ -28,9 +40,14 @@ public class Funciones {
 
     public static Aritmeticas Resta(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
         if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){
-            object.setTipo("INT"); 
-          
-            object.setValor(String.valueOf(Integer.parseInt(izq.getValor())-Integer.parseInt(der.getValor())));
+            try{
+                object.setTipo("INT"); 
+                object.setValor(String.valueOf(Integer.parseInt(izq.getValor())-Integer.parseInt(der.getValor())));  
+                }catch(Exception e){
+                    object.setTipo("INT"); 
+                    object.setValor(String.valueOf(Double.parseDouble(izq.getValor())-Double.parseDouble(der.getValor())));        
+                }
+
             return object;
         }else if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE")){
             object.setTipo("DOUBLE"); 
@@ -39,15 +56,25 @@ public class Funciones {
         }else{
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                                    // Interfaz
+                                    Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+                                    TextEditor.Errores.add(error);
+                                    TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+                        
             return object;
         }
         
     }
     public static Aritmeticas Multiplicación(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
         if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT")|| izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){
-            object.setTipo("INT"); 
-          
-            object.setValor(String.valueOf(Integer.parseInt(izq.getValor())*Integer.parseInt(der.getValor())));
+
+                try{
+                object.setTipo("INT"); 
+                object.setValor(String.valueOf(Integer.parseInt(izq.getValor())*Integer.parseInt(der.getValor())));  
+                }catch(Exception e){
+                    object.setTipo("INT"); 
+                    object.setValor(String.valueOf(Double.parseDouble(izq.getValor())*Double.parseDouble(der.getValor())));        
+                }
             return object;
         }else if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE")){
             object.setTipo("DOUBLE"); 
@@ -56,6 +83,11 @@ public class Funciones {
         }else{
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                                    // Interfaz
+                                    Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+                                    TextEditor.Errores.add(error);
+                                    TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+                        
             return object;
         }
         
@@ -63,9 +95,14 @@ public class Funciones {
 
     public static Aritmeticas Division(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
         if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "INT")){
-            object.setTipo("INT"); 
-          
-            object.setValor(String.valueOf(Integer.parseInt(izq.getValor())/Integer.parseInt(der.getValor())));
+
+            try{
+                object.setTipo("INT"); 
+                object.setValor(String.valueOf(Integer.parseInt(izq.getValor())/Integer.parseInt(der.getValor())));  
+                }catch(Exception e){
+                    object.setTipo("INT"); 
+                    object.setValor(String.valueOf(Double.parseDouble(izq.getValor())/Double.parseDouble(der.getValor())));        
+                }
             return object;
         }else if(izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "CHAR") || izq.getTipo() .equals( "CHAR") && der.getTipo() .equals( "DOUBLE")){
             object.setTipo("DOUBLE"); 
@@ -74,31 +111,54 @@ public class Funciones {
         }else{
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                                    // Interfaz
+                                    Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+                                    TextEditor.Errores.add(error);
+                                    TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+                        
             return object;
         }
         
     }
 
     public static Aritmeticas Potencia(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
-        if (izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT")){
-            object.setTipo("INT");
-            object.setValor(String.valueOf(Math.pow(Integer.parseInt(izq.getValor()),Integer.parseInt(der.getValor()))));
+        if (izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT")){           
+            try{
+                object.setTipo("INT"); 
+                object.setValor(String.valueOf(Math.pow(Integer.parseInt(izq.getValor()),Integer.parseInt(der.getValor()))));
+
+                }catch(Exception e){
+                    object.setTipo("INT"); 
+                    object.setValor(String.valueOf(Math.pow(Double.parseDouble(izq.getValor()),Double.parseDouble(der.getValor()))));
+        
+                }
             return object;
         }else if(izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT" )){
             object.setTipo("DOUBLE"); 
-            object.setValor(String.valueOf(Math.pow(Integer.parseInt(izq.getValor()),Integer.parseInt(der.getValor())))); // POR COMODIDAD INT
+            object.setValor(String.valueOf(Math.pow(Double.parseDouble(izq.getValor()),Double.parseDouble(der.getValor())))); // POR COMODIDAD INT
             return object;
         }else{ 
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                                    // Interfaz
+                                    Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+                                    TextEditor.Errores.add(error);
+                                    TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+                        
             return object;
         }
     }
 
     public static Aritmeticas Modulo(Expresion izq,String Operacion,Expresion der,Aritmeticas object){
         if (izq.getTipo() .equals( "INT") && der.getTipo() .equals( "INT")){
-            object.setTipo("INT"); 
-            object.setValor(String.valueOf(Integer.parseInt(izq.getValor())%Integer.parseInt(der.getValor())));
+
+            try{
+                object.setTipo("INT"); 
+                object.setValor(String.valueOf(Integer.parseInt(izq.getValor())%Integer.parseInt(der.getValor())));  
+                }catch(Exception e){
+                    object.setTipo("INT"); 
+                    object.setValor(String.valueOf(Double.parseDouble(izq.getValor())%Double.parseDouble(der.getValor())));        
+                }
             return object;
         }else if(izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "INT") && der.getTipo() .equals( "DOUBLE") || izq.getTipo() .equals( "DOUBLE") && der.getTipo() .equals( "INT") ){
             object.setTipo("DOUBLE"); 
@@ -107,6 +167,11 @@ public class Funciones {
         }else{ 
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                                    // Interfaz
+                                    Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+                                    TextEditor.Errores.add(error);
+                                    TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+                        
             return object;
         }
     }
@@ -147,6 +212,11 @@ public class Funciones {
         }else{
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                                    // Interfaz
+                                    Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+                                    TextEditor.Errores.add(error);
+                                    TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+                        
             return object;
         }
 
@@ -156,7 +226,6 @@ public class Funciones {
     public static Relacionales RelacionarBoolean(Expresion izq,String Operacion,Expresion der,Relacionales object, boolean Condicion){
         if (izq.getTipo() .equals( "BOOL") && der.getTipo() .equals( "BOOL") || izq.getTipo() .equals( "STRING") && der.getTipo() .equals( "STRING")){
             object.setTipo("BOOL");
-            System.out.println("I am here");
             if(Condicion){
                object.setValor("true");
               return object;
@@ -167,6 +236,11 @@ public class Funciones {
         }else {
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                                    // Interfaz
+                                    Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+                                    TextEditor.Errores.add(error);
+                                    TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+                        
             return object;
         } 
     }
@@ -185,6 +259,11 @@ public class Funciones {
         }else {
             object.setTipo("ERROR"); 
             System.err.println("Error Semántico: Error de tipo de Expresion");
+                                    // Interfaz
+                                    Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+                                    TextEditor.Errores.add(error);
+                                    TextEditor.Consola.setText("Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna());
+                        
             return object;
         } 
     }

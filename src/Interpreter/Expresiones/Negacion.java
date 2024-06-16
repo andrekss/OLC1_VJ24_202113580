@@ -1,5 +1,7 @@
 package Interpreter.Expresiones;
 import Interpreter.Entornos.Entorno;
+import client.Errors;
+import client.TextEditor;
 import Interpreter.Expresion;
 
 public class Negacion extends Expresion {
@@ -19,6 +21,11 @@ public class Negacion extends Expresion {
             return this;
         }
         System.out.println("Error Semántico: Error en la operacion negativo.");
+                                // Interfaz
+            Errors error = new Errors("Semántico","Error en la operacion negativo",this.getFila() ,this.getColumna());
+            TextEditor.Errores.add(error);
+            TextEditor.Consola.setText("Error Semántico: Error en la operacion negativo." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna());
+
         return this;
         
     }

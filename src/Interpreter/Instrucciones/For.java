@@ -3,7 +3,9 @@ import java.util.LinkedList;
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
 import Interpreter.Entornos.Entorno;
+import Interpreter.Entornos.Simbolo;
 import Interpreter.Funciones.*;
+import client.TextEditor;
 
 public class For extends Instruccion{
     private LinkedList<Instruccion> Sentencia_Entorno;
@@ -15,7 +17,7 @@ public class For extends Instruccion{
     private String Id;
     private boolean AvisoBreak;
     
-
+    // AQUI ME QUEDE
     public For( LinkedList<Instruccion> Sentencia_Entorno,Expresion expresion1,Expresion expresion2,String IncrementoDecremento,String Tipo,String Id,int linea, int col) {
         super(Instruccion.nombres[6], linea, col);
         this.Sentencia_Entorno = Sentencia_Entorno;
@@ -34,6 +36,7 @@ public class For extends Instruccion{
 
         if (!this.expresion1.getTipo().equals("INT") && !this.expresion2.getTipo().equals("INT")){
             System.out.println("Error Semántico: Los rangos deben de ser de tipo int");
+            
             return this;
         }
         
@@ -43,95 +46,129 @@ public class For extends Instruccion{
         // Agregamos la variable FOR
         Declarar VariableFor = new Declarar(this.expresion1, "INT", this.Id, "VAR", this.getFila(), this.getColumna());
         VariableFor.interpretar(For_Entorno);
-        
-        if(this.IncrementoDecremento.equals("++")){
+                if(this.IncrementoDecremento.equals("++")){
 
             if(this.Tipo.equals("<")){
                 
-                for (int i = ValorInicial; i < ValorFinal; i++) {
-                    this.Ejecutar(For_Entorno,this.Id,this.expresion1);
+                for (int i = ValorInicial; i < ValorFinal; i++) { // Ciclo principal
+                    this.Ejecutar(For_Entorno,this.Id);
+
+                    // Incremento
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "++",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
-                    if(this.AvisoBreak==true){
+                    
+                    if(this.AvisoBreak==true){ // Rompemos el ciclo principal
+                        this.AvisoBreak = false;
                         break;
                     }
                     
+                }
+                for (Simbolo Sym : For_Entorno.getTablaSimbolos().values()) {
+                TextEditor.TablaSimbolos.add(Sym);
                 }
             }else if (this.Tipo.equals(">")){
                 for (int i = ValorInicial; i > ValorFinal; i++) {
-                    this.Ejecutar(For_Entorno,this.Id,this.expresion1);
+                    this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "++",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
                     if(this.AvisoBreak==true){
+                        this.AvisoBreak = false;
                         break;
                     }
                     
                 }
+                for (Simbolo Sym : For_Entorno.getTablaSimbolos().values()) {
+                    TextEditor.TablaSimbolos.add(Sym);
+                    }
 
             }else if(this.Tipo.equals("<=")){
                 for (int i = ValorInicial; i <= ValorFinal; i++) {
-                    this.Ejecutar(For_Entorno,this.Id,this.expresion1);
+                    this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "++",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
                     if(this.AvisoBreak==true){
+                        this.AvisoBreak = false;
                         break;
                     }
                 }
+                for (Simbolo Sym : For_Entorno.getTablaSimbolos().values()) {
+                    TextEditor.TablaSimbolos.add(Sym);
+                    }
 
             }else if (this.Tipo.equals(">=")){
                 for (int i = ValorInicial; i >= ValorFinal; i++) {
-                    this.Ejecutar(For_Entorno,this.Id,this.expresion1);
+                    this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "++",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
                     if(this.AvisoBreak==true){
+                        this.AvisoBreak = false;
                         break;
                     }
                 }
+                for (Simbolo Sym : For_Entorno.getTablaSimbolos().values()) {
+                    TextEditor.TablaSimbolos.add(Sym);
+                    }
 
             }
         } else if (this.IncrementoDecremento.equals("--")){
             if(this.Tipo.equals("<")){
                 
                 for (int i = ValorInicial; i < ValorFinal; i--) {
-                    this.Ejecutar(For_Entorno,this.Id,this.expresion1);
+                    this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "--",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
                     if(this.AvisoBreak==true){
+                        this.AvisoBreak = false;
                         break;
                     }
                     
                 }
+                for (Simbolo Sym : For_Entorno.getTablaSimbolos().values()) {
+                    TextEditor.TablaSimbolos.add(Sym);
+                    }
             }else if (this.Tipo.equals(">")){
                 for (int i = ValorInicial; i > ValorFinal; i--) {
-                    this.Ejecutar(For_Entorno,this.Id,this.expresion1);
+                    this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "--",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
                     if(this.AvisoBreak==true){
+                        this.AvisoBreak = false;
                         break;
                     }
                     
                 }
+                for (Simbolo Sym : For_Entorno.getTablaSimbolos().values()) {
+                    TextEditor.TablaSimbolos.add(Sym);
+                    }
 
             }else if(this.Tipo.equals("<=")){
                 for (int i = ValorInicial; i <= ValorFinal; i--) {
-                    this.Ejecutar(For_Entorno,this.Id,this.expresion1);
+                    this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "--",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
                     if(this.AvisoBreak==true){
+                        this.AvisoBreak = false;
 
                         break;
                     }
                 }
+                for (Simbolo Sym : For_Entorno.getTablaSimbolos().values()) {
+                    TextEditor.TablaSimbolos.add(Sym);
+                    }
 
             }else if (this.Tipo.equals(">=")){
                 for (int i = ValorInicial; i >= ValorFinal; i--) {
-                    this.Ejecutar(For_Entorno,this.Id,this.expresion1);
+                    this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "--",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
                     if(this.AvisoBreak==true){
+                        this.AvisoBreak = false;
                         break;
                     }
                 }
+                for (Simbolo Sym : For_Entorno.getTablaSimbolos().values()) {
+                    TextEditor.TablaSimbolos.add(Sym);
+                    }
 
             }
         }
@@ -139,17 +176,23 @@ public class For extends Instruccion{
         return this;
     }
 
-    public void Ejecutar(Entorno For_Entorno, String id, Expresion Ex){
+    public void Ejecutar(Entorno For_Entorno, String id){
+
+        String Tipo;
                 
         for ( Instruccion instruccion : this.Sentencia_Entorno) {
+               Tipo =instruccion.getTipo();
                instruccion.interpretar(For_Entorno);
-               if(instruccion.getTipo().equals("BREAK")){
-                this.setTipo("BREAK");
-                     
+               if(instruccion.getTipo().equals("BREAK")){ 
+                ///this.setTipo("BREAK");
+                instruccion.setTipo(Tipo);
+                this.AvisoBreak = true;
                 break;
             } 
             if(instruccion.getTipo().equals("CONTINUE")){
-                this.setTipo("CONTINUE");
+                //this.setTipo("CONTINUE");
+                //System.out.println("there?");
+                instruccion.setTipo(Tipo);
                 break; // detenemos las instrucciones pero el ciclo sigue
             } 
               

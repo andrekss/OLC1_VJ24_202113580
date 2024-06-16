@@ -1,15 +1,27 @@
+package client;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 
+import Interpreter.Instruccion;
+import Interpreter.Entornos.Entorno;
+import Interpreter.Entornos.Simbolo;
+
+
 public class TextEditor extends javax.swing.JFrame {
     
     public static JFileChooser chooser = new JFileChooser();
+    public static String Print="";  // Salida de consola
 
+    // Reportes
+    public static LinkedList<Errors> Errores = new LinkedList();
+    public static LinkedList<Simbolo> TablaSimbolos = new LinkedList();
     
     public static int Contador = 0;
     
@@ -206,10 +218,50 @@ public class TextEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// Boton Ejecutar
+        Print = ""; // Borramos el print
+        String EntradaParser = Entrada.getText();
+        analizar(EntradaParser);
+        Consola.setText(Print);
+
+    }
+
+        public static void analizar(String entrada) {
         
-    }//GEN-LAST:event_jButton3ActionPerformed
+        try {
+
+            Language.Lexer lexer = new Language.Lexer(new StringReader(entrada)); // Creación de lexer base en base a la entrada
+            Language.Parser parser = new Language.Parser(lexer); // Creación del parser en base al lexer
+            parser.parse();// Ejecutamos el parser
+            Entorno Global = new Entorno("Global", null);
+
+            for ( Instruccion instruccion : parser.Ejecutar) {
+                instruccion.interpretar(Global);
+            }
+
+            //TablaSimbolos.add(Global.getTablaSimbolos().get("Global"));
+            for (Simbolo Sym : Global.getTablaSimbolos().values()) {
+                TablaSimbolos.add(Sym);
+            }
+
+
+            //System.out.println(parser.parse());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Imprimir información específica sobre la línea exacta del error
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            if (stackTrace.length > 0) {
+                StackTraceElement element = stackTrace[0];
+                System.out.println("Error en la clase: " + element.getClassName());
+                System.out.println("Error en el método: " + element.getMethodName());
+                System.out.println("Error en la línea: " + element.getLineNumber());
+                }
+
+            //System.out.println("Error fatal en compilación de entrada.");
+            //System.out.println(e);
+        }
+    }
+    
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         chooser.showOpenDialog(null);
@@ -223,9 +275,84 @@ public class TextEditor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) { // Reportes
+        String Tablas ="""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Reporte de Errores</title>
+            </head>
+            <body>
+                <table border="1">
+                    <tr>
+                        <th>#</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Línea</th>
+                        <th>Columna</th>
+                    </tr>""";
 
-    }//GEN-LAST:event_jButton5ActionPerformed
+           for (int i = 0; i <Errores.size(); i++) {
+               
+               Tablas +="<tr>"
+                        +"<td>"+i+"</td>"
+                        +"<td>"+Errores.get(i).getTipoError()+"</td>"
+                        +"<td>"+Errores.get(i).getDescripcion()+"</td>"
+                        +"<td>"+Errores.get(i).getLinea()+"</td>"
+                        +"<td>"+Errores.get(i).getColumna()+"</td>"
+                    +"</tr>";            
+           }
+                       Tablas+="""
+                </table>
+            </body>
+            </html>
+                              """;
+                       
+        Generador(Tablas,"Errores.html");
+       
+         Tablas ="""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Reporte de Errores</title>
+            </head>
+            <body>
+                <table border="1">
+                    <tr>
+                        <th>#</th>
+                        <th>Id</th>
+                        <th>Tipo simbolo</th>
+                        <th>Tipo</th>
+                        <th>Entorno</th>
+                        <th>Valor</th>
+                        <th>Línea</th>
+                        <th>Columna</th>
+                    </tr>""";
+
+           for (int i = 0; i <TablaSimbolos.size(); i++) {
+               
+               Tablas +="<tr>"
+                        +"<td>"+i+"</td>"
+                        +"<td>"+TablaSimbolos.get(i).getNombre()+"</td>"
+                        +"<td>"+TablaSimbolos.get(i).getTipoSym()+"</td>"
+                        +"<td>"+TablaSimbolos.get(i).getTipo()+"</td>"
+                        +"<td>"+TablaSimbolos.get(i).getEntorno()+"</td>"
+                        +"<td>"+TablaSimbolos.get(i).getValor()+"</td>"
+                        +"<td>"+TablaSimbolos.get(i).getFila()+"</td>"
+                        +"<td>"+TablaSimbolos.get(i).getColumna()+"</td>"
+                    +"</tr>";            
+           }
+                       Tablas+="""
+                </table>
+            </body>
+            </html>
+                              """;
+                       
+        Generador(Tablas,"Simbolos.html");
+                       
+    }
+
+
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
           Generador(this.Entrada.getText(),"Archivo "+String.valueOf(this.NumeroDeArchivo.getText())+".df");       
@@ -269,7 +396,7 @@ public class TextEditor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTextArea Consola;
-    private javax.swing.JTextArea Entrada;
+    public static javax.swing.JTextArea Entrada;
     private javax.swing.JLabel NumeroDeArchivo;
     private javax.swing.JLabel TipoAnalisis;
     private javax.swing.JButton jButton1;

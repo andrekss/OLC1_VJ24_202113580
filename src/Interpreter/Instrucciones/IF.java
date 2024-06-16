@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
 import Interpreter.Entornos.Entorno;
+import Interpreter.Entornos.Simbolo;
+import client.Errors;
+import client.TextEditor;
 
 public class IF extends Instruccion{
         private Expresion Condicion;
@@ -25,26 +28,36 @@ public class IF extends Instruccion{
         this.Condicion.interpretar(entorno);
 
         if (this.Else_If !=null && this.Condicion.getValor().equalsIgnoreCase("false")){
-            this.Else_If.interpretar(entorno);   // 
+            this.Else_If.interpretar(entorno);  
         }else{
         
 
             if (this.Condicion.getTipo() !="BOOL"){
                 System.out.println("Error Semántico: la condicion del if debe ser tipo boolean");
+
+            // Interfaz
+            Errors error = new Errors("Semántico","la condicion del if debe ser tipo boolean", this.getFila(),this.getColumna());
+            TextEditor.Errores.add(error);
+            TextEditor.Consola.setText("Error Semántico: la condicion del if debe ser tipo boolean." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna());
+            
+
                 return this;
             }
-    
+            Entorno if_Entorno = new Entorno(Instruccion.nombres[5], entorno);
             if (this.Condicion.getValor().equalsIgnoreCase("true")){
-                Entorno if_Entorno = new Entorno(Instruccion.nombres[5], entorno);
                 
+             String Tipo;
              for ( Instruccion instruccion : this.Sentencia_Entorno) {
+                    Tipo = instruccion.getTipo();
                     instruccion.interpretar(if_Entorno);
-                    if(instruccion.getTipo().equals("BREAK")){
+                    if(instruccion.getTipo().equals("BREAK")){ // Rompemos las instrucciones y cambiamos su tipo
+                        instruccion.setTipo(Tipo);
                         this.setTipo("BREAK");
                              
                         break;
                     } 
-                    if(instruccion.getTipo().equals("CONTINUE")){
+                    if(instruccion.getTipo().equals("CONTINUE")){ // Rompemos las instrucciones y cambiamos su tipo
+                        instruccion.setTipo(Tipo);
                         this.setTipo("CONTINUE");
                         break; // detenemos las instrucciones pero el ciclo sigue
                     }                     
@@ -53,14 +66,27 @@ public class IF extends Instruccion{
                 return this;
             }else if (this.Sentencia_Entorno_Else != null){
     
-                Entorno if_Entorno = new Entorno(Instruccion.nombres[5], entorno);
                 
                 for ( Instruccion instruccion : this.Sentencia_Entorno_Else) {
                        instruccion.interpretar(if_Entorno);
+                    if(instruccion.getTipo().equals("BREAK")){ // Rompemos las instrucciones y cambiamos su tipo
+                        this.setTipo("BREAK");
+                             
+                        break;
+                    } 
+                    if(instruccion.getTipo().equals("CONTINUE")){ // Rompemos las instrucciones y cambiamos su tipo
+                        this.setTipo("CONTINUE");
+                        break; // detenemos las instrucciones pero el ciclo sigue
+                    }    
                 }
                    return this;
             }
+            for (Simbolo Sym : if_Entorno.getTablaSimbolos().values()) {
+                TextEditor.TablaSimbolos.add(Sym);
+            }
         }
+
+
         return this;
     }
     

@@ -1,5 +1,6 @@
 import java.io.StringReader;
 import Interpreter.Entornos.*;
+import client.TextEditor;
 import Interpreter.*;
 
 public class main {
@@ -9,13 +10,13 @@ public class main {
     public static int Tipo_Grafica =0;
 
     public static void main(String[] args) {
-    //CrearVentana();
+    CrearVentana();
         
     //analizadores("src/Language/", "Lexer.flex", "Parser.cup");
 
     String Entrada3 = """
     
-            const nota: int = 100;
+const nota: int = 100;
 println("Operaciones aritmeticas");
 var cadena: string = "Vamos " + "por " + "ese " + nota;
 println(cadena);
@@ -70,7 +71,8 @@ println("");
 var j: int = 0;
 var k: int = 10;
     
-/*
+
+println("Match Dificil");
 while (j <= k) {
     match j {
         1 => { println("j es 1"); }
@@ -85,9 +87,10 @@ while (j <= k) {
         10 => { println("j es 10"); }
         _ => { println("j es otro valor"); }
     }
+        println(j);
     j++;
 }
-*/
+
 
 
 
@@ -147,7 +150,7 @@ j es 10
             """;
 
 
-         analizar(Entrada3);
+         //analizar(Entrada3);
     
          String Entrada2="""
             var num : int;
@@ -155,8 +158,6 @@ j es 10
             var nota2 : double = 20.6;
             num2 = 90;
             nota2++;
-
-            var km : string="El sexo del grupo";
 
             // Sentencia
             if (false){
@@ -191,37 +192,23 @@ j es 10
                 break;
             }
 
-            println("--Probando continue--");
 
-            //var i: int=0;
-            for(i=0; i<=2; i++){
-                println(i);
-
-                if(true){
-                    while(true){
-                    println(i);
-                    break;
-                    }
-                }    
-                println(i*5);
-            }
-
-            println("Match");
+            println("---Match---");
 
             
-        /*
+        
             Match true {
-            true =>{
+            false =>{
                 println("Ahora");
             }
             17 >= 20 =>{
-                println("Aa");
+                println("freak");
             }
             _ =>{
-                println("asd");
+                println("dos");
             }
         }
-            */
+            
 
 
         // Sentencias Cíclicas
@@ -231,7 +218,7 @@ j es 10
             }
         } 
 
-        println("variablessdsad---");
+        println("variables---");
 
         var uto: bool =!false;
 
@@ -248,9 +235,25 @@ j es 10
             }
             z = z + 1;
         }    
+
+        println("--Probando continue--");
+
+            //var i: int=0;
+             for(i=0; i<=2; i++){
+                println(i);
+
+                if (true){
+                 if(i==1){
+                 
+                 continue;
+                 }
+                } 
+                println(i*5);
+             }
+
         """;
 
-           // analizar(Entrada2);
+         //analizar(Entrada2);
     String Entrada = """
         // variables
         var num : int;

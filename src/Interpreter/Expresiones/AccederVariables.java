@@ -1,6 +1,8 @@
 package Interpreter.Expresiones;
 import Interpreter.Expresion;
 import Interpreter.Entornos.Entorno;
+import client.Errors;
+import client.TextEditor;
 
 public class AccederVariables extends Expresion{
 
@@ -24,6 +26,13 @@ public class AccederVariables extends Expresion{
             return this;
         }else if(entorno.getAnterior() == null){ // llega la final
             System.out.println("Error Samántico: Esta variable no existe");
+            
+            // Interfaz
+            Errors error = new Errors("Semántico","Esta variable no existe", this.getFila(),this.getColumna());
+            TextEditor.Errores.add(error);
+            TextEditor.Consola.setText("Error Semántico: Esta variable no existe." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna());
+
+
             return this;
 
         }else{

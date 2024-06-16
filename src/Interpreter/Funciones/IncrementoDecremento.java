@@ -2,6 +2,8 @@ package Interpreter.Funciones;
 
 import Interpreter.Instruccion;
 import Interpreter.Entornos.Entorno;
+import client.Errors;
+import client.TextEditor;
 
 public class IncrementoDecremento extends Instruccion{
 
@@ -36,6 +38,11 @@ public class IncrementoDecremento extends Instruccion{
                   }
               }else{
                   System.out.println("Error semántico: El tipo de dato no es int o double");
+                    // Interfaz
+                    Errors error = new Errors("Semántico","El tipo de dato no es int o double", this.getFila(),this.getColumna());
+                    TextEditor.Errores.add(error);
+                    TextEditor.Consola.setText("Error Semántico: El tipo de dato no es int o double." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna());
+
                   return this;
                   
               }
@@ -43,6 +50,11 @@ public class IncrementoDecremento extends Instruccion{
               return this;
           }else{
               System.out.println("Error semántico: La Mutabilidad es Constante no se puede asignar un valor nuevo");
+                    // Interfaz
+                    Errors error = new Errors("Semántico","La Mutabilidad es Constante no se puede asignar un valor nuevo", this.getFila(),this.getColumna());
+                    TextEditor.Errores.add(error);
+                    TextEditor.Consola.setText("Error Semántico: La Mutabilidad es Constante no se puede asignar un valor nuevo." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna());
+
               return this;
           }
         }else if (entorno.getAnterior() != null){
@@ -51,6 +63,11 @@ public class IncrementoDecremento extends Instruccion{
 
         }else if(entorno.getAnterior() ==null){
             System.out.println("Error semántico: La Mutabilidad es Constante no se puede asignar un valor nuevo");
+                    // Interfaz
+                    Errors error = new Errors("Semántico","La Mutabilidad es Constante no se puede asignar un valor nuevo", this.getFila(),this.getColumna());
+                    TextEditor.Errores.add(error);
+                    TextEditor.Consola.setText("Error Semántico: La Mutabilidad es Constante no se puede asignar un valor nuevo." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna());
+
             return this;
         }
         return this;

@@ -11,6 +11,8 @@ import Interpreter.Instrucciones.*;
 import Interpreter.Funciones.*;
 import Interpreter.Instruccion;
 import Interpreter.Expresion;
+import client.Errors;
+import client.TextEditor;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
 
@@ -497,19 +499,26 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
     public LinkedList<Instruccion> Ejecutar;
-    public LinkedList<LinkedList<Instruccion>> Cases;
-    public LinkedList<Expresion> Caso;
+    public LinkedList<LinkedList<Instruccion>> Cases =  new LinkedList<>();
+    public LinkedList<Expresion> Caso =  new LinkedList<>();
     
     public String resultado = ""; 
 
     public void syntax_error(Symbol s)
     {
             System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
+            Errors error = new Errors("Sintáctico","Se esperaba este "+s.value,s.right, s.left);
+            TextEditor.Errores.add(error);
+            TextEditor.Consola.setText("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
     {
             System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion." );
+            Errors error = new Errors("Sintáctico","Se esperaba este "+ s.value,s.right, s.left);
+            TextEditor.Errores.add(error);
+
+            TextEditor.Consola.setText("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion.");
     }
 
 
