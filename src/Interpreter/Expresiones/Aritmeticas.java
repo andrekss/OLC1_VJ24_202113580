@@ -26,7 +26,7 @@ public class Aritmeticas extends Expresion {
         }else if (this.Operacion.equals("-")){
             Funcs.Resta(this.izq, this.der,this);
         }else if (this.Operacion.equals("*")){
-            Funciones.Multiplicación(this.izq,this.der,this);
+            Funcs.Multiplicación(this.izq,this.der,this);
         }else if (this.Operacion.equals("/")){
             Funcs.Division(this.izq, this.der,this);
         }else if (this.Operacion.equals("%")){

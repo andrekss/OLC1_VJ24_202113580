@@ -9,7 +9,7 @@ public class Dato extends Expresion {
     
     @Override
     public Expresion interpretar(Entorno entorno) {
-        this.setValor(Funciones.eliminarComillas(this.getValor()));
+        this.setValor(Funcs.eliminarComillas(this.getValor()));
         // super.interpretar(entorno); 
         return this;
     }

@@ -664,7 +664,8 @@ public class Funcs {
         if (Operador.equals("==")){
             if (izq.getValor().equals(der.getValor())){
                 return "true";
-            }else{
+            }
+            else{
                 return "false";
             }
         }else if(Operador.equals("!=")){
@@ -709,8 +710,22 @@ public class Funcs {
             return object;
         }
 
+        object.setTipo("ERROR"); 
+        System.err.println("Error Semántico: Error de tipo de Expresion");
+        // Interfaz
+        Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
+        TextEditor.Errores.add(error);
+        TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
    
         return object;
 
+    }
+
+    // Funciones Extra
+        public static String eliminarComillas(String input) {
+        if (input .equals( null)) {
+            return null;
+        }
+        return input.replaceAll("[\"']", "");
     }
 }
