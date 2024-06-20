@@ -22,13 +22,13 @@ public class Logicas extends  Expresion{
         this.der.interpretar(entorno);
         
         // no se pueden hacer con valores booleanos
-        if (this.Operacion== "||"){
+        if (this.Operacion.equals( "||")){
             Funcs.Or(this.izq,this.der,this);
             //Funciones.OperacionesLogicas(this.izq, this.Operacion, this.der, this,Boolean.parseBoolean(this.izq.getValor()) || Boolean.parseBoolean(this.der.getValor()));
-        }else if (this.Operacion== "&&"){
+        }else if (this.Operacion.equals("&&")){
             Funcs.And(this.izq,this.der,this);
             //Funciones.OperacionesLogicas(this.izq, this.Operacion, this.der, this,Boolean.parseBoolean(this.izq.getValor()) && Boolean.parseBoolean(this.der.getValor()));
-        }else if (this.Operacion== "^"){
+        }else if (this.Operacion.equals("^")){
             Funcs.XOR(this.izq,this.der,this);
             //Funciones.OperacionesLogicas(this.izq, this.Operacion, this.der, this,Boolean.parseBoolean(this.izq.getValor()) ^ Boolean.parseBoolean(this.der.getValor()));
         }

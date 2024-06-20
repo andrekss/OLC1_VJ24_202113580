@@ -21,8 +21,25 @@ public class Relacionales extends  Expresion{
         // Interpretamos los operadores
         this.izq.interpretar(entorno);
         this.der.interpretar(entorno);
+
+        if (this.Operacion.equals("==")){
+            Funcs.Relacionar(this.izq, this.der, this, this.Operacion);
+           
+        }else if (this.Operacion.equals("!=")){
+            Funcs.Relacionar(this.izq, this.der, this, this.Operacion);
+        }else if (this.Operacion.equals("<")){
+            Funcs.Relacionar(this.izq, this.der, this, this.Operacion);
+        }else if (this.Operacion.equals("<=")){
+            Funcs.Relacionar(this.izq, this.der, this, this.Operacion);
+        }else if (this.Operacion.equals(">")){
+            Funcs.Relacionar(this.izq, this.der, this, this.Operacion);
+        }else if (this.Operacion.equals(">=")){
+            Funcs.Relacionar(this.izq, this.der, this, this.Operacion);
+        }
         
+        /* 
         // no se pueden hacer con valores booleanos
+        
         if (this.Operacion== "=="){
             try {
                 
@@ -196,10 +213,11 @@ public class Relacionales extends  Expresion{
                   }           
               }
            
-        }
+        }*/
         return this;
     }
 
+    /* 
     public static boolean compararValores(Expresion izq, Expresion der,String type) {
         String izqTipo = izq.getTipo();
         String derTipo = der.getTipo();
@@ -347,7 +365,7 @@ public class Relacionales extends  Expresion{
         }
         return false; // or throw an exception for unsupported types
     }
-
+*/
 
     
 }

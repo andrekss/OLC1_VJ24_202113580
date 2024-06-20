@@ -13,10 +13,10 @@ public class Negacion extends Expresion {
 
     @Override
     public Expresion interpretar(Entorno entorno) {
-        if (this.getTipo()=="INT") {
+        if (this.getTipo().equals("INT")) {
             this.setValor(String.valueOf(-1 * Integer.parseInt(this.getValor())));
             return this;
-        } else if (this.getTipo()=="DOUBLE"){
+        } else if (this.getTipo().equals("DOUBLE")){
             this.setValor(String.valueOf(-1 * Double.parseDouble(this.getValor())));
             return this;
         }

@@ -6,6 +6,7 @@ import client.TextEditor;
 
 public class Funcs {
 
+    
     // Aritméticas
      public static Aritmeticas Suma(Expresion izq,Expresion der,Aritmeticas object){
         if(izq.getTipo().equals("INT") && der.getTipo().equals("INT")){
@@ -638,4 +639,78 @@ public class Funcs {
     }
 
     // RELACIONALES
+    public static double ConvertirBool(Expresion valor){
+        if (valor.getValor().equalsIgnoreCase("true")){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    public static double CastearConveniencia(Expresion object){
+        if (object.getTipo().equals("INT") && object.getTipo().equals("INT")){
+            return Double.parseDouble(object.getValor());
+        }else if (object.getTipo().equals("BOOL")){
+            return ConvertirBool(object);
+        }else if (object.getTipo().equals("CHAR")){
+            return 1.0;
+        }else if (object.getTipo().equals("STRING")){
+            return object.getValor().length();
+        }
+        return 0.0;
+    }
+
+    public static String OperarRelacionales(Expresion izq,Expresion der,String Operador){
+        if (Operador.equals("==")){
+            if (izq.getValor().equals(der.getValor())){
+                return "true";
+            }else{
+                return "false";
+            }
+        }else if(Operador.equals("!=")){
+            if (!izq.getValor().equals(der.getValor())){
+                return "true";
+            }else{
+                return "false";
+            }
+        }else if (Operador.equals("<")){
+            if (CastearConveniencia(izq)<CastearConveniencia(der)){
+                return "true";
+            }else{
+                return "false";
+            }
+        }else if (Operador.equals("<=")){
+            if (CastearConveniencia(izq)<=CastearConveniencia(der)){
+                return "true";
+            }else{
+                return "false";
+            }
+        }else if (Operador.equals(">")){
+            if (CastearConveniencia(izq)>CastearConveniencia(der)){
+                return "true";
+            }else{
+                return "false";
+            }
+        }else if (Operador.equals(">=")){
+            if (CastearConveniencia(izq)>=CastearConveniencia(der)){
+                return "true";
+            }else{
+                return "false";
+            }
+        }
+        return "";
+    }
+
+    public static Relacionales Relacionar(Expresion izq,Expresion der,Relacionales object,String Operador){
+
+        if (izq.getTipo().equals("INT") || der.getTipo().equals("INT") || izq.getTipo().equals("DOUBLE") || der.getTipo().equals("DOUBLE") || izq.getTipo().equals("BOOL") || der.getTipo().equals("BOOL") || izq.getTipo().equals("CHAR") || der.getTipo().equals("CHAR") || izq.getTipo().equals("DOUBLE") && der.getTipo().equals("INT") || izq.getTipo().equals("INT") && der.getTipo().equals("DOUBLE") || izq.getTipo().equals("CHAR") && der.getTipo().equals("INT") || izq.getTipo().equals("CHAR") && der.getTipo().equals("DOUBLE") || izq.getTipo().equals("INT") && der.getTipo().equals("CHAR") || izq.getTipo().equals("DOUBLE") && der.getTipo().equals("CHAR")){
+            object.setValor(OperarRelacionales(izq, der, Operador));
+            object.setTipo("BOOL");
+            return object;
+        }
+
+   
+        return object;
+
+    }
 }

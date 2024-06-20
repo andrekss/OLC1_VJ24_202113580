@@ -21,17 +21,17 @@ public class Aritmeticas extends Expresion {
         this.izq.interpretar(entorno);
         this.der.interpretar(entorno);
         
-        if (this.Operacion== "+"){
+        if (this.Operacion.equals( "+")){
             Funcs.Suma(this.izq, this.der,this);
-        }else if (this.Operacion== "-"){
+        }else if (this.Operacion.equals("-")){
             Funcs.Resta(this.izq, this.der,this);
-        }else if (this.Operacion== "*"){
+        }else if (this.Operacion.equals("*")){
             Funciones.Multiplicación(this.izq,this.der,this);
-        }else if (this.Operacion== "/"){
+        }else if (this.Operacion.equals("/")){
             Funcs.Division(this.izq, this.der,this);
-        }else if (this.Operacion== "%"){
+        }else if (this.Operacion.equals("%")){
             Funcs.Modulo(this.izq,  this.der,this);
-        }else if (this.Operacion== "**"){
+        }else if (this.Operacion.equals("**")){
             Funcs.Potencia(this.izq, this.der,this);
         }
         return this;
