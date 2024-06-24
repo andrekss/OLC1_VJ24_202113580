@@ -63,6 +63,7 @@ terminal String MATCH, DEFAULT, WHILE, FOR, DO, CONTINUE, RETURN, UMENOS, BREAK;
 //------> Declaración de no terminales
 non terminal LinkedList<Instruccion> inicio, instrucciones;
 non terminal LinkedList<Expresion> Datos_Una_Dimension;
+non terminal LinkedList<LinkedList<Expresion>> Datos_Dos_Dimension; 
 non terminal String Mutabilidad;
 non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Strcuct_Match, Cases;
 non terminal Sen_Return;
@@ -246,5 +247,10 @@ Datos_Una_Dimension ::= EXPRESION:a                               {: RESULT = ne
                       | Datos_Una_Dimension:a Coma EXPRESION:b    {: RESULT = a; RESULT.add(b); :}
 ;
 
+Datos_Dos_Dimension ::= C_ABRE Datos_Una_Dimension:a C_CIERRA                             {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+                      | Datos_Dos_Dimension:a Coma C_ABRE Datos_Una_Dimension:b C_CIERRA  {: RESULT = a; RESULT.add(b); :}
+;
+
 Vectores ::= Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_CIERRA IGUAL C_ABRE Datos_Una_Dimension:v1 C_CIERRA {: RESULT = new Vectores(v1,null,t,i,m,iright, ileft); :}
+           | Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_CIERRA C_ABRE C_CIERRA IGUAL C_ABRE Datos_Dos_Dimension:v2 C_CIERRA {: RESULT = new Vectores(null,v2,t,i,m,iright, ileft); :}
 ;

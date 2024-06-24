@@ -28,11 +28,11 @@ public class Vectores extends Instruccion{
     @Override
     public Instruccion interpretar(Entorno entorno) {
         if (this.Vector1 != null){   // Para vectores de una dimension
-            // Errores 
-            System.out.println("Vector");
+            // Errores e interpretación
+            //System.out.println("--Vector--");
             for (Expresion expresion : this.Vector1) {
                 expresion.interpretar(entorno);
-                System.out.println(expresion.getValor());
+               // System.out.println(expresion.getValor());
                 if(!this.Tipo.equalsIgnoreCase(expresion.getTipo())){
                     Semántico(this);
                 }
@@ -42,15 +42,18 @@ public class Vectores extends Instruccion{
 
             return this;
         }else if (this.Vector2 != null){ // Para vectores de dos dimensiones
-            // Errores
+            // Errores e interpretación
+            //System.out.println("--Vector 2 dimensiones--");
             for (LinkedList<Expresion> Vector1: this.Vector2) {
                 for (Expresion expresion : Vector1) {
                     expresion.interpretar(entorno);
+                    //System.out.println(expresion.getValor());
                     if (!this.Tipo.equalsIgnoreCase(expresion.getTipo())) {
                         Semántico(this);
                     }
                     
-                }   
+                }
+                //System.out.println("\n");   
             }
 
             entorno.AgregarSimbolo(this.Identificador, this.Vector1, this.Tipo,this.Mutabilidad,Instruccion.nombres[11] ,entorno.getNombre() ,this.getFila(), this.getColumna());
