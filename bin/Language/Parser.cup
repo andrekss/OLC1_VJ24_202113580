@@ -67,8 +67,8 @@ non terminal LinkedList<LinkedList<Expresion>> Datos_Dos_Dimension;
 non terminal String Mutabilidad;
 non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Strcuct_Match, Cases;
 non terminal Sen_Return;
-non terminal Expresion EXPRESION, Entry_Cases;
-non terminal Instruccion instruccion, Func_Print, Dec_Variables,Variables,Asignar_Valor,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
+non terminal Expresion EXPRESION, Entry_Cases, AccederVectores;
+non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
 non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores;
 non terminal String Tipos_Dato,Tipo_Incremento, Signos_For;
 
@@ -139,6 +139,7 @@ EXPRESION ::= MENOS EXPRESION:e                             {: RESULT = new Nega
             | CAD:e                                         {: RESULT=new Dato(e,"STRING", eright, eleft); :}
             | P_ABRE Tipos_Dato:tipo P_CIERRA EXPRESION:e   {: RESULT = e; /*e.interpretar(null); RESULT = new Dato(e.getValor(),tipo, eright, eleft);*/ :} // Casteos
             | IDENTIFICADOR:id                              {: RESULT = new AccederVariables(id,idright, idleft); :}
+            | AccederVectores:a                             {: RESULT=a; :}
             | EXPRESION:a COMPARACION EXPRESION:b           {: RESULT = new Relacionales(a,"==",b,aright, aleft); :}
             | EXPRESION:a DIFERENCIA EXPRESION:b            {: RESULT = new Relacionales(a,"!=",b,aright, aleft); :}     
             | EXPRESION:a MENOR_IGUAL EXPRESION:b           {: RESULT = new Relacionales(a,"<=",b,aright, aleft); :} 
@@ -251,6 +252,21 @@ Datos_Dos_Dimension ::= C_ABRE Datos_Una_Dimension:a C_CIERRA                   
                       | Datos_Dos_Dimension:a Coma C_ABRE Datos_Una_Dimension:b C_CIERRA  {: RESULT = a; RESULT.add(b); :}
 ;
 
-Vectores ::= Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_CIERRA IGUAL C_ABRE Datos_Una_Dimension:v1 C_CIERRA {: RESULT = new Vectores(v1,null,t,i,m,iright, ileft); :}
-           | Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_CIERRA C_ABRE C_CIERRA IGUAL C_ABRE Datos_Dos_Dimension:v2 C_CIERRA {: RESULT = new Vectores(null,v2,t,i,m,iright, ileft); :}
+Dec_Vectores ::= Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_CIERRA IGUAL C_ABRE Datos_Una_Dimension:v1 C_CIERRA {: RESULT = new Vectores(v1,null,t,i,m,iright, ileft); :}
+               | Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_CIERRA C_ABRE C_CIERRA IGUAL C_ABRE Datos_Dos_Dimension:v2 C_CIERRA {: RESULT = new Vectores(null,v2,t,i,m,iright, ileft); :}
 ;
+
+Asignar_Valor_Vectores ::= IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA IGUAL EXPRESION
+                        |  IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA C_ABRE EXPRESION:y C_CIERRA IGUAL EXPRESION
+;
+
+Vectores ::= Dec_Vectores
+           | Asignar_Valor_Vectores
+;
+
+// Acceso Vectores
+
+AccederVectores ::= IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA                              {: RESULT = new AccederVectores(i,x,x,"Vector1",iright, ileft); :}  // una dimensión
+                  | IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA C_ABRE EXPRESION:y C_CIERRA  {: RESULT = new AccederVectores(i,x,y,"Vector2",iright, ileft); :}// dos dimensiones
+;
+

@@ -33,11 +33,7 @@ public class AccederVariables extends Expresion{
             this.interpretar(entorno.getAnterior()); // irá retrocediendo hasta encontrar la variable en otro entorno
             return this;
         }
-       /*  else{
-            System.out.println("Error Samántico: Esta variable no existe");
-            return this;
-        }*/
-
+       
     }
     
 }

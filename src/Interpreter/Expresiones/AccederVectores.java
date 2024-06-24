@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import Interpreter.Expresion;
 import Interpreter.Entornos.Entorno;
+import Interpreter.Utils;
 
 public class AccederVectores extends Expresion{
     private String Id ;
@@ -23,27 +24,47 @@ public class AccederVectores extends Expresion{
         this.x.interpretar(entorno);
         this.y.interpretar(entorno);
 
-        if (!this.x.getTipo().equals("INT") || !this.getTipo().equals("INT")){
-            
+        if (!this.x.getTipo().equals("INT") || !this.y.getTipo().equals("INT")){
+            Utils.ErroresSemánticosExpresion(this,"Alguno de los índices no son tipo int. ");
             return this;
         }
+        
+        if(entorno.getTablaSimbolos().containsKey(this.Id)){ // Verificar que exista el vector
 
-        if (TipoVector.equals("Vector1")){ // Vectores de una dimensión
+            if (TipoVector.equals("Vector1") ){ // Vectores de una dimensión
+    
+                //Obtenemos La lista
+                LinkedList<Expresion> Vector1=(LinkedList<Expresion>) entorno.getTablaSimbolos().get(this.Id).getValor();
+                
+                String Valor = Vector1.get(Integer.parseInt(this.x.getValor())).getValor();
+                String Tipo =entorno.getTablaSimbolos().get(this.Id).getTipo();
+              
+                this.setValor(Valor);
+                this.setTipo(Tipo);
+                return this;
+    
+            }else if (TipoVector.equals("Vector2")) { // Vectores de 2 dimensiones
+                //Obtenemos La lista
+                LinkedList<LinkedList<Expresion>> Vector2=(LinkedList<LinkedList<Expresion>>) entorno.getTablaSimbolos().get(this.Id).getValor();
+                String valor = Vector2.get(Integer.parseInt(this.x.getValor())).get(Integer.parseInt(this.y.getValor())).getValor();
+                String Tipo =entorno.getTablaSimbolos().get(this.Id).getTipo();
+               
+                this.setValor(valor);
+                this.setTipo(Tipo);
+                return this;
+            }
+        }else if(entorno.getAnterior() == null){ // llega la final
 
-            //Obtenemos La lista
-            LinkedList<Expresion> Vector1=(LinkedList<Expresion>) entorno.getTablaSimbolos().get(this.Id).getValor();
-            
-            String Valor = Vector1.get(Integer.parseInt(this.x.getValor())).getValor();
-            String Tipo =entorno.getTablaSimbolos().get(this.Id).getTipo();
-          
-            this.setValor(Valor);
-            this.setTipo(Tipo);
+            Utils.ErroresSemánticosExpresion(this,"Este vector no existe. ");
             return this;
 
-        }else if (TipoVector.equals("Vector2")) { // Vectores de 2 dimensiones
-
+        }else{
+            this.interpretar(entorno.getAnterior()); // irá retrocediendo hasta encontrar la variable en otro entorno
+            return this;
         }
         return this;
+    
+        
     }
     
 }
