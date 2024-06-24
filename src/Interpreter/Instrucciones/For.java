@@ -2,6 +2,7 @@ package Interpreter.Instrucciones;
 import java.util.LinkedList;
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
+import Interpreter.Utils;
 import Interpreter.Entornos.Entorno;
 import Interpreter.Entornos.Simbolo;
 import Interpreter.Funciones.*;
@@ -36,7 +37,7 @@ public class For extends Instruccion{
 
         if (!this.expresion1.getTipo().equals("INT") && !this.expresion2.getTipo().equals("INT")){
             System.out.println("Error Semántico: Los rangos deben de ser de tipo int");
-            
+           // Utils.ErroresSemánticosInstruccion(this,"Los rangos deben de ser de tipo int. ");
             return this;
         }
         

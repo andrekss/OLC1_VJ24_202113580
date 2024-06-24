@@ -3,6 +3,7 @@ package Interpreter.Expresiones;
 import javax.print.DocFlavor.STRING;
 
 import Interpreter.Expresion;
+import Interpreter.Utils;
 import client.Errors;
 import client.TextEditor;
 
@@ -195,13 +196,7 @@ public class Funcs {
             object.setValor(resultado);
             return object;
         }
-            object.setTipo("ERROR"); 
-            System.err.println("Error Semántico: Error de tipo de Expresion");
-            // Interfaz
-            Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-            TextEditor.Errores.add(error);
-            TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-
+            Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
             return object;
 
 
@@ -287,16 +282,8 @@ public class Funcs {
             object.setValor(resultado);
             return object;
         }
-
         
-
-        object.setTipo("ERROR"); 
-        System.err.println("Error Semántico: Error de tipo de Expresion");
-        // Interfaz
-        Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-
+        Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
         return object;
         
      }
@@ -379,13 +366,7 @@ public class Funcs {
             object.setValor(resultado);
             return object;
         }        
-        object.setTipo("ERROR"); 
-        System.err.println("Error Semántico: Error de tipo de Expresion");
-        // Interfaz
-        Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-
+        Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
         return object;
 
      }
@@ -474,13 +455,7 @@ public class Funcs {
             object.setValor(resultado);
             return object;
         }
-        object.setTipo("ERROR"); 
-        System.err.println("Error Semántico: Error de tipo de Expresion");
-        // Interfaz
-        Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-
+        Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
         return object;
 
      }
@@ -521,13 +496,7 @@ public class Funcs {
             return object;
         }
 
-        object.setTipo("ERROR"); 
-        System.err.println("Error Semántico: Error de tipo de Expresion");
-        // Interfaz
-        Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-
+        Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
         return object;
 
 
@@ -568,16 +537,8 @@ public class Funcs {
             object.setValor(resultado);
             return object;
         }
-
-        object.setTipo("ERROR"); 
-        System.err.println("Error Semántico: Error de tipo de Expresion");
-        // Interfaz
-        Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-
+        Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
         return object;
-
      }
 
      // LOGICAS
@@ -607,13 +568,7 @@ public class Funcs {
         object.setTipo("BOOL");
         return object;
      }
-     object.setTipo("ERROR"); 
-     System.err.println("Error Semántico: Error de tipo de Expresion");
-     // Interfaz
-     Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-     TextEditor.Errores.add(error);
-     TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-
+     Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
      return object;
 
     } 
@@ -627,13 +582,7 @@ public class Funcs {
             return object;
         }
 
-        object.setTipo("ERROR"); 
-        System.err.println("Error Semántico: Error de tipo de Expresion");
-        // Interfaz
-        Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-   
+        Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
         return object;
 
 
@@ -726,13 +675,7 @@ public class Funcs {
             return object;
         }
 
-        object.setTipo("ERROR"); 
-        System.err.println("Error Semántico: Error de tipo de Expresion");
-        // Interfaz
-        Errors error = new Errors("Semántico","Error de tipo de Expresion",der.getFila() ,der.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error Semántico: Error de tipo de Expresion." + " | Fila:" +der.getFila() + " | Columna: " + der.getColumna()+"\n";
-   
+        Utils.ErroresSemánticosExpresion(object,"Error de tipo expresion ");
         return object;
 
     }

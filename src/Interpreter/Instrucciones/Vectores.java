@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
+import Interpreter.Utils;
 import Interpreter.Entornos.Entorno;
 import client.Errors;
 import client.TextEditor;
@@ -34,7 +35,7 @@ public class Vectores extends Instruccion{
                 expresion.interpretar(entorno);
                // System.out.println(expresion.getValor());
                 if(!this.Tipo.equalsIgnoreCase(expresion.getTipo())){
-                    Semántico(this);
+                    Utils.ErroresSemánticosInstruccion(this,"Error de tipo de dato en declaracion del vector. ");
                 }
             }
             
@@ -49,7 +50,8 @@ public class Vectores extends Instruccion{
                     expresion.interpretar(entorno);
                     //System.out.println(expresion.getValor());
                     if (!this.Tipo.equalsIgnoreCase(expresion.getTipo())) {
-                        Semántico(this);
+                        
+                        Utils.ErroresSemánticosInstruccion(this,"Error de tipo de dato en declaracion del vector. ");
                     }
                     
                 }
@@ -61,16 +63,5 @@ public class Vectores extends Instruccion{
         }
         return this;
     }
-
-    public static void Semántico(Instruccion Object){
-        System.out.println("Error semántico: Error de tipo de dato en declaracion del vector");
-
-        // Interfaz
-        Errors error = new Errors("Error semántico","Error de tipo de dato en declaracion del vector", Object.getFila(),Object.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error semántico: Error de tipo de dato en declaracion del vector." + " | Fila:" +Object.getFila() + " | Columna: " + Object.getColumna()+"\n";
-        
-    }
-
 
 }

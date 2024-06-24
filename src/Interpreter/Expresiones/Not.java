@@ -1,5 +1,6 @@
 package Interpreter.Expresiones;
 import Interpreter.Expresion;
+import Interpreter.Utils;
 import Interpreter.Entornos.Entorno;
 import client.Errors;
 import client.TextEditor;
@@ -28,12 +29,7 @@ public class Not extends Expresion{
         } 
         //TextEditor.Print+="Error Semántico: Error en la operacion Not.";
                                         // Interfaz
-            Errors error = new Errors("Semántico","Error en la operacion Not",this.getFila() ,this.getColumna());
-            TextEditor.Errores.add(error);
-            TextEditor.Print+="Error Semántico: Error en la operacion Not." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna()+"\n";
-
-
-        
+        Utils.ErroresSemánticosExpresion(this,"Error en la operacion Not. ");                                       
         return this;
     }
 }

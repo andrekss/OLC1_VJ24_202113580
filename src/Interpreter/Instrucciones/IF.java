@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
+import Interpreter.Utils;
 import Interpreter.Entornos.Entorno;
 import Interpreter.Entornos.Simbolo;
 import client.Errors;
@@ -33,13 +34,7 @@ public class IF extends Instruccion{
         
 
             if (this.Condicion.getTipo() !="BOOL"){
-                System.out.println("Error Semántico: la condicion del if debe ser tipo boolean");
-
-            // Interfaz
-            Errors error = new Errors("Semántico","la condicion del if debe ser tipo boolean", this.getFila(),this.getColumna());
-            TextEditor.Errores.add(error);
-           TextEditor.Print+="Error Semántico: la condicion del if debe ser tipo boolean." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna()+"\n";
-            
+                Utils.ErroresSemánticosInstruccion(this,"la condicion del if debe ser tipo boolean. ");
 
                 return this;
             }

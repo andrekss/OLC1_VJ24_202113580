@@ -3,6 +3,7 @@ import Interpreter.Entornos.Entorno;
 import client.Errors;
 import client.TextEditor;
 import Interpreter.Expresion;
+import Interpreter.Utils;
 
 public class Negacion extends Expresion {
 
@@ -27,12 +28,8 @@ public class Negacion extends Expresion {
             this.setValor(String.valueOf(-1 * Double.parseDouble(this.Exp.getValor())));
             return this;
         }
-        System.out.println("Error Semántico: Error en la operacion negativo.");
-        // Interfaz
-        Errors error = new Errors("Semántico","Error en la operacion negativo",this.getFila() ,this.getColumna());
-        TextEditor.Errores.add(error);
-        TextEditor.Print+="Error Semántico: Error en la operacion negativo." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna()+"\n";
 
+        Utils.ErroresSemánticosExpresion(this,"Error en la operacion negativo. ");
         return this;
         
     }

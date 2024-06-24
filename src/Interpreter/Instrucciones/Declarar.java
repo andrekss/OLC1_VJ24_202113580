@@ -2,8 +2,7 @@ package Interpreter.Instrucciones;
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
 import Interpreter.Entornos.Entorno;
-import client.Errors;
-import client.TextEditor;
+import Interpreter.Utils;
 
 public class Declarar extends Instruccion {
     private Expresion expresion;
@@ -24,13 +23,8 @@ public class Declarar extends Instruccion {
         if (this.expresion != null){
          this.expresion.interpretar(entorno);
          if(this.expresion.getTipo() != this.Tipo){
-             System.out.println("Error semántico: Error de tipo de dato en declaracion de variable");
-            
-             // Interfaz
-            Errors error = new Errors("Semántico","Error de tipo de dato en declaracion de variable", this.getFila(),this.getColumna());
-            TextEditor.Errores.add(error);
-            TextEditor.Print+="Error Semántico: Error de tipo de dato en declaracion de variable." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna()+"\n";
-                        
+
+            Utils.ErroresSemánticosInstruccion(this,"Error de tipo de dato en declaracion de variable. ");
              return this;
          }
          //Agregamos la variable
