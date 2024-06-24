@@ -30,7 +30,8 @@ parser code
             System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
             Errors error = new Errors("Sintáctico","Se esperaba este "+s.value,s.right, s.left);
             TextEditor.Errores.add(error);
-            TextEditor.Consola.setText("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado" );
+
+            TextEditor.Print+="Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Recuperado"+"\n";
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
@@ -38,8 +39,7 @@ parser code
             System.err.println("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion." );
             Errors error = new Errors("Sintáctico","Se esperaba este "+ s.value,s.right, s.left);
             TextEditor.Errores.add(error);
-
-            TextEditor.Consola.setText("Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion.");
+            TextEditor.Print+="Error Sintactico: "+ s.value + " - Fila: " + s.right + " - Columna: " + s.left + ". Sin recuperacion."+"\n";
     }
 
 :}
@@ -69,8 +69,8 @@ non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Strcuct_Match, Cases;
 non terminal Sen_Return;
 non terminal Expresion EXPRESION, Entry_Cases, AccederVectores;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
-non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores;
-non terminal String Tipos_Dato,Tipo_Incremento, Signos_For;
+non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento;
+non terminal String Tipos_Dato, Signos_For;
 
 // Presedencia
 precedence left OR;
@@ -226,18 +226,13 @@ Sen_Ciclicas ::=  Sen_While:a           {: RESULT =a; :}
 Sen_While ::= WHILE P_ABRE EXPRESION:c P_CIERRA LLAVE_A instrucciones:i LLAVE_C   {: RESULT = new While(c,i,"While",cright, cleft); :}
 ;
 
-Signos_For ::= MAYOR:a        {: RESULT=a; :}
-	     | MENOR:a        {: RESULT=a; :}
-	     | MAYOR_IGUAL:a  {: RESULT=a; :}
-	     | MENOR_IGUAL:a  {: RESULT=a; :}
+
+Tipo_Incremento ::= Incremento_Decremento:a {: RESULT=a; :}
+                  | Asignar_Valor:a         {: RESULT=a; :}
 ;
 
-Tipo_Incremento ::= MAS MAS     {: RESULT = "++"; :}
-                  | MENOS MENOS {: RESULT = "--"; :}
-;
-
-Sen_For ::= FOR P_ABRE IDENTIFICADOR:id IGUAL EXPRESION:a1 P_Coma IDENTIFICADOR Signos_For:sig EXPRESION:a2 P_Coma IDENTIFICADOR Tipo_Incremento:in  P_CIERRA LLAVE_A instrucciones:i LLAVE_C
-{: RESULT = new For(i,a1,a2,in,sig,id,idright, idleft); :}
+Sen_For ::= FOR P_ABRE Asignar_Valor:a P_Coma EXPRESION:e P_Coma Tipo_Incremento:in  P_CIERRA LLAVE_A instrucciones:i LLAVE_C
+{: RESULT = new For(i,a,e,in,iright, ileft); :}
 ;
 
 Sen_Do_While ::= DO LLAVE_A instrucciones:i LLAVE_C WHILE P_ABRE EXPRESION:c P_CIERRA  {: RESULT = new While(c,i,"Do",cright, cleft); :}
@@ -256,12 +251,12 @@ Dec_Vectores ::= Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_
                | Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_CIERRA C_ABRE C_CIERRA IGUAL C_ABRE Datos_Dos_Dimension:v2 C_CIERRA {: RESULT = new Vectores(null,v2,t,i,m,iright, ileft); :}
 ;
 
-Asignar_Valor_Vectores ::= IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA IGUAL EXPRESION
-                        |  IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA C_ABRE EXPRESION:y C_CIERRA IGUAL EXPRESION
+Asignar_Valor_Vectores ::= IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA IGUAL EXPRESION:e                               {: RESULT = new Asignar_Vectores(e,i,x,x,"Vector1",iright, ileft); :}
+                        |  IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA C_ABRE EXPRESION:y C_CIERRA IGUAL EXPRESION:e   {: RESULT = new Asignar_Vectores(e,i,x,y,"Vector2",iright, ileft); :}
 ;
 
-Vectores ::= Dec_Vectores
-           | Asignar_Valor_Vectores
+Vectores ::= Dec_Vectores:a              {: RESULT = a; :}
+           | Asignar_Valor_Vectores:a    {: RESULT = a; :}
 ;
 
 // Acceso Vectores

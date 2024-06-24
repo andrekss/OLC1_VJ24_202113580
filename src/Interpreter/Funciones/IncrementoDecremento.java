@@ -4,7 +4,6 @@ import Interpreter.Instruccion;
 import Interpreter.Utils;
 import Interpreter.Entornos.Entorno;
 
-
 public class IncrementoDecremento extends Instruccion{
 
     private String id;
@@ -19,8 +18,8 @@ public class IncrementoDecremento extends Instruccion{
     @Override
     public Instruccion interpretar(Entorno entorno) {
         if(entorno.getTablaSimbolos().get(this.id) !=null) {
-          if (entorno.getTablaSimbolos().get(this.id).getMutabilidad() =="VAR"){
-              if (entorno.getTablaSimbolos().get(this.id).getTipo() =="INT"){
+          if (entorno.getTablaSimbolos().get(this.id).getMutabilidad().equals("VAR")){
+              if (entorno.getTablaSimbolos().get(this.id).getTipo().equals("INT")){
                   int ValorAnterior = Integer.parseInt((String) entorno.getTablaSimbolos().get(this.id).getValor());
                   if(this.señal == "++"){
                    entorno.getTablaSimbolos().get(this.id).setValor(String.valueOf(ValorAnterior+1));
@@ -28,7 +27,7 @@ public class IncrementoDecremento extends Instruccion{
                       entorno.getTablaSimbolos().get(this.id).setValor(String.valueOf(ValorAnterior-1));  
                       return this;
                   }
-              } else if ( entorno.getTablaSimbolos().get(this.id).getTipo() =="DOUBLE"){
+              } else if ( entorno.getTablaSimbolos().get(this.id).getTipo().equals("DOUBLE")){
                   double ValorAnterior = Double.parseDouble((String)entorno.getTablaSimbolos().get(this.id).getValor());
                   if(this.señal == "++"){
                    entorno.getTablaSimbolos().get(this.id).setValor(String.valueOf(ValorAnterior+1.0));

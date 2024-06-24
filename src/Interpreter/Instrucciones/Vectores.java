@@ -6,8 +6,6 @@ import Interpreter.Expresion;
 import Interpreter.Instruccion;
 import Interpreter.Utils;
 import Interpreter.Entornos.Entorno;
-import client.Errors;
-import client.TextEditor;
 
 public class Vectores extends Instruccion{
 

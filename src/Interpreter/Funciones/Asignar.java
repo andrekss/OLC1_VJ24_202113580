@@ -2,8 +2,6 @@ package Interpreter.Funciones;
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
 import Interpreter.Entornos.Entorno;
-import client.Errors;
-import client.TextEditor;
 import Interpreter.Utils;
 
 public class Asignar extends Instruccion 
@@ -21,9 +19,9 @@ public class Asignar extends Instruccion
     public Instruccion interpretar(Entorno entorno) {
 
         if (entorno.getTablaSimbolos().containsKey(this.Id)){
-            if (entorno.getTablaSimbolos().get(this.Id).getMutabilidad() =="VAR"){ 
-          this.expresion.interpretar(entorno);
-          entorno.getTablaSimbolos().get(this.Id).setValor(this.expresion.getValor()); // Asignamos el valor
+          if (entorno.getTablaSimbolos().get(this.Id).getMutabilidad().equals("VAR")){ 
+           this.expresion.interpretar(entorno);
+           entorno.getTablaSimbolos().get(this.Id).setValor(this.expresion.getValor()); // Asignamos el valor
           return this;
             }
             else{
