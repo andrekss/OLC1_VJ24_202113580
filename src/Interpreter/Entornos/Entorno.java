@@ -19,7 +19,7 @@ public class Entorno {
         this.functions = new TreeMap<>();
     }
 
-    public void AgregarSimbolo(String nombre,String valor,String tipo,String Mutabilidad,String tipoSym,String Entorno,int fila,int columna){
+    public void AgregarSimbolo(String nombre,Object valor,String tipo,String Mutabilidad,String tipoSym,String Entorno,int fila,int columna){
         if(this.TablaSimbolos.containsKey(nombre)){
             System.out.println("Error Semántico: Variable ya declarada");
             TextEditor.Print +="Error Semántico: Variable ya declarada"+"\n";

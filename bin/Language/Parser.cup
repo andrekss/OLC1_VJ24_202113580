@@ -62,13 +62,14 @@ terminal String MATCH, DEFAULT, WHILE, FOR, DO, CONTINUE, RETURN, UMENOS, BREAK;
 
 //------> Declaración de no terminales
 non terminal LinkedList<Instruccion> inicio, instrucciones;
+non terminal LinkedList<Expresion> Datos_Una_Dimension;
 non terminal String Mutabilidad;
 non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Strcuct_Match, Cases;
 non terminal Sen_Return;
 non terminal Expresion EXPRESION, Entry_Cases;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Variables,Asignar_Valor,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
 non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores;
-non terminal String Tipos_Dato,Tipo_Incremento, Signos_For, Corchetes_Vector, Strcuct_Vectores, Datos_Una_Dimension;
+non terminal String Tipos_Dato,Tipo_Incremento, Signos_For;
 
 // Presedencia
 precedence left OR;
@@ -100,6 +101,7 @@ instruccion ::= Variables:a P_Coma             {: RESULT = a; :}
               | Sen_Control:a                  {: RESULT = a; :}
               | Sen_Ciclicas:a                 {: RESULT = a; :}
               | Sen_Transferencia:a P_Coma     {: RESULT = a; :}
+              | Vectores:a P_Coma              {: RESULT = a; :}
 ;
 
 Sen_Return ::= RETURN
@@ -240,17 +242,9 @@ Sen_Do_While ::= DO LLAVE_A instrucciones:i LLAVE_C WHILE P_ABRE EXPRESION:c P_C
 ;
 
 // Vectores
-Datos_Una_Dimension ::= EXPRESION
-                      | Datos_Una_Dimension Coma EXPRESION
+Datos_Una_Dimension ::= EXPRESION:a                               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+                      | Datos_Una_Dimension:a Coma EXPRESION:b    {: RESULT = a; RESULT.add(b); :}
 ;
 
-
-Strcuct_Vectores ::=  Datos_Una_Dimension
-;
-
-Corchetes_Vector ::= P_ABRE P_CIERRA
-                   | P_ABRE P_CIERRA P_ABRE P_CIERRA
-;
-
-Vectores ::= Mutabilidad IDENTIFICADOR Dos_Puntos Tipos_Dato Corchetes_Vector IGUAL P_ABRE Strcuct_Vectores P_CIERRA
+Vectores ::= Mutabilidad:m IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t C_ABRE C_CIERRA IGUAL C_ABRE Datos_Una_Dimension:v1 C_CIERRA {: RESULT = new Vectores(v1,null,t,i,m,iright, ileft); :}
 ;

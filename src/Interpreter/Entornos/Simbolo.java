@@ -3,7 +3,7 @@ package Interpreter.Entornos;
 public class Simbolo {
 
     private String nombre;
-    private String valor;
+    private Object valor;
     private String tipo;
     private String Mutabilidad;
     private String tipoSym;
@@ -11,7 +11,7 @@ public class Simbolo {
     private int fila;
     private int columna;
 
-    public Simbolo(String nombre, String valor, String tipo,String Mutabilidad ,String tipoSym,String Entorno ,int fila, int columna) {
+    public Simbolo(String nombre, Object valor, String tipo,String Mutabilidad ,String tipoSym,String Entorno ,int fila, int columna) {
         this.nombre = nombre;
         this.valor = valor;
         this.tipo = tipo;
@@ -27,7 +27,7 @@ public class Simbolo {
         return nombre;
     }
 
-    public String getValor() {
+    public Object getValor() {
         return valor;
     }
 

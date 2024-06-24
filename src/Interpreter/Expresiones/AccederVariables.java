@@ -17,7 +17,7 @@ public class AccederVariables extends Expresion{
     public Expresion interpretar(Entorno entorno) {
 
         if(entorno.getTablaSimbolos().containsKey(this.Id)){
-            String Valor = entorno.getTablaSimbolos().get(this.Id).getValor();
+            String Valor = (String) entorno.getTablaSimbolos().get(this.Id).getValor();
             //System.out.println(Valor+" ehhh");
             String Tipo = entorno.getTablaSimbolos().get(this.Id).getTipo();
     

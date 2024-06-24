@@ -21,7 +21,7 @@ public class IncrementoDecremento extends Instruccion{
         if(entorno.getTablaSimbolos().get(this.id) !=null) {
           if (entorno.getTablaSimbolos().get(this.id).getMutabilidad() =="VAR"){
               if (entorno.getTablaSimbolos().get(this.id).getTipo() =="INT"){
-                  int ValorAnterior = Integer.parseInt(entorno.getTablaSimbolos().get(this.id).getValor());
+                  int ValorAnterior = Integer.parseInt((String) entorno.getTablaSimbolos().get(this.id).getValor());
                   if(this.señal == "++"){
                    entorno.getTablaSimbolos().get(this.id).setValor(String.valueOf(ValorAnterior+1));
                   }else{
@@ -29,7 +29,7 @@ public class IncrementoDecremento extends Instruccion{
                       return this;
                   }
               } else if ( entorno.getTablaSimbolos().get(this.id).getTipo() =="DOUBLE"){
-                  double ValorAnterior = Double.parseDouble(entorno.getTablaSimbolos().get(this.id).getValor());
+                  double ValorAnterior = Double.parseDouble((String)entorno.getTablaSimbolos().get(this.id).getValor());
                   if(this.señal == "++"){
                    entorno.getTablaSimbolos().get(this.id).setValor(String.valueOf(ValorAnterior+1.0));
                   }else{
