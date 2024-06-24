@@ -24,13 +24,13 @@ public class While extends Instruccion {
     @Override
     public Instruccion interpretar(Entorno entorno) {
         this.Condicion.interpretar(entorno);
-        Entorno While_Entorno = new Entorno(Instruccion.nombres[7], entorno);
+        Entorno While_Entorno;
         while (true) { // Ciclo principal
+            While_Entorno = new Entorno(Instruccion.nombres[7], entorno);
             if (this.Condicion.getValor().equalsIgnoreCase("false") && this.TipoWhile.equals("While")){
                 break;
             }
             
-
             
             String Tipo;
                 
@@ -45,20 +45,17 @@ public class While extends Instruccion {
                     break;
                 } 
                 if(instruccion.getTipo().equals("CONTINUE")){ // Rompemos a las instrucciones pero el ciclo principal sigue
-                   // this.setTipo("CONTINUE");
                    instruccion.setTipo(Tipo); 
                    break; // detenemos las instrucciones pero el ciclo sigue
                 } 
-                   /*if(instruccion.getTipo().equals("CONTINUE")){
-                     break; // detenemos las instrucciones pero el ciclo sigue
-                   } */
+                  
             }
             if (AvisoBreak){ // Rompemos el ciclo principal
                 this.AvisoBreak = false; 
                 break;
             }
             this.Condicion.interpretar(entorno); // Actualizamos la condicion
-
+            
             if (this.Condicion.getValor().equalsIgnoreCase("false") && this.TipoWhile.equals("Do")){
                 break;
             }

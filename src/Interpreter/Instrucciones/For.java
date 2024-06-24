@@ -51,6 +51,7 @@ public class For extends Instruccion{
             if(this.Tipo.equals("<")){
                 
                 for (int i = ValorInicial; i < ValorFinal; i++) { // Ciclo principal
+                    For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
                     this.Ejecutar(For_Entorno,this.Id);
 
                     // Incremento
@@ -68,6 +69,7 @@ public class For extends Instruccion{
                 }
             }else if (this.Tipo.equals(">")){
                 for (int i = ValorInicial; i > ValorFinal; i++) {
+                    For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
                     this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "++",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
@@ -83,6 +85,7 @@ public class For extends Instruccion{
 
             }else if(this.Tipo.equals("<=")){
                 for (int i = ValorInicial; i <= ValorFinal; i++) {
+                    For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
                     this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "++",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
@@ -97,6 +100,7 @@ public class For extends Instruccion{
 
             }else if (this.Tipo.equals(">=")){
                 for (int i = ValorInicial; i >= ValorFinal; i++) {
+                    For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
                     this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "++",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
@@ -114,6 +118,7 @@ public class For extends Instruccion{
             if(this.Tipo.equals("<")){
                 
                 for (int i = ValorInicial; i < ValorFinal; i--) {
+                    For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
                     this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "--",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
@@ -128,6 +133,7 @@ public class For extends Instruccion{
                     }
             }else if (this.Tipo.equals(">")){
                 for (int i = ValorInicial; i > ValorFinal; i--) {
+                    For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
                     this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "--",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
@@ -143,6 +149,7 @@ public class For extends Instruccion{
 
             }else if(this.Tipo.equals("<=")){
                 for (int i = ValorInicial; i <= ValorFinal; i--) {
+                    For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
                     this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "--",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);
@@ -158,6 +165,7 @@ public class For extends Instruccion{
 
             }else if (this.Tipo.equals(">=")){
                 for (int i = ValorInicial; i >= ValorFinal; i--) {
+                    For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
                     this.Ejecutar(For_Entorno,this.Id);
                     IncrementoDecremento a = new Interpreter.Funciones.IncrementoDecremento(this.Id, "--",this.getFila(), this.getColumna());
                     a.interpretar(For_Entorno);

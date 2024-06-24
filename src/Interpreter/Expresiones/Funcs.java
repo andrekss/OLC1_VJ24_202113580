@@ -1,5 +1,7 @@
 package Interpreter.Expresiones;
 
+import javax.print.DocFlavor.STRING;
+
 import Interpreter.Expresion;
 import client.Errors;
 import client.TextEditor;
@@ -648,7 +650,7 @@ public class Funcs {
     }
 
     public static double CastearConveniencia(Expresion object){
-        if (object.getTipo().equals("INT") && object.getTipo().equals("INT")){
+        if (object.getTipo().equals("INT") || object.getTipo().equals("DOUBLE")){
             return Double.parseDouble(object.getValor());
         }else if (object.getTipo().equals("BOOL")){
             return ConvertirBool(object);
@@ -660,16 +662,30 @@ public class Funcs {
         return 0.0;
     }
 
+    public static String CastearConvenienciaComparación(Expresion object){
+        if (object.getTipo().equals("INT") || object.getTipo().equals("DOUBLE")){
+            return Double.toString(Double.parseDouble(object.getValor()));
+        }else if (object.getTipo().equals("BOOL")){
+            return object.getValor().toLowerCase();
+        }else if (object.getTipo().equals("CHAR")){
+            return object.getValor();
+        }else if (object.getTipo().equals("STRING")){
+            return object.getValor();
+        }
+        return "";
+    }
+ 
+    
     public static String OperarRelacionales(Expresion izq,Expresion der,String Operador){
         if (Operador.equals("==")){
-            if (izq.getValor().equals(der.getValor())){
+            if (CastearConvenienciaComparación(izq).equals(CastearConvenienciaComparación(der))){
                 return "true";
             }
             else{
                 return "false";
             }
         }else if(Operador.equals("!=")){
-            if (!izq.getValor().equals(der.getValor())){
+            if (!CastearConvenienciaComparación(izq).equals(CastearConvenienciaComparación(der))){
                 return "true";
             }else{
                 return "false";
@@ -722,8 +738,8 @@ public class Funcs {
     }
 
     // Funciones Extra
-        public static String eliminarComillas(String input) {
-        if (input .equals( null)) {
+    public static String eliminarComillas(String input) {
+        if (input.equals( null)) {
             return null;
         }
         return input.replaceAll("[\"']", "");

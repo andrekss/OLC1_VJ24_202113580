@@ -6,25 +6,32 @@ import Interpreter.Expresion;
 
 public class Negacion extends Expresion {
 
-
-    public Negacion(String valor, String tipo, int fila, int columna){
+    private Expresion Exp;
+    public Negacion(String valor, String tipo,Expresion Exp, int fila, int columna){
         super(valor, tipo, fila, columna);
+        this.Exp = Exp;
     }
 
     @Override
     public Expresion interpretar(Entorno entorno) {
-        if (this.getTipo().equals("INT")) {
-            this.setValor(String.valueOf(-1 * Integer.parseInt(this.getValor())));
+
+        // Interpretación de la expresión
+        this.Exp.interpretar(entorno);
+        this.setValor(this.Exp.getValor());
+        this.setTipo(this.Exp.getTipo());
+
+        if (this.Exp.getTipo().equals("INT")) {
+            this.setValor(String.valueOf(-1 * Integer.parseInt(this.Exp.getValor())));
             return this;
-        } else if (this.getTipo().equals("DOUBLE")){
-            this.setValor(String.valueOf(-1 * Double.parseDouble(this.getValor())));
+        } else if (this.Exp.getTipo().equals("DOUBLE")){
+            this.setValor(String.valueOf(-1 * Double.parseDouble(this.Exp.getValor())));
             return this;
         }
         System.out.println("Error Semántico: Error en la operacion negativo.");
-                                // Interfaz
-            Errors error = new Errors("Semántico","Error en la operacion negativo",this.getFila() ,this.getColumna());
-            TextEditor.Errores.add(error);
-            TextEditor.Print+="Error Semántico: Error en la operacion negativo." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna()+"\n";
+        // Interfaz
+        Errors error = new Errors("Semántico","Error en la operacion negativo",this.getFila() ,this.getColumna());
+        TextEditor.Errores.add(error);
+        TextEditor.Print+="Error Semántico: Error en la operacion negativo." + " | Fila:" +this.getFila() + " | Columna: " + this.getColumna()+"\n";
 
         return this;
         

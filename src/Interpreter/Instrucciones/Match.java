@@ -20,21 +20,25 @@ public class Match extends Instruccion {
         this.Cases = Cases;
         this.Comparación = Comparación;
         this.Caso = Caso;
-        this.Default = false;
+        this.Default = true;
         this.AvisoBreak=false;
     }
 
     @Override
     public Instruccion interpretar(Entorno entorno) {
+      
+     
         this.Comparación.interpretar(entorno);
         Entorno Match_Entorno = new Entorno(Instruccion.nombres[8], entorno);
         int iteracion = 0; // Recorriendo los casos
         for (LinkedList<Instruccion> Case  : this.Cases) { // Primero recorremos los Casos ó ciclo principal
+            Match_Entorno = new Entorno(Instruccion.nombres[8], entorno);
             Caso.get(iteracion).interpretar(Match_Entorno);
             
             
-            if (Caso.get(iteracion).getValor().equalsIgnoreCase(this.Comparación.getValor()) ){
-              this.Default = true;
+            if (Caso.get(iteracion).getValor().equals(this.Comparación.getValor()) ){
+              //System.out.println("yeiiiiiiiiiiiiiiiiii");
+              this.Default = false;
               for (Instruccion InstruccionCase : Case) { // Luego ya recorremos las instrucciones de los casos
                 InstruccionCase.interpretar(Match_Entorno); 
 
@@ -66,9 +70,10 @@ public class Match extends Instruccion {
             return this;
         }
 
+        // Tabla de simbolos
         for (Simbolo Sym : Match_Entorno.getTablaSimbolos().values()) {
                 TextEditor.TablaSimbolos.add(Sym);
-            }
+        }
         return this;
     }
 }

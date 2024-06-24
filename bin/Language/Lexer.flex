@@ -63,6 +63,7 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 
 ":"        { return new Symbol(sym.Dos_Puntos, yycolumn, yyline, yytext()); }
 ";"        { return new Symbol(sym.P_Coma, yycolumn, yyline, yytext()); }
+","        { return new Symbol(sym.Coma, yycolumn, yyline, yytext()); }
 "="        { return new Symbol(sym.IGUAL, yycolumn, yyline, yytext()); }
 
 // Operadores
@@ -89,6 +90,9 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 
 "("        { return new Symbol(sym.P_ABRE, yycolumn, yyline, yytext()); }
 ")"        { return new Symbol(sym.P_CIERRA, yycolumn, yyline, yytext()); }
+
+"["        { return new Symbol(sym.C_ABRE, yycolumn, yyline, yytext()); }
+"]"        { return new Symbol(sym.C_CIERRA, yycolumn, yyline, yytext()); }
 
 "{"        { return new Symbol(sym.LLAVE_A, yycolumn, yyline, yytext()); }
 "}"        { return new Symbol(sym.LLAVE_C, yycolumn, yyline, yytext()); }
