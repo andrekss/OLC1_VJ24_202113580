@@ -15,7 +15,10 @@ public class AccederVariables extends Expresion{
     @Override
     public Expresion interpretar(Entorno entorno) {
 
+        //REVISAR
+
         if(entorno.getTablaSimbolos().containsKey(this.Id)){
+
             String Valor = (String) entorno.getTablaSimbolos().get(this.Id).getValor();
             //System.out.println(Valor+" ehhh");
             String Tipo = entorno.getTablaSimbolos().get(this.Id).getTipo();
@@ -25,11 +28,12 @@ public class AccederVariables extends Expresion{
             this.setTipo(Tipo);
             return this;
         }else if(entorno.getAnterior() == null){ // llega la final
-
             Utils.ErroresSemánticosExpresion(this,"Esta variable no existe ");
+            
             return this;
 
         }else{
+
             this.interpretar(entorno.getAnterior()); // irá retrocediendo hasta encontrar la variable en otro entorno
             return this;
         }

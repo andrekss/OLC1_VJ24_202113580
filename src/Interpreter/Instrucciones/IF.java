@@ -6,9 +6,6 @@ import Interpreter.Expresion;
 import Interpreter.Instruccion;
 import Interpreter.Utils;
 import Interpreter.Entornos.Entorno;
-import Interpreter.Entornos.Simbolo;
-import client.Errors;
-import client.TextEditor;
 
 public class IF extends Instruccion{
         private Expresion Condicion;
@@ -27,6 +24,7 @@ public class IF extends Instruccion{
     @Override
     public Instruccion interpretar(Entorno entorno) {
         this.Condicion.interpretar(entorno);
+        Entorno if_Entorno = new Entorno(Instruccion.nombres[5], entorno);
 
         if (this.Else_If !=null && this.Condicion.getValor().equalsIgnoreCase("false")){
             this.Else_If.interpretar(entorno);  
@@ -35,10 +33,9 @@ public class IF extends Instruccion{
 
             if (this.Condicion.getTipo() !="BOOL"){
                 Utils.ErroresSemánticosInstruccion(this,"la condicion del if debe ser tipo boolean. ");
-
                 return this;
             }
-            Entorno if_Entorno = new Entorno(Instruccion.nombres[5], entorno);
+            
             if (this.Condicion.getValor().equalsIgnoreCase("true")){
                 
              String Tipo;
@@ -76,9 +73,8 @@ public class IF extends Instruccion{
                 }
                    return this;
             }
-            for (Simbolo Sym : if_Entorno.getTablaSimbolos().values()) {
-                TextEditor.TablaSimbolos.add(Sym);
-            }
+
+            Utils.ReporteSyms(if_Entorno);
         }
 
 

@@ -13,24 +13,28 @@ public class Asignar_Vectores extends Instruccion
     private Expresion x;
     private Expresion y;
     private String Modo;
+    private int Recursividad;
 
-    public  Asignar_Vectores(Expresion expresion,String Id,Expresion x,Expresion y,String Modo,int linea, int col) {
+    public  Asignar_Vectores(Expresion expresion,String Id,Expresion x,Expresion y,String Modo,int Recursividad,int linea, int col) {
         super(Instruccion.nombres[11], linea, col);
         this.expresion = expresion;
         this.Id = Id;
         this.x = x;
         this.y = y;
         this.Modo = Modo;
+        this.Recursividad =Recursividad; // Único valor modificable durante la ejecución
     }
 
     @Override
     public Instruccion interpretar(Entorno entorno) {
-        this.expresion.interpretar(entorno);
-        this.x.interpretar(entorno);
-        this.y.interpretar(entorno);
-
+        if(this.Recursividad== 0){ // Solo se interpreta una vez
+            this.expresion = this.expresion.interpretar(entorno);
+            this.x = this.x.interpretar(entorno);
+            this.y=this.y.interpretar(entorno);
+        }
         if (entorno.getTablaSimbolos().containsKey(this.Id)){
           if (entorno.getTablaSimbolos().get(this.Id).getMutabilidad().equals("VAR")){ 
+            this.Recursividad =0;
             Asignacion(entorno,this.Modo,this.expresion.getValor());
             return this;
             
@@ -44,6 +48,7 @@ public class Asignar_Vectores extends Instruccion
             return this;
 
         }else if (entorno.getAnterior() != null){
+            this.Recursividad+=1;
             this.interpretar(entorno.getAnterior()); // irá retrocediendo hasta encontrar la variable en otro entorno
             return this;
         }

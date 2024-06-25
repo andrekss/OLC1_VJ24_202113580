@@ -1728,7 +1728,7 @@ class CUP$Parser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		 RESULT = new Asignar_Vectores(e,i,x,x,"Vector1",iright, ileft); 
+		 RESULT = new Asignar_Vectores(e,i,x,x,"Vector1",0,iright, ileft); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Asignar_Valor_Vectores",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1749,7 +1749,7 @@ class CUP$Parser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		 RESULT = new Asignar_Vectores(e,i,x,y,"Vector2",iright, ileft); 
+		 RESULT = new Asignar_Vectores(e,i,x,y,"Vector2",0,iright, ileft); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Asignar_Valor_Vectores",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-8)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

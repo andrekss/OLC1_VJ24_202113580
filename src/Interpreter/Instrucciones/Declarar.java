@@ -21,6 +21,7 @@ public class Declarar extends Instruccion {
     @Override
     public Instruccion interpretar(Entorno entorno) {
         if (this.expresion != null){
+            
          this.expresion.interpretar(entorno);
          if(this.expresion.getTipo() != this.Tipo){
 

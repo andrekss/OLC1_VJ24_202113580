@@ -1,9 +1,8 @@
 package Interpreter.Instrucciones;
 import Interpreter.Expresion;
 import Interpreter.Instruccion;
+import Interpreter.Utils;
 import Interpreter.Entornos.Entorno;
-import Interpreter.Entornos.Simbolo;
-import client.*;
 
 import java.util.LinkedList;
 
@@ -30,8 +29,6 @@ public class While extends Instruccion {
             if (this.Condicion.getValor().equalsIgnoreCase("false") && this.TipoWhile.equals("While")){
                 break;
             }
-            
-            
             String Tipo;
                 
             for ( Instruccion instruccion : this.Sentencia_Entorno) {
@@ -62,9 +59,9 @@ public class While extends Instruccion {
 
         }
 
-            for (Simbolo Sym : While_Entorno.getTablaSimbolos().values()) {
-                TextEditor.TablaSimbolos.add(Sym);
-            }
+
+            Utils.ReporteSyms(While_Entorno);
+
         return this;
         
     }
