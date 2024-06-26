@@ -36,6 +36,8 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 // ------------  Reglas Lexicas -------------------
 
 // Mutabilidad
+
+
 "var"      { return new Symbol(sym.VAR, yycolumn, yyline, yytext()); }
 "const"    { return new Symbol(sym.CONST, yycolumn, yyline, yytext()); }
 
@@ -54,6 +56,12 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 "for"      { return new Symbol(sym.FOR, yycolumn, yyline, yytext()); }
 "do"       { return new Symbol(sym.DO, yycolumn, yyline, yytext()); }
 
+"remove"   { return new Symbol(sym.REMOVE, yycolumn, yyline, yytext()); }
+"list"     { return new Symbol(sym.LIST, yycolumn, yyline, yytext()); }
+"new"      { return new Symbol(sym.NEW, yycolumn, yyline, yytext()); }
+"append"   { return new Symbol(sym.APPEND, yycolumn, yyline, yytext()); }
+
+
 "break"    { return new Symbol(sym.BREAK, yycolumn, yyline, yytext()); }
 "continue" { return new Symbol(sym.CONTINUE, yycolumn, yyline, yytext()); }
 "return"   { return new Symbol(sym.RETURN, yycolumn, yyline, yytext()); }
@@ -62,6 +70,7 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 "_"         { return new Symbol(sym.DEFAULT, yycolumn, yyline, yytext()); }
 
 ":"        { return new Symbol(sym.Dos_Puntos, yycolumn, yyline, yytext()); }
+"."        { return new Symbol(sym.Punto, yycolumn, yyline, yytext()); }
 ";"        { return new Symbol(sym.P_Coma, yycolumn, yyline, yytext()); }
 ","        { return new Symbol(sym.Coma, yycolumn, yyline, yytext()); }
 "="        { return new Symbol(sym.IGUAL, yycolumn, yyline, yytext()); }

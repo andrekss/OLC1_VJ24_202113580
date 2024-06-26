@@ -6,12 +6,12 @@ import Interpreter.Expresion;
 import Interpreter.Entornos.Entorno;
 import Interpreter.Utils;
 
-public class AccederVectores extends Expresion{
+public class AccederVectList extends Expresion{
     private String Id ;
     private Expresion x ;
     private Expresion y;
     private String TipoVector;
-    public AccederVectores(String Id,Expresion x, Expresion y,String TipoVector ,int fila, int columna){
+    public AccederVectList(String Id,Expresion x, Expresion y,String TipoVector ,int fila, int columna){
         super("ERROR", TiposDatos[5], fila, columna);
         this.Id = Id;
         this.x = x;

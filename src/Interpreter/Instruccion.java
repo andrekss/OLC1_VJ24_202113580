@@ -7,7 +7,7 @@ public class Instruccion {
     private String tipo;
     private int fila;
     private int columna;
-    public static String[] nombres = {"ERROR","PRINT","VARIABLE","ASIGNAR","INCREMENTODECREMENTO", "IF","FOR", "WHILE","MATCH","BREAK","CONTINUE", "VECTORES"};
+    public static String[] nombres = {"ERROR","PRINT","VARIABLE","ASIGNAR","INCREMENTODECREMENTO", "IF","FOR", "WHILE","MATCH","BREAK","CONTINUE", "VECTORES","LISTAS"};
 
     public Instruccion(String tipo, int fila, int columna) {
         this.tipo = tipo; // Tipo de instruccion

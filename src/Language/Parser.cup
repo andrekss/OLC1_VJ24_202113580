@@ -54,11 +54,11 @@ action code
 //------> Declaración de terminales
 terminal String INT, DOUBLE, BOOL, CHAR, STRING;
 terminal String MAS, MENOS, POR, DIVISION, POTENCIA, MODULO;
-terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
+terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL,  REMOVE;
 terminal String NOT, AND, OR, XOR;
 terminal String ENTERO, DECIMAL, BOOLEAN, CAR, CAD, VAR, CONST, IDENTIFICADOR, Coma;
 terminal String Dos_Puntos, P_Coma, IGUAL, P_ABRE, P_CIERRA, C_ABRE, C_CIERRA, PRINT, LLAVE_A, LLAVE_C, IF, ELSE;
-terminal String MATCH, DEFAULT, WHILE, FOR, DO, CONTINUE, RETURN, UMENOS, BREAK;
+terminal String MATCH, DEFAULT, WHILE, FOR, DO, CONTINUE, RETURN, UMENOS, BREAK, LIST, NEW, APPEND, Punto;
 
 //------> Declaración de no terminales
 non terminal LinkedList<Instruccion> inicio, instrucciones;
@@ -67,9 +67,9 @@ non terminal LinkedList<LinkedList<Expresion>> Datos_Dos_Dimension;
 non terminal String Mutabilidad;
 non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Strcuct_Match, Cases;
 non terminal Sen_Return;
-non terminal Expresion EXPRESION, Entry_Cases, AccederVectores;
+non terminal Expresion EXPRESION, Entry_Cases, AccederVectores, Remove_Valores_Listas;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
-non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento;
+non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista;
 non terminal String Tipos_Dato, Signos_For;
 
 // Presedencia
@@ -103,6 +103,7 @@ instruccion ::= Variables:a P_Coma             {: RESULT = a; :}
               | Sen_Ciclicas:a                 {: RESULT = a; :}
               | Sen_Transferencia:a P_Coma     {: RESULT = a; :}
               | Vectores:a P_Coma              {: RESULT = a; :}
+              | Listas:a P_Coma                {: RESULT = a; :}
 ;
 
 Sen_Return ::= RETURN
@@ -150,6 +151,7 @@ EXPRESION ::= MENOS EXPRESION:e                             {: RESULT = new Nega
             | EXPRESION:a AND EXPRESION:b                   {: RESULT = new Logicas(a,"&&",b,aright, aleft); :}
             | EXPRESION:a OR EXPRESION:b                    {: RESULT = new Logicas(a,"||",b,aright, aleft); :}
             | EXPRESION:a XOR EXPRESION:b                   {: RESULT = new Logicas(a,"^",b,aright, aleft); :}
+            | Remove_Valores_Listas:a                       {: RESULT = a; :}
 ;
 
 // Variables
@@ -261,7 +263,23 @@ Vectores ::= Dec_Vectores:a              {: RESULT = a; :}
 
 // Acceso Vectores
 
-AccederVectores ::= IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA                              {: RESULT = new AccederVectores(i,x,x,"Vector1",iright, ileft); :}  // una dimensión
-                  | IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA C_ABRE EXPRESION:y C_CIERRA  {: RESULT = new AccederVectores(i,x,y,"Vector2",iright, ileft); :}// dos dimensiones
+AccederVectores ::= IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA                              {: RESULT = new AccederVectList(i,x,x,"Vector1",iright, ileft); :}  // una dimensión
+                  | IDENTIFICADOR:i C_ABRE EXPRESION:x C_CIERRA C_ABRE EXPRESION:y C_CIERRA  {: RESULT = new AccederVectList(i,x,y,"Vector2",iright, ileft); :}// dos dimensiones
+;
+
+
+// Listas
+
+Declaracion_Listas ::=LIST MENOR Tipos_Dato:t MAYOR IDENTIFICADOR:i IGUAL NEW LIST P_ABRE P_CIERRA         {: RESULT = new Listas(new LinkedList<>(),t,i,iright, ileft); :}
+;
+
+Agregar_Lista ::= IDENTIFICADOR:i Punto APPEND P_ABRE EXPRESION:e P_CIERRA    {: RESULT = new Append(e,i,iright, ileft); :}
+;
+
+Remove_Valores_Listas ::= IDENTIFICADOR:id Punto REMOVE P_ABRE EXPRESION:e P_CIERRA {: RESULT = new Remove_Valor(e,id,idright, idleft); :}
+;
+
+Listas ::= Declaracion_Listas:a    {: RESULT = a; :}
+        |  Agregar_Lista:a         {: RESULT = a; :}
 ;
 

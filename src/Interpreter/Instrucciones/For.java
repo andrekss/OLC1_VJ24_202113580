@@ -28,24 +28,8 @@ public class For extends Instruccion{
 
         while (Boolean.parseBoolean(this.Condicion.interpretar(For_Entorno).getValor().toLowerCase())) { // Ciclo principal
             For_Entorno = new Entorno(Instruccion.nombres[6], entorno);
-            String Tipo;
-            
-            for ( Instruccion instruccion : this.Sentencia_Entorno) {             
-                    instruccion.interpretar(For_Entorno);
-                    Tipo =instruccion.getTipo();
-                    
-                        //System.out.println(Tipo);
-                    
-                    if(instruccion.getTipo().equals("BREAK")){ 
-                        instruccion.setTipo(Tipo);
-                        this.AvisoBreak = true;
-                        break;
-                    } 
-                    if(instruccion.getTipo().equals("CONTINUE")){
-                        instruccion.setTipo(Tipo);
-                        break; // detenemos las instrucciones pero el ciclo sigue
-                    }  
-            }
+
+            Ejecutar(For_Entorno,this.Sentencia_Entorno);
         
             this.Actualizar.interpretar(For_Entorno);
             
@@ -56,6 +40,27 @@ public class For extends Instruccion{
         }
         Utils.ReporteSyms(For_Entorno);
         return this;
+    }
+
+    public void Ejecutar(Entorno For_Entorno, LinkedList<Instruccion> Sentencia_Entorno){
+        String Tipo;
+        for ( Instruccion instruccion : Sentencia_Entorno) {    
+
+                instruccion.interpretar(For_Entorno);
+                Tipo =instruccion.getTipo();
+                
+                    //System.out.println(Tipo);
+                
+                if(instruccion.getTipo().equals("BREAK")){ 
+                    instruccion.setTipo(Tipo);
+                    this.AvisoBreak = true;
+                    break;
+                } 
+                if(instruccion.getTipo().equals("CONTINUE")){
+                    instruccion.setTipo(Tipo);
+                    break; // detenemos las instrucciones pero el ciclo sigue
+                }  
+        }
     }
 
 }

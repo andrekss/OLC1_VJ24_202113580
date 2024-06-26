@@ -11,7 +11,7 @@ public class Declarar extends Instruccion {
     private String Mutabilidad;
 
     public Declarar(Expresion expresion, String Tipo,String Identificador, String Mutabilidad, int linea, int col) { 
-        super(Instruccion.nombres[2], linea, col);
+        super(Instruccion.nombres[3], linea, col);
         this.expresion = expresion;
         this.Tipo = Tipo;
         this.Identificador = Identificador;
@@ -29,24 +29,24 @@ public class Declarar extends Instruccion {
              return this;
          }
          //Agregamos la variable
-         entorno.AgregarSimbolo(this.Identificador, this.expresion.getValor(), this.Tipo,this.Mutabilidad,Instruccion.nombres[2] ,entorno.getNombre() ,this.getFila(), this.getColumna());
+         entorno.AgregarSimbolo(this.Identificador, this.expresion.getValor(), this.Tipo,this.Mutabilidad,Instruccion.nombres[3] ,entorno.getNombre() ,this.getFila(), this.getColumna());
          return this;
         }else{ // valores por defecto (NO USAMOS PARA NADA expresion)
             if (this.Tipo.equalsIgnoreCase("int")){
-                entorno.AgregarSimbolo(this.Identificador, "0", this.Tipo,this.Mutabilidad,Instruccion.nombres[2] ,entorno.getNombre() , this.getFila(), this.getColumna());
+                entorno.AgregarSimbolo(this.Identificador, "0", this.Tipo,this.Mutabilidad,Instruccion.nombres[3] ,entorno.getNombre() , this.getFila(), this.getColumna());
                 return this;
             }else if (this.Tipo.equalsIgnoreCase("double")){
-                entorno.AgregarSimbolo(this.Identificador, "0.0", this.Tipo,this.Mutabilidad,Instruccion.nombres[2] ,entorno.getNombre() , this.getFila(), this.getColumna());
+                entorno.AgregarSimbolo(this.Identificador, "0.0", this.Tipo,this.Mutabilidad,Instruccion.nombres[3] ,entorno.getNombre() , this.getFila(), this.getColumna());
                 return this;
             }else if (this.Tipo.equalsIgnoreCase("bool")){
                
-                entorno.AgregarSimbolo(this.Identificador, "true", this.Tipo,this.Mutabilidad,Instruccion.nombres[2] ,entorno.getNombre() , this.getFila(), this.getColumna());
+                entorno.AgregarSimbolo(this.Identificador, "true", this.Tipo,this.Mutabilidad,Instruccion.nombres[3] ,entorno.getNombre() , this.getFila(), this.getColumna());
                 return this;
             } else if (this.Tipo.equalsIgnoreCase("char")){
-                entorno.AgregarSimbolo(this.Identificador, "0", this.Tipo,this.Mutabilidad,Instruccion.nombres[2] ,entorno.getNombre() , this.getFila(), this.getColumna());
+                entorno.AgregarSimbolo(this.Identificador, "0", this.Tipo,this.Mutabilidad,Instruccion.nombres[3] ,entorno.getNombre() , this.getFila(), this.getColumna());
                 return this;
             } else if (this.Tipo.equalsIgnoreCase("string")){
-                entorno.AgregarSimbolo(this.Identificador, "", this.Tipo,this.Mutabilidad,Instruccion.nombres[2] ,entorno.getNombre() , this.getFila(), this.getColumna());
+                entorno.AgregarSimbolo(this.Identificador, "", this.Tipo,this.Mutabilidad,Instruccion.nombres[3] ,entorno.getNombre() , this.getFila(), this.getColumna());
                 return this;
             }
         } 

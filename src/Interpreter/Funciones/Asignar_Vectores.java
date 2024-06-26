@@ -34,7 +34,7 @@ public class Asignar_Vectores extends Instruccion
         }
         if (entorno.getTablaSimbolos().containsKey(this.Id)){
           if (entorno.getTablaSimbolos().get(this.Id).getMutabilidad().equals("VAR")){ 
-            this.Recursividad =0;
+            this.Recursividad = 0;
             Asignacion(entorno,this.Modo,this.expresion.getValor());
             return this;
             
