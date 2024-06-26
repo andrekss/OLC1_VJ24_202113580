@@ -61,6 +61,7 @@ public class sym {
   public static final int COMPARACION = 13;
   public static final int STRING = 6;
   public static final int MENOR_IGUAL = 16;
+  public static final int STRUCT = 58;
   public static final int DIVISION = 10;
   public static final int VAR = 29;
   public static final int DO = 49;
@@ -124,7 +125,8 @@ public class sym {
   "LIST",
   "NEW",
   "APPEND",
-  "Punto"
+  "Punto",
+  "STRUCT"
   };
 }
 

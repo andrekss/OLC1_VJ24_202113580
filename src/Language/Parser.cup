@@ -58,7 +58,7 @@ terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL,
 terminal String NOT, AND, OR, XOR;
 terminal String ENTERO, DECIMAL, BOOLEAN, CAR, CAD, VAR, CONST, IDENTIFICADOR, Coma;
 terminal String Dos_Puntos, P_Coma, IGUAL, P_ABRE, P_CIERRA, C_ABRE, C_CIERRA, PRINT, LLAVE_A, LLAVE_C, IF, ELSE;
-terminal String MATCH, DEFAULT, WHILE, FOR, DO, CONTINUE, RETURN, UMENOS, BREAK, LIST, NEW, APPEND, Punto;
+terminal String MATCH, DEFAULT, WHILE, FOR, DO, CONTINUE, RETURN, UMENOS, BREAK, LIST, NEW, APPEND, Punto, STRUCT;
 
 //------> Declaración de no terminales
 non terminal LinkedList<Instruccion> inicio, instrucciones;
@@ -69,7 +69,7 @@ non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Strcuct_Match, Cases;
 non terminal Sen_Return;
 non terminal Expresion EXPRESION, Entry_Cases, AccederVectores, Remove_Valores_Listas;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
-non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista;
+non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista, Structs,  Lista_Structs, Dec_Structs;
 non terminal String Tipos_Dato, Signos_For;
 
 // Presedencia
@@ -104,6 +104,7 @@ instruccion ::= Variables:a P_Coma             {: RESULT = a; :}
               | Sen_Transferencia:a P_Coma     {: RESULT = a; :}
               | Vectores:a P_Coma              {: RESULT = a; :}
               | Listas:a P_Coma                {: RESULT = a; :}
+              | Structs:a P_Coma               {: RESULT = a; :}
 ;
 
 Sen_Return ::= RETURN
@@ -138,7 +139,7 @@ EXPRESION ::= MENOS EXPRESION:e                             {: RESULT = new Nega
             | BOOLEAN:e                                     {: RESULT=new Dato(e,"BOOL", eright, eleft); :}
             | CAR:e                                         {: RESULT=new Dato(e,"CHAR", eright, eleft); :}
             | CAD:e                                         {: RESULT=new Dato(e,"STRING", eright, eleft); :}
-            | P_ABRE Tipos_Dato:tipo P_CIERRA EXPRESION:e   {: RESULT = e; /*e.interpretar(null); RESULT = new Dato(e.getValor(),tipo, eright, eleft);*/ :} // Casteos
+            | P_ABRE Tipos_Dato:tipo P_CIERRA EXPRESION:e   {: RESULT = new Casteo(tipo,e,eright, eleft);  :} // Casteos
             | IDENTIFICADOR:id                              {: RESULT = new AccederVariables(id,idright, idleft); :}
             | AccederVectores:a                             {: RESULT=a; :}
             | EXPRESION:a COMPARACION EXPRESION:b           {: RESULT = new Relacionales(a,"==",b,aright, aleft); :}
@@ -281,5 +282,17 @@ Remove_Valores_Listas ::= IDENTIFICADOR:id Punto REMOVE P_ABRE EXPRESION:e P_CIE
 
 Listas ::= Declaracion_Listas:a    {: RESULT = a; :}
         |  Agregar_Lista:a         {: RESULT = a; :}
+;
+
+// Structs
+
+Lista_Structs ::= IDENTIFICADOR Dos_Puntos Tipos_Dato P_Coma
+                | Lista_Structs IDENTIFICADOR Dos_Puntos Tipos_Dato P_Coma
+;
+
+Dec_Structs ::= STRUCT LLAVE_A Lista_Structs LLAVE_C IDENTIFICADOR
+;
+
+Structs ::= Dec_Structs
 ;
 

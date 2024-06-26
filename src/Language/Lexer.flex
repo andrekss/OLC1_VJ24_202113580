@@ -61,6 +61,7 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 "new"      { return new Symbol(sym.NEW, yycolumn, yyline, yytext()); }
 "append"   { return new Symbol(sym.APPEND, yycolumn, yyline, yytext()); }
 
+"struct"   { return new Symbol(sym.STRUCT, yycolumn, yyline, yytext()); }
 
 "break"    { return new Symbol(sym.BREAK, yycolumn, yyline, yytext()); }
 "continue" { return new Symbol(sym.CONTINUE, yycolumn, yyline, yytext()); }
