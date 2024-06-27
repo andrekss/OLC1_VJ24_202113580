@@ -124,6 +124,6 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
     Errors error = new Errors("Lexico","Caracter no reconocido"+yytext(),yyline,yycolumn);
     TextEditor.Errores.add(error);
     System.out.println("Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn); 
-    TextEditor.Consola.setText("Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn);
+    TextEditor.Print+="Error Lexico: " + yytext() + " | Fila:" + yyline + " | Columna: " + yycolumn+"\n";
     }
 

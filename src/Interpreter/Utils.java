@@ -1,11 +1,18 @@
 package Interpreter;
 
+import java.util.LinkedList;
+import java.util.TreeMap;
+
+import Interpreter.Entornos.Atributo;
 import Interpreter.Entornos.Entorno;
 import Interpreter.Entornos.Simbolo;
 import client.Errors;
 import client.TextEditor;
 
 public class Utils {
+
+    public static TreeMap<String, LinkedList<Atributo>> StructsDefinidos = new TreeMap<>();
+
     public static void ErroresSemánticosInstruccion(Instruccion Object, String Error){
         Object.setTipo("ERROR");
         System.out.println("Error Semántico: "+Error);

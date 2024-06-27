@@ -9,6 +9,7 @@ import Interpreter.Instruccion;
 import Interpreter.Expresion;
 import client.Errors;
 import client.TextEditor;
+import Interpreter.Entornos.Atributo;
 
 import java_cup.runtime.*;
 
@@ -66,11 +67,13 @@ non terminal LinkedList<Expresion> Datos_Una_Dimension;
 non terminal LinkedList<LinkedList<Expresion>> Datos_Dos_Dimension; 
 non terminal String Mutabilidad;
 non terminal Sen_Else, Bloque_Else_If, Sen_Else_If, Strcuct_Match, Cases;
-non terminal Sen_Return;
+non terminal Sen_Return, Nombre_Struct;
 non terminal Expresion EXPRESION, Entry_Cases, AccederVectores, Remove_Valores_Listas;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
-non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista, Structs,  Lista_Structs, Dec_Structs;
+non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista, Structs, Dec_Structs;
+non terminal Instruccion Instancia_Struct;
 non terminal String Tipos_Dato, Signos_For;
+non terminal LinkedList<Atributo> Lista_Structs;
 
 // Presedencia
 precedence left OR;
@@ -286,13 +289,21 @@ Listas ::= Declaracion_Listas:a    {: RESULT = a; :}
 
 // Structs
 
-Lista_Structs ::= IDENTIFICADOR Dos_Puntos Tipos_Dato P_Coma
-                | Lista_Structs IDENTIFICADOR Dos_Puntos Tipos_Dato P_Coma
+Lista_Structs ::= IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t P_Coma                  {: Atributo a = new Atributo(i,t); RESULT = new LinkedList<>(); RESULT.add(a); :}
+                | Lista_Structs:a IDENTIFICADOR:i Dos_Puntos Tipos_Dato:t P_Coma   {: RESULT = a; Atributo b = new Atributo(i,t); RESULT.add(b); :}
 ;
 
-Dec_Structs ::= STRUCT LLAVE_A Lista_Structs LLAVE_C IDENTIFICADOR
+Dec_Structs ::= STRUCT LLAVE_A Lista_Structs:att LLAVE_C IDENTIFICADOR:i  {: RESULT = new Structs(i,att,iright, ileft); :}
 ;
 
-Structs ::= Dec_Structs
+Nombre_Struct ::=  IDENTIFICADOR Dos_Puntos EXPRESION
+                | Nombre_Struct Coma IDENTIFICADOR Dos_Puntos EXPRESION
+;
+
+Instancia_Struct ::= Mutabilidad IDENTIFICADOR Dos_Puntos IDENTIFICADOR IGUAL LLAVE_A Nombre_Struct  LLAVE_C
+;
+
+Structs ::= Dec_Structs:a {: RESULT =a; :}
+          | Instancia_Struct 
 ;
 
