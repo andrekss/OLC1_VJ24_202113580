@@ -15,7 +15,6 @@ public class AccederVariables extends Expresion{
     @Override
     public Expresion interpretar(Entorno entorno) {
 
-        //REVISAR
 
         if(entorno.getTablaSimbolos().containsKey(this.Id)){
 

@@ -71,7 +71,7 @@ non terminal Sen_Return ;
 non terminal Expresion EXPRESION, Entry_Cases, AccederVectores, Remove_Valores_Listas;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
 non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista, Structs, Dec_Structs;
-non terminal Instruccion Instancia_Struct;
+non terminal Instruccion Instancia_Struct, Asignar_Struct;
 non terminal String Tipos_Dato, Signos_For;
 non terminal LinkedList<Atributo> Lista_Structs;
 non terminal LinkedList<Def_Atributo> Nombre_Struct;
@@ -157,7 +157,7 @@ EXPRESION ::= MENOS EXPRESION:e                             {: RESULT = new Nega
             | EXPRESION:a OR EXPRESION:b                    {: RESULT = new Logicas(a,"||",b,aright, aleft); :}
             | EXPRESION:a XOR EXPRESION:b                   {: RESULT = new Logicas(a,"^",b,aright, aleft); :}
             | Remove_Valores_Listas:a                       {: RESULT = a; :}
-            | IDENTIFICADOR Punto IDENTIFICADOR
+            | IDENTIFICADOR:id Punto IDENTIFICADOR:att      {:  RESULT = new AccederStruct(id,att,idright, idleft); :}
 ;
 
 // Variables
@@ -305,7 +305,11 @@ Nombre_Struct ::=  IDENTIFICADOR:i Dos_Puntos EXPRESION:e                       
 Instancia_Struct ::= Mutabilidad:m IDENTIFICADOR:id Dos_Puntos IDENTIFICADOR:Ts IGUAL LLAVE_A Nombre_Struct:AD  LLAVE_C {: RESULT = new Instanciar_Struct(m,id,Ts,AD,idright, idleft); :}
 ;
 
+Asignar_Struct ::= IDENTIFICADOR:i Punto IDENTIFICADOR:att IGUAL EXPRESION:e  {: RESULT = new AsignarStructs(i,att,e,iright, ileft); :}
+;
+
 Structs ::= Dec_Structs:a       {: RESULT =a; :}
           | Instancia_Struct:a  {: RESULT =a; :} 
+          | Asignar_Struct:a    {: RESULT =a; :}
 ;
 
