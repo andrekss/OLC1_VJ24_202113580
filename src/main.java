@@ -11,7 +11,7 @@ public class main {
 
     public static void main(String[] args) {
     CrearVentana();
-
+    
     //analizadores("src/Language/", "Lexer.flex", "Parser.cup");
 
     String Entrada3 = """

@@ -11,7 +11,7 @@ import client.TextEditor;
 
 public class Utils {
 
-    public static TreeMap<String, LinkedList<Atributo>> StructsDefinidos = new TreeMap<>();
+    public static TreeMap<String, LinkedList<Atributo>> StructsDefinidos = new TreeMap<>(); // Definición de structs
 
     public static void ErroresSemánticosInstruccion(Instruccion Object, String Error){
         Object.setTipo("ERROR");

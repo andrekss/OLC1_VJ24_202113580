@@ -256,10 +256,8 @@ public class TextEditor extends javax.swing.JFrame {
                 System.out.println("Error en la clase: " + element.getClassName());
                 System.out.println("Error en el método: " + element.getMethodName());
                 System.out.println("Error en la línea: " + element.getLineNumber());
-                }
+            }
 
-            //System.out.println("Error fatal en compilación de entrada.");
-            //System.out.println(e);
         }
     }
     

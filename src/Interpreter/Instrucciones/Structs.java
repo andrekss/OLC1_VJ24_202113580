@@ -21,13 +21,7 @@ public class Structs extends Instruccion {
     public Instruccion interpretar(Entorno entorno) {
 
         Utils.StructsDefinidos.put(this.TipoIdentificador, this.Atributos); // Guardamos los structs
-        
-        /* 
-        for (Atributo Att : Utils.StructsDefinidos.get(this.TipoIdentificador)) {
-            System.out.println(Att.getId());
-            System.out.println(Att.getTipo());
-            System.out.println("----------------");
-        }*/
+
         
         return this;
     }
