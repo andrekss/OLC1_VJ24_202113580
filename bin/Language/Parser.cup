@@ -53,7 +53,7 @@ action code
 
 
 //------> Declaración de terminales
-terminal String INT, DOUBLE, BOOL, CHAR, STRING;
+terminal String INT, DOUBLE, BOOL, CHAR, STRING, VOID;
 terminal String MAS, MENOS, POR, DIVISION, POTENCIA, MODULO;
 terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL,  REMOVE;
 terminal String NOT, AND, OR, XOR;
@@ -71,10 +71,11 @@ non terminal Sen_Return ;
 non terminal Expresion EXPRESION, Entry_Cases, AccederVectores, Remove_Valores_Listas;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
 non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista, Structs, Dec_Structs;
-non terminal Instruccion Instancia_Struct, Asignar_Struct;
+non terminal Instruccion Instancia_Struct, Asignar_Struct, Funciones, Métodos;
 non terminal String Tipos_Dato, Signos_For;
 non terminal LinkedList<Atributo> Lista_Structs;
 non terminal LinkedList<Def_Atributo> Nombre_Struct;
+non terminal LinkedList<Atributo>  Parámetros;
 
 // Presedencia
 precedence left OR;
@@ -109,6 +110,7 @@ instruccion ::= Variables:a P_Coma             {: RESULT = a; :}
               | Vectores:a P_Coma              {: RESULT = a; :}
               | Listas:a P_Coma                {: RESULT = a; :}
               | Structs:a P_Coma               {: RESULT = a; :}
+              | Métodos:a                      {: RESULT = a; :}
 ;
 
 Sen_Return ::= RETURN
@@ -313,3 +315,11 @@ Structs ::= Dec_Structs:a       {: RESULT =a; :}
           | Asignar_Struct:a    {: RESULT =a; :}
 ;
 
+// Funciones
+
+Parámetros ::= Tipos_Dato:t IDENTIFICADOR:i                                               {: RESULT = new LinkedList<>(); RESULT.add(new Atributo(i,t)); :}
+            |  Parámetros:a Coma Tipos_Dato:t IDENTIFICADOR:i                               {: RESULT = a; RESULT.add(new Atributo(i,t)); :}
+;
+
+Métodos ::= VOID IDENTIFICADOR:i P_ABRE Parámetros:p P_CIERRA LLAVE_A instrucciones:in LLAVE_C       {: RESULT = new Metodos(i,p,in,iright, ileft);  :}
+;

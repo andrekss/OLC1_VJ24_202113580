@@ -41,6 +41,8 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 "var"      { return new Symbol(sym.VAR, yycolumn, yyline, yytext()); }
 "const"    { return new Symbol(sym.CONST, yycolumn, yyline, yytext()); }
 
+"void"    { return new Symbol(sym.VOID, yycolumn, yyline, yytext()); }
+
 // Tipos de dato
 "int"      { return new Symbol(sym.INT, yycolumn, yyline, yytext()); }
 "double"   { return new Symbol(sym.DOUBLE, yycolumn, yyline, yytext()); }

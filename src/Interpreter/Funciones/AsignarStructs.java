@@ -30,21 +30,26 @@ public class AsignarStructs extends Instruccion{
         this.expresion.interpretar(entorno);
 
         LinkedList<Def_Atributo> ListaStructsDef = (LinkedList<Def_Atributo>) entorno.getTablaSimbolos().get(this.Id).getValor();
-        
-        for (Def_Atributo def_Atributo : ListaStructsDef) { // Definicón id y expresion
-            if(def_Atributo.getId().equals(this.Atributo)){  // Encontramos el match con el atributo
 
-                if (def_Atributo.getExpresion().getTipo().equals(expresion.getTipo())){ // Verificamos que sea del mismo tipo
-                 def_Atributo.getExpresion().setValor(expresion.getValor());
-                 
-                 break;
-                }else{
-                    Utils.ErroresSemánticosInstruccion(this, "El atributo no tiene el mismo tipo que la expresion descrita. ");
-                    break;
-
+        if (entorno.getTablaSimbolos().get(this.Id).getMutabilidad().equals("VAR")){
+            for (Def_Atributo def_Atributo : ListaStructsDef) { // Definicón id y expresion
+                if(def_Atributo.getId().equals(this.Atributo)){  // Encontramos el match con el atributo
+    
+                    if (def_Atributo.getExpresion().getTipo().equals(expresion.getTipo())){ // Verificamos que sea del mismo tipo
+                     def_Atributo.getExpresion().setValor(expresion.getValor());
+                     
+                     break;
+                    }else{
+                        Utils.ErroresSemánticosInstruccion(this, "El atributo no tiene el mismo tipo que la expresion descrita. ");
+                        break;
+    
+                    }
                 }
+                
             }
-            
+        }else{
+            Utils.ErroresSemánticosInstruccion(this, "No se puede modificar esta instancia struct porque la mutabilida es constante. ");
+            return this;
         }
         return this;
     }
