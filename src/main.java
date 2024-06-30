@@ -10,9 +10,9 @@ public class main {
     public static int Tipo_Grafica =0;
 
     public static void main(String[] args) {
-    CrearVentana();
+    //CrearVentana();
     
-    //analizadores("src/Language/", "Lexer.flex", "Parser.cup");
+    analizadores("src/Language/", "Lexer.flex", "Parser.cup");
 
     String Entrada3 = """
     

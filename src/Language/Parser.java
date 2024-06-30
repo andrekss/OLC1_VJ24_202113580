@@ -40,7 +40,7 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\166\000\002\002\004\000\002\002\003\000\002\003" +
+    "\000\170\000\002\002\004\000\002\002\003\000\002\003" +
     "\003\000\002\003\004\000\002\021\004\000\002\021\004" +
     "\000\002\021\004\000\002\021\003\000\002\021\003\000" +
     "\002\021\004\000\002\021\004\000\002\021\004\000\002" +
@@ -76,7 +76,8 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\007\000\002\046\003\000\002\046\003\000\002\046\003" +
     "\000\002\062\004\000\002\062\006\000\002\053\012\000" +
     "\002\053\011\000\002\054\006\000\002\054\007\000\002" +
-    "\055\005\000\002\055\006" });
+    "\055\005\000\002\055\006\000\002\052\012\000\002\052" +
+    "\011" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -2390,7 +2391,7 @@ class CUP$Parser$actions {
 		int inleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int inright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		LinkedList<Instruccion> in = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		 RESULT = new Metodos(i,p,in,iright, ileft);  
+		 RESULT = new Metodos("",i,p,in,iright, ileft);  
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Métodos",41, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2405,7 +2406,7 @@ class CUP$Parser$actions {
 		int inleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int inright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		LinkedList<Instruccion> in = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		 RESULT = new Metodos(i,new LinkedList<>(),in,iright, ileft);  
+		 RESULT = new Metodos("",i,new LinkedList<>(),in,iright, ileft);  
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Métodos",41, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2461,6 +2462,45 @@ class CUP$Parser$actions {
 		LinkedList<Expresion> dd = (LinkedList<Expresion>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		 RESULT = new Llamadas(dd,id,idright, idleft); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Llamadas",43, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 118: // Funciones ::= Tipos_Dato IDENTIFICADOR P_ABRE Parámetros P_CIERRA LLAVE_A instrucciones LLAVE_C 
+            {
+              Instruccion RESULT =null;
+		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)).left;
+		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)).right;
+		String t = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-7)).value;
+		int ileft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).left;
+		int iright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).right;
+		String i = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-6)).value;
+		int pleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
+		int pright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
+		LinkedList<Atributo> p = (LinkedList<Atributo>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+		int inleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int inright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		LinkedList<Instruccion> in = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("Funciones",40, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 119: // Funciones ::= Tipos_Dato IDENTIFICADOR P_ABRE P_CIERRA LLAVE_A instrucciones LLAVE_C 
+            {
+              Instruccion RESULT =null;
+		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).left;
+		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).right;
+		String t = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-6)).value;
+		int ileft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
+		int iright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
+		String i = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
+		int inleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int inright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		LinkedList<Instruccion> in = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("Funciones",40, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 

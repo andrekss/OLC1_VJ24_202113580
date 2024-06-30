@@ -14,7 +14,7 @@ public class Utils {
 
      // Definiciones globales
     public static TreeMap<String, LinkedList<Atributo>> StructsDefinidos = new TreeMap<>();
-    public static LinkedList<MetodosList> Metodos = new LinkedList<>();
+    public static LinkedList<MetodosList> MetodosFuncs = new LinkedList<>();
 
     public static void ErroresSemánticosInstruccion(Instruccion Object, String Error){
         Object.setTipo("ERROR");

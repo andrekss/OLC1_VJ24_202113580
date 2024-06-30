@@ -29,14 +29,12 @@ public class Llamadas extends Instruccion{
         */
 
 
-        for ( MetodosList Metodo : Utils.Metodos) {
+        for ( MetodosList Metodo : Utils.MetodosFuncs) {
             if (Metodo.getId().equals(this.ID)) { // Encontró el método
                 EjecutarMétodo(entorno,Metodo.getInstrucciones(), Metodo.getParametros());
                 break;
             } 
         }
-
-        
 
         Utils.ReporteSyms(entorno);
         return this;

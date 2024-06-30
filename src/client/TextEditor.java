@@ -248,8 +248,7 @@ public class TextEditor extends javax.swing.JFrame {
             }
 
             if(Inicio != null){
-                   
-                    Inicio.interpretar(Global);                                   
+                Inicio.interpretar(Global);                                   
             }
 
             //TablaSimbolos.add(Global.getTablaSimbolos().get("Global"));
