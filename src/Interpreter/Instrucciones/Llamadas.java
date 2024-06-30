@@ -12,13 +12,10 @@ import java.util.LinkedList;
 public class Llamadas extends Instruccion{
     private LinkedList<Expresion> Parámetros_Def;
     private String ID;
-    private String TipoLlamada;
-
-    public Llamadas(LinkedList<Expresion> Parámetros_Def,String ID,String TipoLlamada, int linea, int col) {
+    public Llamadas(LinkedList<Expresion> Parámetros_Def,String ID, int linea, int col) {
         super(Instruccion.nombres[15], linea, col);
         this.Parámetros_Def = Parámetros_Def;
         this.ID = ID;
-        this.TipoLlamada = TipoLlamada;
     }
 
     @Override
@@ -61,11 +58,11 @@ public class Llamadas extends Instruccion{
 
             
             Entorno Global ;
-            if (this.TipoLlamada.equals("ST")){  // Para start_with
+            if (this.getTipo().equals("START_WITH")){  // Para start_with
 
                 Global = new Entorno("Main", entorno);
                 this.setTipo("START_WITH");
-            }else{
+            }else {
                 Global = entorno;
             }
 

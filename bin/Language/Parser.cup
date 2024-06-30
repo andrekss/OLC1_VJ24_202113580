@@ -329,10 +329,10 @@ Métodos ::= VOID IDENTIFICADOR:i P_ABRE Parámetros:p P_CIERRA LLAVE_A instrucc
 
 // Función Start with
 
-Start_With ::= START IDENTIFICADOR:id P_ABRE P_CIERRA                         {: RESULT = new Llamadas(new LinkedList<>(),id,"ST", idright, idleft); :}
-             | START IDENTIFICADOR:id P_ABRE Datos_Una_Dimension:dd P_CIERRA  {: RESULT = new Llamadas(dd,id,"ST", idright, idleft); :}
+Start_With ::= START IDENTIFICADOR:id P_ABRE P_CIERRA                         {: RESULT = new Llamadas(new LinkedList<>(),id, idright, idleft); RESULT.setTipo("START_WITH"); :}
+             | START IDENTIFICADOR:id P_ABRE Datos_Una_Dimension:dd P_CIERRA  {: RESULT = new Llamadas(dd,id, idright, idleft); RESULT.setTipo("START_WITH"); :}
 ;
 
-Llamadas ::= IDENTIFICADOR:id P_ABRE P_CIERRA                       {: RESULT = new Llamadas(new LinkedList<>(),id,"otros", idright, idleft); :}
-          |  IDENTIFICADOR:id P_ABRE Datos_Una_Dimension:dd P_CIERRA   {: RESULT = new Llamadas(dd,id,"otros" ,idright, idleft); :}
+Llamadas ::= IDENTIFICADOR:id P_ABRE P_CIERRA                       {: RESULT = new Llamadas(new LinkedList<>(),id, idright, idleft); :}
+          |  IDENTIFICADOR:id P_ABRE Datos_Una_Dimension:dd P_CIERRA   {: RESULT = new Llamadas(dd,id,idright, idleft); :}
 ;

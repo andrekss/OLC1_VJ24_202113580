@@ -2417,7 +2417,7 @@ class CUP$Parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		 RESULT = new Llamadas(new LinkedList<>(),id,"ST", idright, idleft); 
+		 RESULT = new Llamadas(new LinkedList<>(),id, idright, idleft); RESULT.setTipo("START_WITH"); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Start_With",42, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2432,7 +2432,7 @@ class CUP$Parser$actions {
 		int ddleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int ddright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		LinkedList<Expresion> dd = (LinkedList<Expresion>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		 RESULT = new Llamadas(dd,id,"ST", idright, idleft); 
+		 RESULT = new Llamadas(dd,id, idright, idleft); RESULT.setTipo("START_WITH"); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Start_With",42, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2444,7 +2444,7 @@ class CUP$Parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		 RESULT = new Llamadas(new LinkedList<>(),id,"otros", idright, idleft); 
+		 RESULT = new Llamadas(new LinkedList<>(),id, idright, idleft); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Llamadas",43, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2459,7 +2459,7 @@ class CUP$Parser$actions {
 		int ddleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int ddright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		LinkedList<Expresion> dd = (LinkedList<Expresion>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		 RESULT = new Llamadas(dd,id,"otros" ,idright, idleft); 
+		 RESULT = new Llamadas(dd,id,idright, idleft); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Llamadas",43, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
