@@ -10,7 +10,7 @@ import Interpreter.Entornos.MetodosList;
 
 public class Metodos extends Instruccion{
 
-    private String Tipo;
+    private String Tipo;  // Solo funciones
     private String id;
     private LinkedList<Atributo> parametros;
     private LinkedList<Instruccion> Instrucciones;

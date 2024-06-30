@@ -18,21 +18,33 @@ public class LlamadasFuncs extends Expresion {
     
     public LlamadasFuncs(LinkedList<Expresion> Parámetros_Def,String ID, int fila, int columna){
         super("ERROR", TiposDatos[5], fila, columna);
+        this.Parámetros_Def = Parámetros_Def;
+        this.ID =ID;
 
     }
 
     @Override
     public Expresion interpretar(Entorno entorno) {
+        
         for ( MetodosList Metodo : Utils.MetodosFuncs) {
             if (Metodo.getId().equals(this.ID)) { // Encontró el método
-                if(Metodo.getTipo().equals("FUNCIONES")){
+                System.out.println("m");
+                if(!Metodo.getTipo().equals("")){
+                    
                  EjecutarFunción(entorno,Metodo.getInstrucciones(), Metodo.getParametros());
+                 // Termino el método verificamos los retornos
+                 if(!Metodo.getTipo().equals(this.getTipo())){ 
+                    Utils.ErroresSemánticosExpresion(this,"El tipo de dato del retorno no es el mismo con el método. ");
+                    return this;
+                 }
                 }else{
                     System.out.println("Esta no es una función. ");
                 }
                 break;
             } 
         }
+
+
 
         Utils.ReporteSyms(entorno);
         return this;
@@ -52,9 +64,13 @@ public class LlamadasFuncs extends Expresion {
                 }
             }
 
+            
         
             for (Instruccion instruccion : Instruccion) {
+
+                System.out.println(instruccion.getTipo());
                 if (instruccion.getTipo().equals("RETURN")){
+                    
                     Return retornable = (Return) instruccion.interpretar(entorno);
                     this.setValor(retornable.getExpresion().getValor());
                     this.setTipo(retornable.getExpresion().getTipo());

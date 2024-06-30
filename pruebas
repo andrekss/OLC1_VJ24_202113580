@@ -1,3 +1,13 @@
 // Pruebe los vectores
 
-a[i] = b[i][0]
+
+start_with main();
+
+void main(){
+    println(suma(2,2));
+
+}
+
+int suma(int a, int b){
+    return a+b;
+}
