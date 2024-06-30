@@ -236,8 +236,19 @@ public class TextEditor extends javax.swing.JFrame {
             parser.parse();// Ejecutamos el parser
             Entorno Global = new Entorno("Global", null);
 
+            Instruccion Inicio = null;
             for ( Instruccion instruccion : parser.Ejecutar) {
-                instruccion.interpretar(Global);
+
+                if (instruccion.getTipo().equals("START_WITH")){
+                    Inicio = instruccion;
+                    
+                }else{
+                    instruccion.interpretar(Global);
+                }
+            }
+            if(Inicio != null){
+                Inicio.interpretar(Global);
+
             }
 
             //TablaSimbolos.add(Global.getTablaSimbolos().get("Global"));

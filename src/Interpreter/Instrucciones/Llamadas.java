@@ -59,14 +59,21 @@ public class Llamadas extends Instruccion{
                 }
             }
 
-            if (this.TipoLlamada.equals("ST")){  // Para start_with
-                entorno.setNombre("Main");
-            }
             
+            Entorno Global ;
+            if (this.TipoLlamada.equals("ST")){  // Para start_with
+
+                Global = new Entorno("Main", entorno);
+                this.setTipo("START_WITH");
+            }else{
+                Global = entorno;
+            }
 
             for (Instruccion instruccion : Instruccion) {
-                instruccion.interpretar(entorno);                    
+                instruccion.interpretar(Global);                    
             }
+
+
         }
 
     }

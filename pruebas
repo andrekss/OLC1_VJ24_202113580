@@ -1,0 +1,3 @@
+// Pruebe los vectores
+
+a[i] = b[i][0]
