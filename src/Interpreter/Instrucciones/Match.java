@@ -1,8 +1,6 @@
 package Interpreter.Instrucciones;
 import Interpreter.*;
 import Interpreter.Entornos.Entorno;
-import Interpreter.Entornos.Simbolo;
-import client.TextEditor;
 
 import java.util.LinkedList;
 

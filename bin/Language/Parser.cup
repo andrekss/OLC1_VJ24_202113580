@@ -71,7 +71,7 @@ non terminal Sen_Return ;
 non terminal Expresion EXPRESION, Entry_Cases, AccederVectores, Remove_Valores_Listas;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
 non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista, Structs, Dec_Structs;
-non terminal Instruccion Instancia_Struct, Asignar_Struct, Funciones, Métodos, Start_With;
+non terminal Instruccion Instancia_Struct, Asignar_Struct, Funciones, Métodos, Start_With, Llamadas;
 non terminal String Tipos_Dato, Signos_For;
 non terminal LinkedList<Atributo> Lista_Structs;
 non terminal LinkedList<Def_Atributo> Nombre_Struct;
@@ -111,6 +111,7 @@ instruccion ::= Variables:a P_Coma             {: RESULT = a; :}
               | Listas:a P_Coma                {: RESULT = a; :}
               | Structs:a P_Coma               {: RESULT = a; :}
               | Métodos:a                      {: RESULT = a; :}
+              | Llamadas:a P_Coma              {: RESULT = a; :}
               | Start_With:a P_Coma            {: RESULT = a; :}
 ;
 
@@ -326,8 +327,12 @@ Métodos ::= VOID IDENTIFICADOR:i P_ABRE Parámetros:p P_CIERRA LLAVE_A instrucc
          |  VOID IDENTIFICADOR:i P_ABRE  P_CIERRA LLAVE_A instrucciones:in LLAVE_C                 {: RESULT = new Metodos(i,new LinkedList<>(),in,iright, ileft);  :}
 ;
 
-// Función 
+// Función Start with
 
-Start_With ::= START IDENTIFICADOR:id P_ABRE P_CIERRA                         {: RESULT = new Start_With(new LinkedList<>(),id, idright, idleft); :}
-             | START IDENTIFICADOR:id P_ABRE Datos_Una_Dimension:dd P_CIERRA  {: RESULT = new Start_With(dd,id, idright, idleft); :}
+Start_With ::= START IDENTIFICADOR:id P_ABRE P_CIERRA                         {: RESULT = new Llamadas(new LinkedList<>(),id,"ST", idright, idleft); :}
+             | START IDENTIFICADOR:id P_ABRE Datos_Una_Dimension:dd P_CIERRA  {: RESULT = new Llamadas(dd,id,"ST", idright, idleft); :}
+;
+
+Llamadas ::= IDENTIFICADOR:id P_ABRE P_CIERRA                       {: RESULT = new Llamadas(new LinkedList<>(),id,"otros", idright, idleft); :}
+          |  IDENTIFICADOR:id P_ABRE Datos_Una_Dimension:dd P_CIERRA   {: RESULT = new Llamadas(dd,id,"otros" ,idright, idleft); :}
 ;

@@ -9,14 +9,16 @@ import Interpreter.Entornos.MetodosList;
 
 import java.util.LinkedList;
 
-public class Start_With extends Instruccion{
+public class Llamadas extends Instruccion{
     private LinkedList<Expresion> Parámetros_Def;
     private String ID;
+    private String TipoLlamada;
 
-    public Start_With(LinkedList<Expresion> Parámetros_Def,String ID, int linea, int col) {
+    public Llamadas(LinkedList<Expresion> Parámetros_Def,String ID,String TipoLlamada, int linea, int col) {
         super(Instruccion.nombres[15], linea, col);
         this.Parámetros_Def = Parámetros_Def;
         this.ID = ID;
+        this.TipoLlamada = TipoLlamada;
     }
 
     @Override
@@ -56,6 +58,11 @@ public class Start_With extends Instruccion{
                     Utils.ErroresSemánticosInstruccion(this, "El dato parámetro no tiene el tipo de dato del método. ");
                 }
             }
+
+            if (this.TipoLlamada.equals("ST")){  // Para start_with
+                entorno.setNombre("Main");
+            }
+            
 
             for (Instruccion instruccion : Instruccion) {
                 instruccion.interpretar(entorno);                    
