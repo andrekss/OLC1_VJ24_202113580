@@ -55,7 +55,7 @@ action code
 //------> Declaración de terminales
 terminal String INT, DOUBLE, BOOL, CHAR, STRING, VOID;
 terminal String MAS, MENOS, POR, DIVISION, POTENCIA, MODULO;
-terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL,  REMOVE;
+terminal String COMPARACION, DIFERENCIA, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL,  REMOVE, START;
 terminal String NOT, AND, OR, XOR;
 terminal String ENTERO, DECIMAL, BOOLEAN, CAR, CAD, VAR, CONST, IDENTIFICADOR, Coma;
 terminal String Dos_Puntos, P_Coma, IGUAL, P_ABRE, P_CIERRA, C_ABRE, C_CIERRA, PRINT, LLAVE_A, LLAVE_C, IF, ELSE;
@@ -71,7 +71,7 @@ non terminal Sen_Return ;
 non terminal Expresion EXPRESION, Entry_Cases, AccederVectores, Remove_Valores_Listas;
 non terminal Instruccion instruccion, Func_Print, Dec_Variables,Dec_Vectores,Variables,Asignar_Valor,Asignar_Valor_Vectores,Incremento_Decremento, Sen_Control, Sen_IF, Sen_While,Sen_Ciclicas;
 non terminal Instruccion Sen_Do_While, Sen_For, Sen_Transferencia, Sen_Match, Vectores, Tipo_Incremento, Listas, Declaracion_Listas, Agregar_Lista, Structs, Dec_Structs;
-non terminal Instruccion Instancia_Struct, Asignar_Struct, Funciones, Métodos;
+non terminal Instruccion Instancia_Struct, Asignar_Struct, Funciones, Métodos, Start_With;
 non terminal String Tipos_Dato, Signos_For;
 non terminal LinkedList<Atributo> Lista_Structs;
 non terminal LinkedList<Def_Atributo> Nombre_Struct;
@@ -111,6 +111,7 @@ instruccion ::= Variables:a P_Coma             {: RESULT = a; :}
               | Listas:a P_Coma                {: RESULT = a; :}
               | Structs:a P_Coma               {: RESULT = a; :}
               | Métodos:a                      {: RESULT = a; :}
+              | Start_With:a P_Coma            {: RESULT = a; :}
 ;
 
 Sen_Return ::= RETURN
@@ -315,11 +316,18 @@ Structs ::= Dec_Structs:a       {: RESULT =a; :}
           | Asignar_Struct:a    {: RESULT =a; :}
 ;
 
-// Funciones
+// Declaración de métodos
 
 Parámetros ::= Tipos_Dato:t IDENTIFICADOR:i                                               {: RESULT = new LinkedList<>(); RESULT.add(new Atributo(i,t)); :}
             |  Parámetros:a Coma Tipos_Dato:t IDENTIFICADOR:i                               {: RESULT = a; RESULT.add(new Atributo(i,t)); :}
 ;
 
-Métodos ::= VOID IDENTIFICADOR:i P_ABRE Parámetros:p P_CIERRA LLAVE_A instrucciones:in LLAVE_C       {: RESULT = new Metodos(i,p,in,iright, ileft);  :}
+Métodos ::= VOID IDENTIFICADOR:i P_ABRE Parámetros:p P_CIERRA LLAVE_A instrucciones:in LLAVE_C     {: RESULT = new Metodos(i,p,in,iright, ileft);  :}
+         |  VOID IDENTIFICADOR:i P_ABRE  P_CIERRA LLAVE_A instrucciones:in LLAVE_C                 {: RESULT = new Metodos(i,new LinkedList<>(),in,iright, ileft);  :}
+;
+
+// Función 
+
+Start_With ::= START IDENTIFICADOR:id P_ABRE P_CIERRA                         {: RESULT = new Start_With(new LinkedList<>(),id, idright, idleft); :}
+             | START IDENTIFICADOR:id P_ABRE Datos_Una_Dimension:dd P_CIERRA  {: RESULT = new Start_With(dd,id, idright, idleft); :}
 ;

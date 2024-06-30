@@ -9,7 +9,7 @@ public class Atributo {
         this.Id = Id;
         this.Tipo = Tipo;
         
-    }
+    } 
 
     // Getter and Setter for Id
     public String getId() {

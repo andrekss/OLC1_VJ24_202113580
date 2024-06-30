@@ -71,9 +71,7 @@ public class Match extends Instruccion {
         }
 
         // Tabla de simbolos
-        for (Simbolo Sym : Match_Entorno.getTablaSimbolos().values()) {
-                TextEditor.TablaSimbolos.add(Sym);
-        }
+        Utils.ReporteSyms(Match_Entorno);
         return this;
     }
 }

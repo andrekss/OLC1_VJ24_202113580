@@ -70,6 +70,9 @@ ID = [a-zA-Z_]+([a-zA-Z_]+|[0-9]+)*
 "return"   { return new Symbol(sym.RETURN, yycolumn, yyline, yytext()); }
 
 "match"     { return new Symbol(sym.MATCH, yycolumn, yyline, yytext()); }
+
+"start_with" { return new Symbol(sym.START, yycolumn, yyline, yytext()); }
+
 "_"         { return new Symbol(sym.DEFAULT, yycolumn, yyline, yytext()); }
 
 ":"        { return new Symbol(sym.Dos_Puntos, yycolumn, yyline, yytext()); }

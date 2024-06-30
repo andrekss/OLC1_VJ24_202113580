@@ -51,6 +51,8 @@ public class Instanciar_Struct extends Instruccion{
         }
         
         entorno.AgregarSimbolo(this.Id, this.AtributosDefinidos, this.TipoStruct, this.Mutabilidad, Instruccion.nombres[2], entorno.getNombre(), this.getFila(), this.getColumna());
+        
+
         return this;
     }
 }
